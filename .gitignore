@@ -1,0 +1,7 @@
+# Leftovers from the old Replit project and Replit-generated files
+artifacts/
+lib/
+scripts/
+node_modules/
+.replit.replit-generated
+*.tsbuildinfo
