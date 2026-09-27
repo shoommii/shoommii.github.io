@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hashem Aly — Thoughts</title>
+<meta name="description" content="Essays and notes by Hashem Aly on technology, startups, innovation and building things.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23c2562f'/%3E%3Ctext x='16' y='22' font-family='Georgia' font-size='17' text-anchor='middle' fill='%23fbf7f0'%3EH%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --paper: #f6f1e7;
+    --paper-2: #efe7d8;
+    --ink: #1f1b16;
+    --ink-soft: #5c5347;
+    --ink-faint: #9a8f80;
+    --rule: #d9cfbd;
+    --accent: #c2562f;
+    --accent-soft: #e9b79f;
+    --node: #1f1b16;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #16130f;
+      --paper-2: #1f1b16;
+      --ink: #f1e9dc;
+      --ink-soft: #bfb3a2;
+      --ink-faint: #7d7365;
+      --rule: #3a332a;
+      --accent: #e8825a;
+      --accent-soft: #6b3a26;
+      --node: #f1e9dc;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #16130f;
+    --paper-2: #1f1b16;
+    --ink: #f1e9dc;
+    --ink-soft: #bfb3a2;
+    --ink-faint: #7d7365;
+    --rule: #3a332a;
+    --accent: #e8825a;
+    --accent-soft: #6b3a26;
+    --node: #f1e9dc;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  /* faint paper grain */
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none;
+    opacity: .35;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.45 0 0 0 0 0.4 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    z-index: 0;
+  }
+  a { color: inherit; }
+  .wrap { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- top bar ---------- */
+  header.bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 28px 0 0;
+  }
+  .mark { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 600; letter-spacing: .01em; }
+  .mark .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+  .theme-btn {
+    appearance: none; border: 1px solid var(--rule); background: transparent; color: var(--ink-soft);
+    border-radius: 999px; width: 38px; height: 38px; cursor: pointer; display: grid; place-items: center;
+    transition: color .2s, border-color .2s;
+  }
+  .theme-btn:hover { color: var(--ink); border-color: var(--ink-faint); }
+
+  /* ---------- hero ---------- */
+  .hero {
+    display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: center;
+    padding: 56px 0 40px;
+  }
+  .eyebrow {
+    font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 600;
+  }
+  h1 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(44px, 7vw, 84px);
+    line-height: .98;
+    letter-spacing: -.02em;
+    margin: 14px 0 22px;
+    font-variation-settings: "opsz" 144;
+  }
+  h1 em { font-style: italic; color: var(--accent); font-weight: 300; }
+  .lede { font-size: 18px; color: var(--ink-soft); max-width: 30em; margin: 0; }
+  .lede strong { color: var(--ink); font-weight: 500; }
+
+  /* hand-drawn constellation */
+  .sketch { width: 100%; height: auto; overflow: visible; }
+  .sketch .thread {
+    fill: none; stroke: var(--ink-faint); stroke-width: 1.2; stroke-linecap: round;
+    stroke-dasharray: var(--len); stroke-dashoffset: var(--len);
+    animation: draw 2.4s cubic-bezier(.6,.1,.2,1) forwards;
+  }
+  .sketch .thread.main { stroke: var(--accent); stroke-width: 1.6; }
+  .sketch .node { fill: var(--paper); stroke: var(--node); stroke-width: 1.5; transform-box: fill-box; transform-origin: center; opacity: 0; animation: pop .5s ease-out forwards; }
+  .sketch .node.lit { fill: var(--accent); stroke: var(--accent); }
+  .sketch a { cursor: pointer; }
+  .sketch a:hover .node, .sketch a:focus .node { fill: var(--accent); stroke: var(--accent); }
+  .sketch .lbl {
+    font-family: "Fraunces", Georgia, serif; font-style: italic; font-size: 15px; fill: var(--ink-soft);
+    opacity: 0; animation: fade .8s ease-out forwards;
+  }
+  .sketch a:hover .lbl { fill: var(--ink); }
+  .sketch .scrawl { font-family: "Fraunces", Georgia, serif; font-size: 12px; fill: var(--ink-faint); letter-spacing: .08em; opacity: 0; animation: fade 1s ease-out 2.6s forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes pop { 0% { opacity: 0; transform: scale(.2); } 70% { transform: scale(1.25); } 100% { opacity: 1; transform: scale(1); } }
+  @keyframes fade { to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    .sketch .thread { animation: none; stroke-dashoffset: 0; }
+    .sketch .node, .sketch .lbl, .sketch .scrawl { animation: none; opacity: 1; }
+    .entry { transition: none !important; opacity: 1 !important; transform: none !important; }
+  }
+
+  /* ---------- thoughts list ---------- */
+  .section-head {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+    border-top: 1px solid var(--ink); padding-top: 14px; margin-top: 24px;
+  }
+  .section-head h2 { font-family: "Fraunces", Georgia, serif; font-weight: 500; font-size: 22px; margin: 0; }
+  .section-head .count { font-size: 13px; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 8px; }
+  .chip {
+    appearance: none; font: inherit; font-size: 13px; cursor: pointer;
+    border: 1px solid var(--rule); background: transparent; color: var(--ink-soft);
+    padding: 5px 14px; border-radius: 999px; transition: all .2s;
+  }
+  .chip:hover { border-color: var(--ink-faint); color: var(--ink); }
+  .chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  ol.entries { list-style: none; margin: 0; padding: 0; counter-reset: n; }
+  .entry {
+    display: grid; grid-template-columns: 150px 1fr auto; gap: 28px; align-items: start;
+    padding: 30px 0; border-bottom: 1px solid var(--rule);
+    opacity: 0; transform: translateY(14px); transition: opacity .7s ease, transform .7s ease;
+  }
+  .entry.in { opacity: 1; transform: none; }
+  .entry[hidden] { display: none; }
+  .when { font-size: 13px; color: var(--ink-faint); font-variant-numeric: tabular-nums; padding-top: 8px; }
+  .when .yr { display: block; font-family: "Fraunces", Georgia, serif; font-size: 30px; color: var(--ink); line-height: 1; margin-bottom: 4px; letter-spacing: -.01em; }
+  .when .pending { font-style: italic; }
+  .entry h3 {
+    font-family: "Fraunces", Georgia, serif; font-weight: 400; font-size: clamp(24px, 3.2vw, 32px);
+    line-height: 1.15; letter-spacing: -.01em; margin: 0 0 10px;
+  }
+  .entry h3 a { text-decoration: none; background-image: linear-gradient(var(--accent), var(--accent)); background-size: 0 1.5px; background-repeat: no-repeat; background-position: 0 100%; transition: background-size .4s ease; }
+  .entry:hover h3 a, .entry h3 a:focus-visible { background-size: 100% 1.5px; }
+  .entry p { margin: 0; color: var(--ink-soft); max-width: 36em; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 14px; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-faint); }
+  .meta .tag::before { content: "#"; color: var(--accent); margin-right: 1px; }
+  .go {
+    width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--rule); display: grid; place-items: center;
+    color: var(--ink-soft); text-decoration: none; margin-top: 6px; transition: all .25s ease;
+  }
+  .entry:hover .go { background: var(--accent); border-color: var(--accent); color: #fff; transform: rotate(-45deg); }
+
+  /* ---------- about + footer ---------- */
+  .about {
+    display: grid; grid-template-columns: 150px 1fr; gap: 28px; padding: 64px 0 24px;
+  }
+  .about .k { font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 600; padding-top: 6px; }
+  .about p { font-family: "Fraunces", Georgia, serif; font-size: clamp(20px, 2.4vw, 26px); line-height: 1.4; margin: 0; font-weight: 300; max-width: 30em; }
+  .about p em { color: var(--accent); }
+  footer {
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;
+    border-top: 1px solid var(--rule); margin-top: 40px; padding: 22px 0 40px; font-size: 13px; color: var(--ink-faint);
+  }
+  footer nav { display: flex; gap: 18px; }
+  footer a { text-decoration: none; }
+  footer a:hover { color: var(--ink); }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 820px) {
+    .hero { grid-template-columns: 1fr; padding-top: 36px; gap: 8px; }
+    .sketch { max-width: 520px; margin: 0 auto; }
+  }
+  @media (max-width: 640px) {
+    .wrap { padding: 0 16px; }
+    .entry { grid-template-columns: 1fr auto; gap: 6px 16px; padding: 24px 0; }
+    .when { grid-column: 1 / -1; padding-top: 0; display: flex; align-items: baseline; gap: 10px; }
+    .when .yr { font-size: 22px; margin: 0; }
+    .go { width: 40px; height: 40px; }
+    .about { grid-template-columns: 1fr; gap: 10px; padding-top: 48px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="bar">
+    <a class="mark" href="#top"><span class="dot"></span>Hashem Aly</a>
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle dark mode">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </header>
+
+  <section class="hero" id="top">
+    <div>
+      <div class="eyebrow">A notebook of thoughts</div>
+      <h1>Things I've been <em>thinking</em> about.</h1>
+      <p class="lede">Essays on <strong>artificial intelligence</strong>, <strong>building startups</strong> — and failing at them — and how <strong>innovators</strong> see the world. Each thought is a node; the lines are how they connect.</p>
+    </div>
+    <svg class="sketch" id="sketch" viewBox="0 0 480 400" role="img" aria-label="A hand-drawn constellation linking each essay"></svg>
+  </section>
+
+  <div class="section-head">
+    <h2>Writing</h2>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="filters" id="filters" role="group" aria-label="Filter by topic"></div>
+  <ol class="entries" id="entries"></ol>
+
+  <section class="about" id="about">
+    <div class="k">About</div>
+    <p>I'm Hashem — a builder who writes to think. I've started companies, watched one fail, and helped build <em>iVoiceUp</em>. This is where I keep the ideas that stuck with me.</p>
+  </section>
+
+  <footer>
+    <span>© <span id="yr"></span> Hashem Aly</span>
+    <nav>
+      <a href="https://medium.com/@shoomi" target="_blank" rel="noopener">Medium</a>
+      <a href="https://x.com/shooommi" target="_blank" rel="noopener">X</a>
+    </nav>
+  </footer>
+</div>
+
+<script>
+/* ==========================================================================
+   YOUR THOUGHTS — edit this list to add, remove or update posts.
+   date: "YYYY-MM-DD" (leave "" if unknown; the page shows "Date to come")
+   The list is sorted newest first automatically.
+   ========================================================================== */
+const THOUGHTS = [
+  {
+    title: "Why We Built iVoiceUp Ventures",
+    date: "",
+    source: "LinkedIn",
+    url: "https://www.linkedin.com/pulse/why-we-built-ivoiceup-ventures-hashem-aly-pas4e/",
+    excerpt: "The reasoning behind iVoiceUp Ventures — what we saw, and why we decided to build it.",
+    tags: ["startups", "building"],
+    short: "iVoiceUp Ventures"
+  },
+  {
+    title: "Do Innovators See the World Differently?",
+    date: "",
+    source: "Medium",
+    url: "https://medium.com/@shoomi/do-innovators-see-the-world-differently-b20528ea9e50",
+    excerpt: "A question I keep returning to: is innovation a way of seeing before it is a way of doing?",
+    tags: ["innovation"],
+    short: "Seeing differently"
+  },
+  {
+    title: "How My Startup Failed",
+    date: "",
+    source: "Medium",
+    url: "https://medium.com/@shoomi/how-my-startup-failed-82c84f445f4c",
+    excerpt: "An honest look back at a company that didn't make it, and what it taught me.",
+    tags: ["startups", "lessons"],
+    short: "A startup that failed"
+  },
+  {
+    title: "Deep Learning: The Race to Build an Artificial Human Brain",
+    date: "",
+    source: "LinkedIn",
+    url: "https://www.linkedin.com/pulse/deep-learning-race-build-artificial-human-brain-hashem-aly/",
+    excerpt: "On deep learning and the ambition to build machines that learn the way we do.",
+    tags: ["ai"],
+    short: "The artificial brain"
+  }
+];
+</script>
+
+<script>
+(() => {
+  const posts = THOUGHTS.slice().sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+  const fmt = d => {
+    if (!d) return null;
+    const dt = new Date(d + "T12:00:00");
+    return { yr: dt.getFullYear(), md: dt.toLocaleDateString("en-US", { month: "long", day: "numeric" }) };
+  };
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const arrow = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+  /* ---- list ---- */
+  const list = document.getElementById("entries");
+  list.innerHTML = posts.map((p, i) => {
+    const d = fmt(p.date);
+    const when = d
+      ? `<span class="yr">${d.yr}</span>${d.md}`
+      : `<span class="pending">Date to come</span>`;
+    return `<li class="entry" id="t${i}" data-tags="${esc(p.tags.join(" "))}">
+      <div class="when">${when}</div>
+      <div>
+        <h3><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.title)}</a></h3>
+        <p>${esc(p.excerpt)}</p>
+        <div class="meta"><span>${esc(p.source)}</span>${p.tags.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div>
+      </div>
+      <a class="go" href="${esc(p.url)}" target="_blank" rel="noopener" aria-label="Read “${esc(p.title)}” on ${esc(p.source)}">${arrow}</a>
+    </li>`;
+  }).join("");
+
+  /* ---- filters ---- */
+  const tags = ["all", ...new Set(posts.flatMap(p => p.tags))];
+  const filters = document.getElementById("filters");
+  const count = document.getElementById("count");
+  filters.innerHTML = tags.map(t => `<button class="chip" data-t="${esc(t)}" aria-pressed="${t === "all"}">${esc(t)}</button>`).join("");
+  const setCount = n => count.textContent = `${n} ${n === 1 ? "essay" : "essays"}`;
+  setCount(posts.length);
+  filters.addEventListener("click", e => {
+    const b = e.target.closest(".chip"); if (!b) return;
+    filters.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c === b));
+    let n = 0;
+    list.querySelectorAll(".entry").forEach(li => {
+      const show = b.dataset.t === "all" || li.dataset.tags.split(" ").includes(b.dataset.t);
+      li.hidden = !show; if (show) { n++; li.classList.add("in"); }
+    });
+    setCount(n);
+  });
+
+  /* ---- reveal on scroll ---- */
+  const io = "IntersectionObserver" in window ? new IntersectionObserver(es => es.forEach(en => {
+    if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+  }), { threshold: .15 }) : null;
+  list.querySelectorAll(".entry").forEach(li => io ? io.observe(li) : li.classList.add("in"));
+
+  /* ---- hand-drawn constellation: one node per thought ---- */
+  const svg = document.getElementById("sketch");
+  const NS = "http://www.w3.org/2000/svg";
+  // pleasant fixed anchor spots; extra posts wrap around with an offset
+  const spots = [[380, 70], [110, 120], [300, 230], [150, 320], [420, 330], [60, 230], [250, 90], [360, 390]];
+  const pts = posts.map((_, i) => {
+    const [x, y] = spots[i % spots.length];
+    const k = Math.floor(i / spots.length) * 22;
+    return [x - k, y + k];
+  });
+  // slight hand-wobble so lines feel drawn, not plotted
+  let seed = 7;
+  const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280 - .5;
+  const wobbly = (a, b) => {
+    const mx = (a[0] + b[0]) / 2 + rnd() * 50, my = (a[1] + b[1]) / 2 + rnd() * 50;
+    return `M${a[0]} ${a[1]} Q${mx.toFixed(1)} ${my.toFixed(1)} ${b[0]} ${b[1]}`;
+  };
+  const el = (tag, attrs, parent = svg) => {
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    parent.appendChild(n); return n;
+  };
+  const addPath = (d, cls, delay) => {
+    const p = el("path", { d, class: "thread " + cls });
+    const len = Math.ceil(p.getTotalLength());
+    p.style.setProperty("--len", len);
+    p.style.animationDelay = delay + "s";
+  };
+  // faint web between near neighbours, then the chronological thread in accent
+  for (let i = 0; i < pts.length; i++)
+    for (let j = i + 2; j < pts.length; j++)
+      addPath(wobbly(pts[i], pts[j]), "", .2 + (i + j) * .08);
+  for (let i = 0; i < pts.length - 1; i++)
+    addPath(wobbly(pts[pts.length - 1 - i], pts[pts.length - 2 - i]), "main", .6 + i * .45);
+
+  // little doodled sparks around the web
+  [[40, 40], [460, 180], [230, 370], [20, 360]].forEach(([x, y], i) => {
+    const d = `M${x - 5} ${y}h10M${x} ${y - 5}v10`;
+    addPath(d, "", 1.4 + i * .2);
+  });
+
+  posts.forEach((p, i) => {
+    const [x, y] = pts[i];
+    const a = el("a", { href: "#t" + i, "aria-label": p.title });
+    const delay = .5 + (pts.length - 1 - i) * .45;
+    const c = el("circle", { cx: x, cy: y, r: i === 0 ? 9 : 7, class: "node" + (i === 0 ? " lit" : "") }, a);
+    c.style.animationDelay = delay + "s";
+    const right = x < 300;
+    const t = el("text", { x: right ? x + 16 : x - 16, y: y + 5, "text-anchor": right ? "start" : "end", class: "lbl" }, a);
+    t.textContent = p.short || p.title;
+    t.style.animationDelay = (delay + .3) + "s";
+    a.addEventListener("click", e => {
+      e.preventDefault();
+      const li = document.getElementById("t" + i);
+      li.hidden = false; li.classList.add("in");
+      li.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  });
+  const s = el("text", { x: 474, y: 20, "text-anchor": "end", class: "scrawl" });
+  s.textContent = "fig. 1 — how the ideas connect";
+
+  /* ---- theme ---- */
+  const root = document.documentElement;
+  try { const saved = localStorage.getItem("theme"); if (saved) root.dataset.theme = saved; } catch (e) {}
+  document.getElementById("themeBtn").addEventListener("click", () => {
+    const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    root.dataset.theme = dark ? "light" : "dark";
+    try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
+  });
+
+  document.getElementById("yr").textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
