@@ -92,6 +92,12 @@ h1 {
 .plate .node.lit { fill: var(--accent); stroke: var(--accent); }
 .plate .lbl { font-family: "Fraunces", Georgia, serif; font-style: italic; font-size: 14px; fill: var(--ink-soft); opacity: 0; animation: fade .8s ease-out forwards; }
 .plate .lbl.acc { fill: var(--accent); }
+.plate .dots { fill: none; stroke: var(--ink-faint); stroke-width: 3.4; stroke-linecap: round; opacity: 0; animation: fade 1.4s ease-out forwards; }
+
+/* inline figures animate when scrolled into view */
+.prose .fig { margin: 2.2em 0; border-top-color: var(--rule); }
+.prose .fig figcaption { font-family: "Fraunces", Georgia, serif; font-style: italic; font-size: 14px; }
+.fig:not(.in) .thread, .fig:not(.in) .node, .fig:not(.in) .lbl, .fig:not(.in) .dots { animation-play-state: paused; }
 @keyframes draw { to { stroke-dashoffset: 0; } }
 @keyframes pop { 0% { opacity: 0; transform: scale(.2); } 70% { transform: scale(1.25); } 100% { opacity: 1; transform: scale(1); } }
 @keyframes fade { to { opacity: 1; } }
@@ -147,7 +153,7 @@ footer a:hover { color: var(--ink); }
 
 @media (prefers-reduced-motion: reduce) {
   .plate .thread { animation: none; stroke-dashoffset: 0; }
-  .plate .node, .plate .lbl { animation: none; opacity: 1; }
+  .plate .node, .plate .lbl, .plate .dots { animation: none; opacity: 1; }
 }
 @media (max-width: 640px) {
   .wrap { padding: 0 16px; }
@@ -157,5 +163,5 @@ footer a:hover { color: var(--ink); }
   .prose blockquote { padding-left: 18px; font-size: 17px; }
   .next { grid-template-columns: 1fr; }
   .next .r { text-align: left; }
-  .plate .lbl { font-size: 18px; }
+  .plate .lbl { font-size: 20px; }
 }
