@@ -249,6 +249,7 @@
 /* ==========================================================================
    YOUR THOUGHTS — edit this list to add, remove or update posts.
    date: "YYYY-MM-DD" (leave "" if unknown; the page shows "Date to come")
+   page: the essay's page on this site; url: where it was first published
    The list is sorted newest first automatically.
    ========================================================================== */
 const THOUGHTS = [
@@ -257,7 +258,9 @@ const THOUGHTS = [
     date: "2026-09-27",
     source: "LinkedIn",
     url: "https://www.linkedin.com/pulse/why-we-built-ivoiceup-ventures-hashem-aly-pas4e/",
-    excerpt: "The reasoning behind iVoiceUp Ventures — what we saw, and why we decided to build it.",
+    page: "thoughts/why-we-built-ivoiceup-ventures/",
+    mins: 4,
+    excerpt: "A company should be able to grow from two hundred people to two thousand without renegotiating the price of its integrity.",
     tags: ["startups", "building"],
     short: "iVoiceUp Ventures"
   },
@@ -266,7 +269,9 @@ const THOUGHTS = [
     date: "2020-05-21",
     source: "Medium",
     url: "https://medium.com/@shoomi/do-innovators-see-the-world-differently-b20528ea9e50",
-    excerpt: "A question I keep returning to: is innovation a way of seeing before it is a way of doing?",
+    page: "thoughts/do-innovators-see-the-world-differently/",
+    mins: 3,
+    excerpt: "The iPhone, SpaceX and Google search each required their creators to fight the norms. Steve Jobs’ beginner’s mentality and Elon Musk’s first principles, and how innovators approach problems differently.",
     tags: ["innovation"],
     short: "Seeing differently"
   },
@@ -275,7 +280,9 @@ const THOUGHTS = [
     date: "2020-05-23",
     source: "Medium",
     url: "https://medium.com/@shoomi/how-my-startup-failed-82c84f445f4c",
-    excerpt: "An honest look back at a company that didn't make it, and what it taught me.",
+    page: "thoughts/how-my-startup-failed/",
+    mins: 3,
+    excerpt: "Tandeefa set out to solve home cleaning in Egypt. Eighteen months later we shut our doors. The team, the timing, and the black swan that ended it.",
     tags: ["startups", "lessons"],
     short: "A startup that failed"
   },
@@ -284,7 +291,9 @@ const THOUGHTS = [
     date: "2015-08-19",
     source: "LinkedIn",
     url: "https://www.linkedin.com/pulse/deep-learning-race-build-artificial-human-brain-hashem-aly/",
-    excerpt: "On deep learning and the ambition to build machines that learn the way we do.",
+    page: "thoughts/deep-learning-and-the-race-to-build-the-artificial-human-brain/",
+    mins: 4,
+    excerpt: "The idea behind deep learning is setting up machines to work like the human brain. Google Brain, Baidu, Facebook’s DeepFace and Stanford’s Neurogrid, circa 2015.",
     tags: ["ai"],
     short: "The artificial brain"
   }
@@ -312,11 +321,11 @@ const THOUGHTS = [
     return `<li class="entry" id="t${i}" data-tags="${esc(p.tags.join(" "))}">
       <div class="when">${when}</div>
       <div>
-        <h3><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.title)}</a></h3>
+        <h3><a href="${esc(p.page)}">${esc(p.title)}</a></h3>
         <p>${esc(p.excerpt)}</p>
-        <div class="meta"><span>${esc(p.source)}</span>${p.tags.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div>
+        <div class="meta"><span>${p.mins} min read</span>${p.tags.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div>
       </div>
-      <a class="go" href="${esc(p.url)}" target="_blank" rel="noopener" aria-label="Read “${esc(p.title)}” on ${esc(p.source)}">${arrow}</a>
+      <a class="go" href="${esc(p.page)}" aria-label="Read “${esc(p.title)}”">${arrow}</a>
     </li>`;
   }).join("");
 
@@ -387,7 +396,7 @@ const THOUGHTS = [
 
   posts.forEach((p, i) => {
     const [x, y] = pts[i];
-    const a = el("a", { href: "#t" + i, "aria-label": p.title });
+    const a = el("a", { href: p.page, "aria-label": p.title });
     const delay = .5 + (pts.length - 1 - i) * .45;
     const c = el("circle", { cx: x, cy: y, r: i === 0 ? 9 : 7, class: "node" + (i === 0 ? " lit" : "") }, a);
     c.style.animationDelay = delay + "s";
@@ -395,12 +404,6 @@ const THOUGHTS = [
     const t = el("text", { x: right ? x + 16 : x - 16, y: y + 5, "text-anchor": right ? "start" : "end", class: "lbl" }, a);
     t.textContent = p.short || p.title;
     t.style.animationDelay = (delay + .3) + "s";
-    a.addEventListener("click", e => {
-      e.preventDefault();
-      const li = document.getElementById("t" + i);
-      li.hidden = false; li.classList.add("in");
-      li.scrollIntoView({ behavior: "smooth", block: "center" });
-    });
   });
   const s = el("text", { x: 474, y: 20, "text-anchor": "end", class: "scrawl" });
   s.textContent = "fig. 1 — how the ideas connect";
