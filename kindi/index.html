@@ -113,18 +113,24 @@
 
   /* ---------- mission ---------- */
   .mission { text-align: center; overflow: hidden; }
-  .rosette { position: absolute; left: 50%; top: 50%; width: min(820px, 120vw); transform: translate(-50%, -50%); opacity: .26; pointer-events: none; }
+  .rosette {
+    position: absolute; left: 50%; top: 50%; width: min(820px, 120vw); transform: translate(-50%, -50%); opacity: .34; pointer-events: none;
+    /* fade the pattern out behind the text, keep it strong at the rim */
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, rgba(0,0,0,.1) 0%, rgba(0,0,0,.1) 52%, #000 78%);
+    mask-image: radial-gradient(circle at 50% 50%, rgba(0,0,0,.1) 0%, rgba(0,0,0,.1) 52%, #000 78%);
+  }
   .rosette path, .rosette circle { fill: none; stroke: var(--gold); stroke-width: .8; }
   .mission blockquote {
-    margin: 30px auto 36px; max-width: 900px; font-family: "Fraunces", Georgia, serif; font-weight: 300;
-    font-size: clamp(30px, 4.2vw, 52px); line-height: 1.18; letter-spacing: -.012em; font-variation-settings: "opsz" 144;
+    margin: 30px auto 36px; max-width: 900px; font-family: "Fraunces", Georgia, serif; font-weight: 380;
+    font-size: clamp(30px, 4.2vw, 52px); line-height: 1.2; letter-spacing: -.008em; font-variation-settings: "opsz" 72;
+    text-shadow: 0 0 2px #0e1e3b, 0 0 10px #0e1e3b, 0 0 24px #0e1e3b;
   }
   .mission blockquote .w { display: inline-block; opacity: 0; transform: translateY(14px); filter: blur(6px); transition: opacity .9s, transform .9s, filter .9s; }
   .mission.in blockquote .w { opacity: 1; transform: none; filter: none; }
   .mission blockquote em { color: var(--gold); }
-  .mission .text { margin: 0 auto; text-align: left; }
+  .mission .text { margin: 0 auto; text-align: left; text-shadow: 0 0 2px #10213f, 0 0 8px #10213f, 0 0 18px #10213f; }
   .pillars { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin: 0 0 40px; font-family: "Inter", sans-serif; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; }
-  .pillars span { border: 1px solid var(--line); border-radius: 999px; padding: 7px 16px; color: var(--gold); }
+  .pillars span { border: 1px solid var(--line); border-radius: 999px; padding: 7px 16px; color: var(--gold); background: #0f1f3d; }
 
   /* ---------- diagrams ---------- */
   svg.dg { width: 100%; height: auto; display: block; overflow: visible; }
