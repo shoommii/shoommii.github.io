@@ -79,8 +79,6 @@
     font-style: italic; font-size: 15px; color: var(--night-muted); opacity: 0; transition: opacity 1.2s;
   }
   .hero .cap.show { opacity: 1; }
-  .hero .cap button { font: inherit; font-style: normal; font-family: "Inter", sans-serif; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; background: none; border: 1px solid var(--night-line); color: var(--night-fg); border-radius: 999px; padding: 4px 12px; margin-left: 10px; cursor: pointer; }
-  .hero .cap button:hover { border-color: var(--night-gold); color: var(--night-gold); }
   @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 
   /* ---------- section heads ---------- */
@@ -288,7 +286,7 @@
     <h1>Kindi</h1>
     <div class="sub">A mission for intelligence Egypt owns</div>
   </div>
-  <p class="cap" id="cap">Every letter on this page, counted by how often it appears: frequency analysis, first described by al-Kindi in ninth-century Baghdad. <button id="recount" type="button">Count again</button></p>
+  <p class="cap" id="cap">Every letter on this page, counted by how often it appears: frequency analysis, first described by al-Kindi in ninth-century Baghdad.</p>
 </section>
 
 <main id="doc">
@@ -517,9 +515,17 @@
     W = cv.clientWidth; H = cv.clientHeight;
     cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     const N = Math.min(1400, Math.round(W * H / 700));
-    const step = letters.length / N;
-    const sample = []; for (let i = 0; i < N; i++) sample.push(letters[Math.floor(i * step)]);
-    const per = {}; sample.forEach(c => per[c] = (per[c] || 0) + 1);
+    // give each letter a share of the particles in exact proportion to its
+    // count on the page (at least one), then pick that many of its occurrences
+    // spread evenly through the text so the bars keep the true order
+    const quota = {};
+    order.forEach(c => quota[c] = Math.max(1, Math.floor(counts[c] / letters.length * N)));
+    const seen = {}, sample = [];
+    letters.forEach(c => {
+      const k = seen[c] = (seen[c] || 0) + 1;
+      if (Math.floor(k * quota[c] / counts[c]) > Math.floor((k - 1) * quota[c] / counts[c])) sample.push(c);
+    });
+    const per = quota;
     const maxC = Math.max(...Object.values(per));
     const baseY = H - (W < 640 ? 172 : 112), maxH = H * .30;
     const cols = order.length, gap = Math.min(40, (W - 48) / cols), x0 = (W - gap * (cols - 1)) / 2;
@@ -597,7 +603,6 @@
     t0 = performance.now() - (reduce ? 20000 : 0);
     raf = requestAnimationFrame(frame);
   }
-  document.getElementById("recount").addEventListener("click", start);
   let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { const el = performance.now() - t0; layout(); t0 = performance.now() - el; }, 150); });
   (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(start);
   // stop painting the hero when it is off screen
