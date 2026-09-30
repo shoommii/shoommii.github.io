@@ -4,94 +4,678 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Why We Built iVoiceUp Ventures — Hashem Aly</title>
-<meta name="description" content="For most of iVoiceUp’s life, we built for the largest organisations in the region. Coca-Cola, Americana, Banque Misr, Orascom and ALJ trust us with some of the most sensitive conve">
+<meta name="description" content="A company should be able to grow from two hundred people to two thousand without renegotiating the price of its integrity.">
 <meta property="og:title" content="Why We Built iVoiceUp Ventures">
-<meta property="og:description" content="For most of iVoiceUp’s life, we built for the largest organisations in the region. Coca-Cola, Americana, Banque Misr, Orascom and ALJ trust us with some of the most sensitive conve">
+<meta property="og:description" content="A company should be able to grow from two hundred people to two thousand without renegotiating the price of its integrity.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://shoommii.github.io/thoughts/why-we-built-ivoiceup-ventures/">
-<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23c2562f'/%3E%3Ctext x='16' y='22' font-family='Georgia' font-size='17' text-anchor='middle' fill='%23fbf7f0'%3EH%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="../../assets/article.css">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%230b1716'/%3E%3Cpath d='M16 7 L24 10 V16 C24 21 20 24 16 26 C12 24 8 21 8 16 V10 Z' fill='none' stroke='%23f3b35b' stroke-width='1.8' stroke-linejoin='round'/%3E%3Ccircle cx='16' cy='16' r='2.4' fill='%23f3b35b'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --night-fg: #edf3f1;
+    --night-muted: #98aba7;
+    --night-acc: #f3b35b;
+    --night-line: rgba(237, 243, 241, .18);
+    --day-fg: #17231f;
+    --day-muted: #5e6d68;
+    --day-acc: #a8610f;
+    --day-line: rgba(23, 35, 31, .18);
+    --mint: #5fcfa6;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    margin: 0; background: #0b1716; color: var(--night-fg);
+    font-family: "Newsreader", Georgia, serif; font-size: 20px; line-height: 1.65;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  a { color: inherit; }
+  .tone-night { --fg: var(--night-fg); --muted: var(--night-muted); --acc: var(--night-acc); --line: var(--night-line); --card: rgba(255, 255, 255, .035); color: var(--fg); }
+  .tone-day { --fg: var(--day-fg); --muted: var(--day-muted); --acc: var(--day-acc); --line: var(--day-line); --card: rgba(255, 255, 255, .55); color: var(--fg); }
+
+  section { position: relative; padding: 120px 24px; }
+  .inner { max-width: 1080px; margin: 0 auto; position: relative; z-index: 1; }
+  .text { max-width: 640px; }
+  .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 64px; align-items: center; }
+  .grid.flip > :first-child { order: 2; }
+
+  .bar {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 5;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 26px 28px; font-family: "Inter", system-ui, sans-serif; font-size: 14px; color: var(--night-muted);
+  }
+  .bar a { text-decoration: none; display: inline-flex; align-items: center; gap: 10px; color: var(--night-fg); font-family: "Fraunces", Georgia, serif; font-size: 19px; font-weight: 500; letter-spacing: -.005em; font-variation-settings: "opsz" 36; }
+  .bar .arrow { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--night-line); transition: all .25s; }
+  .bar a:hover .arrow { background: var(--night-acc); border-color: var(--night-acc); color: #0b1716; transform: translateX(-3px); }
+
+  .margin {
+    position: fixed; left: 22px; top: 50%; transform: translateY(-50%); z-index: 6;
+    display: flex; flex-direction: column; gap: 14px; font-family: "Inter", sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .08em;
+    opacity: 0; transition: opacity .6s;
+  }
+  .margin.show { opacity: 1; }
+  .margin a { text-decoration: none; color: var(--mcolor, #98aba7); opacity: .45; transition: opacity .3s, transform .3s, color .6s; line-height: 1; }
+  .margin a.on { opacity: 1; transform: scale(1.3); color: var(--macc, #f3b35b); }
+
+  /* ---------- hero ---------- */
+  .hero { height: 100vh; min-height: 660px; padding: 0; background: radial-gradient(ellipse at 50% 100%, #173532, #0b1716 65%); overflow: hidden; }
+  #voices { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .hero .title { position: absolute; left: 0; right: 0; top: 14vh; text-align: center; z-index: 2; pointer-events: none; padding: 0 16px; }
+  .kick { font-family: "Inter", system-ui, sans-serif; font-size: 13px; letter-spacing: .32em; text-transform: uppercase; font-weight: 600; color: var(--night-acc); opacity: 0; animation: rise 1.6s ease-out .3s forwards; }
+  .hero h1 {
+    font-family: "Fraunces", Georgia, serif; font-weight: 300;
+    font-size: clamp(48px, 8vw, 112px); line-height: .98; letter-spacing: -.03em; margin: 16px 0 16px;
+    font-variation-settings: "opsz" 144; opacity: 0; animation: rise 1.8s ease-out .6s forwards;
+    text-shadow: 0 0 40px #0b1716, 0 0 12px #0b1716;
+  }
+  .hero h1 em { color: var(--night-acc); }
+  .hero .sub { font-family: "Fraunces", serif; font-style: italic; font-size: 22px; color: var(--night-muted); opacity: 0; animation: rise 1.6s ease-out 1.1s forwards; text-shadow: 0 0 20px #0b1716; }
+  .hero .cap { position: absolute; left: 0; right: 0; bottom: 24px; text-align: center; z-index: 2; padding: 0 20px; font-style: italic; font-size: 15px; color: var(--night-muted); opacity: 0; transition: opacity 1.2s; }
+  .hero .cap.show { opacity: 1; }
+  @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+  .head { display: flex; align-items: baseline; gap: 18px; margin-bottom: 26px; }
+  .num { font-family: "Fraunces", serif; font-weight: 300; font-size: 58px; line-height: .8; color: var(--acc); font-variant-numeric: lining-nums; }
+  .label { font-family: "Inter", system-ui, sans-serif; font-size: 12px; letter-spacing: .26em; text-transform: uppercase; color: var(--muted); }
+  h2 { font-family: "Fraunces", Georgia, serif; font-weight: 300; font-size: clamp(36px, 5vw, 62px); line-height: 1.04; letter-spacing: -.02em; margin: 6px 0 0; font-variation-settings: "opsz" 144; }
+  h2 em { color: var(--acc); }
+  p { margin: 0 0 1.1em; }
+  .lead { font-size: 23px; }
+  .muted { color: var(--muted); }
+  .dropcap::first-letter { float: left; font-family: "Fraunces", serif; font-size: 4.3em; line-height: .8; padding: .06em .1em 0 0; color: var(--acc); }
+
+  svg.dg { width: 100%; height: auto; display: block; overflow: visible; }
+  .dg text { font-family: "Fraunces", Georgia, serif; font-style: italic; font-size: 15px; fill: var(--muted); }
+  .dg text.fg { fill: var(--fg); }
+  .dg text.ac { fill: var(--acc); }
+  .dg text.sc { font-family: "Inter", sans-serif; font-style: normal; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; }
+  .dg .ln { fill: none; stroke: var(--line); stroke-width: 1.2; }
+  .dg .al { fill: none; stroke: var(--acc); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .dg .fg-s { fill: none; stroke: var(--fg); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+  .dg .fa { fill: var(--acc); }
+  .draw { stroke-dasharray: var(--len, 2000); stroke-dashoffset: var(--len, 2000); transition: stroke-dashoffset 2s cubic-bezier(.6, .1, .2, 1); }
+  .in .draw { stroke-dashoffset: 0; }
+  .pop { opacity: 0; transition: opacity .9s ease; }
+  .in .pop { opacity: 1; }
+  figure { margin: 0; }
+  figcaption { font-style: italic; font-size: 15px; color: var(--muted); margin-top: 14px; }
+
+  .widget { border: 1px solid var(--line); border-radius: 14px; padding: 22px; background: var(--card); }
+  .widget .k { font-family: "Inter", sans-serif; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--acc); margin-bottom: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .btn { appearance: none; border: 1px solid var(--line); background: transparent; color: var(--fg); font: 500 14px "Inter", sans-serif; padding: 10px 18px; border-radius: 999px; cursor: pointer; transition: border-color .25s, color .25s; }
+  .btn:hover { border-color: var(--acc); color: var(--acc); }
+  .btn:focus-visible, input[type=range]:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
+  .note { font-size: 14px; color: var(--muted); font-style: italic; margin: 14px 0 0; }
+
+  /* ---------- enterprise names ---------- */
+  .trusted { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; margin: 0 0 30px; padding: 14px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-family: "Fraunces", serif; font-size: 20px; }
+  .trusted .k { font-family: "Inter", sans-serif; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); width: 100%; }
+
+  /* ---------- inbox ---------- */
+  .inbox { display: grid; gap: 12px; }
+  .mail { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; background: var(--card); position: relative; opacity: 0; transform: translateY(14px); transition: opacity .7s, transform .7s; }
+  .mail.show { opacity: 1; transform: none; }
+  .mail .from { font-family: "Inter", sans-serif; font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; gap: 10px; }
+  .mail .from b { color: var(--fg); font-weight: 600; }
+  .mail .subj { font-family: "Fraunces", serif; font-size: 19px; line-height: 1.3; margin-top: 4px; }
+  .mail .stamp {
+    position: absolute; right: 14px; bottom: 12px; font-family: "Inter", sans-serif; font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+    color: #e07a5f; border: 1.5px solid #e07a5f; border-radius: 4px; padding: 3px 6px; transform: rotate(-5deg) scale(1.6); opacity: 0; transition: opacity .3s, transform .4s cubic-bezier(.3, 1.6, .5, 1);
+  }
+  .mail.stamped .stamp { opacity: .95; transform: rotate(-5deg) scale(1); }
+  .mail .pad { height: 18px; }
+
+  /* ---------- race ---------- */
+  .race { display: grid; gap: 22px; margin-top: 6px; }
+  .lane .nm { display: flex; justify-content: space-between; gap: 10px; font-family: "Fraunces", serif; font-size: 19px; }
+  .lane .nm b { font-weight: 400; color: var(--acc); font-variant-numeric: tabular-nums; }
+  .track { position: relative; height: 34px; margin-top: 8px; }
+  .track .rail { position: absolute; left: 0; right: 0; top: 16px; height: 2px; background: var(--line); }
+  .track .fill { position: absolute; left: 0; top: 16px; height: 2px; width: 0; background: var(--acc); }
+  .track .dot { position: absolute; top: 10px; left: 0; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: var(--acc); box-shadow: 0 0 0 5px rgba(243, 179, 91, .18); }
+  .track .stop { position: absolute; top: 12px; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; border: 1.5px solid var(--muted); background: #0f2220; }
+  .track .flag { position: absolute; right: 0; top: -8px; font-family: "Inter", sans-serif; font-size: 10px; font-weight: 600; letter-spacing: .14em; color: var(--muted); }
+  .stops { position: relative; height: 18px; font-family: "Inter", sans-serif; font-size: 11px; color: var(--muted); }
+  .stops span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+  .stops span.on { color: var(--fg); }
+
+  /* ---------- plans ---------- */
+  .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 54px; }
+  .plan { border: 1px solid var(--line); border-radius: 18px; padding: 28px 26px; background: var(--card); position: relative; transition: transform .35s, border-color .35s, box-shadow .35s; }
+  .plan:hover { transform: translateY(-4px); border-color: var(--acc); box-shadow: 0 24px 50px -30px rgba(80, 50, 10, .45); }
+  .plan .nm { font-family: "Inter", sans-serif; font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: var(--acc); }
+  .plan .price { font-family: "Fraunces", serif; font-weight: 300; font-size: 64px; line-height: 1; margin: 12px 0 2px; letter-spacing: -.02em; }
+  .plan .price small { font-family: "Inter", sans-serif; font-size: 14px; letter-spacing: 0; color: var(--muted); margin-left: 6px; }
+  .plan .for { font-style: italic; color: var(--muted); font-size: 17px; line-height: 1.45; margin: 10px 0 18px; }
+  .plan ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+  .plan li { font-size: 17px; line-height: 1.4; padding-left: 26px; position: relative; }
+  .plan li::before { content: ""; position: absolute; left: 2px; top: .45em; width: 12px; height: 7px; border-left: 1.8px solid var(--acc); border-bottom: 1.8px solid var(--acc); transform: rotate(-45deg); }
+  .plan .badge { position: absolute; top: -12px; right: 22px; font-family: "Inter", sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; background: var(--acc); color: #fff; padding: 5px 10px; border-radius: 999px; }
+  .plan .plus { font-family: "Inter", sans-serif; font-size: 12px; color: var(--muted); letter-spacing: .08em; margin: 0 0 10px; }
+
+  /* ---------- price certainty ---------- */
+  .readout { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+  .readout > div { border-top: 1px solid var(--line); padding-top: 10px; }
+  .readout .v { font-family: "Fraunces", serif; font-size: 38px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .readout .v.up { color: #c0492b; }
+  .readout .v.flat { color: var(--acc); }
+  .readout .t { font-size: 14px; color: var(--muted); line-height: 1.4; margin-top: 6px; }
+  .scrub { display: flex; align-items: center; gap: 14px; margin-top: 16px; font-family: "Inter", sans-serif; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .scrub input { flex: 1; accent-color: var(--acc); }
+  .scrub b { color: var(--fg); font-weight: 600; min-width: 6.5em; text-align: right; }
+  .never { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+  .never span { font-family: "Inter", sans-serif; font-size: 13px; border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; }
+  .never span::before { content: "✕"; color: var(--acc); margin-right: 8px; font-weight: 600; }
+  .pull { max-width: 900px; margin: 90px auto 0; text-align: center; font-family: "Fraunces", Georgia, serif; font-weight: 300; font-size: clamp(30px, 4.2vw, 52px); line-height: 1.18; letter-spacing: -.01em; }
+  .pull em { color: var(--acc); }
+  .pull .w { display: inline-block; opacity: 0; transform: translateY(12px); filter: blur(5px); transition: opacity .9s, transform .9s, filter .9s; }
+  .pull.in .w { opacity: 1; transform: none; filter: none; }
+
+  /* ---------- growth path ---------- */
+  .climber { offset-rotate: 0deg; animation: climb 6s cubic-bezier(.5, 0, .5, 1) infinite; animation-play-state: paused; }
+  .in .climber { animation-play-state: running; }
+  @keyframes climb { 0% { offset-distance: 0%; opacity: 0; } 8% { opacity: 1; } 85% { offset-distance: 100%; opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+
+  /* ---------- culture band ---------- */
+  .band { padding: 0; height: 70vh; min-height: 440px; overflow: hidden; background: linear-gradient(#f3ead9 0%, #e8c99a 45%, #c98a52 100%); }
+  .band svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .band .line { position: absolute; left: 0; right: 0; top: 14%; text-align: center; z-index: 2; padding: 0 20px; font-family: "Fraunces", serif; font-style: italic; font-weight: 300; font-size: clamp(30px, 4.6vw, 58px); color: #2a1a0c; }
+  .city { transform-box: fill-box; transform-origin: center; opacity: 0; transition: opacity 1s; }
+  .band.in .city { opacity: 1; }
+  .halo { transform-box: fill-box; transform-origin: center; animation: halo 3s ease-out infinite; }
+  @keyframes halo { 0% { transform: scale(.6); opacity: .8; } 100% { transform: scale(2.6); opacity: 0; } }
+
+  /* ---------- coda ---------- */
+  .coda { text-align: center; padding-top: 100px; padding-bottom: 60px; }
+  .motto { font-family: "Fraunces", Georgia, serif; font-weight: 300; font-style: italic; font-size: clamp(48px, 8vw, 112px); line-height: 1.02; letter-spacing: -.03em; color: var(--acc); font-variation-settings: "opsz" 144; }
+  .motto span { display: inline-block; opacity: 0; transform: translateY(24px); transition: opacity 1.2s, transform 1.2s; }
+  .coda.in .motto span { opacity: 1; transform: none; }
+  .sig { font-family: "Inter", sans-serif; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-top: 52px; }
+  .sig a { color: var(--acc); text-underline-offset: 3px; }
+  .next { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 48px 0 0; text-align: left; }
+  .next a { display: block; text-decoration: none; border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; transition: border-color .25s, transform .25s; }
+  .next a:hover { border-color: var(--acc); transform: translateY(-2px); }
+  .next .k { font-family: "Inter", sans-serif; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .next .t { font-family: "Fraunces", Georgia, serif; font-size: 21px; line-height: 1.25; margin-top: 6px; }
+  footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; max-width: 1080px; margin: 60px auto 0; padding: 22px 0 10px; border-top: 1px solid var(--line); font-family: "Inter", sans-serif; font-size: 13px; color: var(--muted); }
+  footer nav { display: flex; gap: 18px; }
+  footer a { text-decoration: none; }
+  footer a:hover { color: var(--fg); }
+
+  .rv { opacity: 0; transform: translateY(18px); transition: opacity 1s ease, transform 1s ease; }
+  .rv.in { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) {
+    .grid, .grid.flip { grid-template-columns: 1fr; gap: 36px; }
+    .grid.flip > :first-child { order: 0; }
+    .margin { display: none; }
+    .plans { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    body { font-size: 18px; }
+    section { padding: 84px 16px; }
+    .bar { padding: 20px 16px; }
+    .lead { font-size: 20px; }
+    .num { font-size: 46px; }
+    .dg text { font-size: 19px; }
+    .dg text.sc { font-size: 13px; }
+    .widget { padding: 18px 16px; }
+    .hero .sub { font-size: 18px; }
+    .plan { padding: 24px 20px; }
+    .plan .price { font-size: 52px; }
+    .next { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  }
+</style>
 </head>
 <body>
-<div class="progress" id="progress"></div>
-<div class="wrap">
-  <header class="bar">
-    <a class="back" href="../../"><span class="arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></span>Hashem Aly</a>
-    <button class="theme-btn" id="themeBtn" aria-label="Toggle dark mode"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
-  </header>
 
-  <main class="col">
-    <div class="head">
-      <div class="eyebrow"><span>#startups</span><span>#building</span></div>
-      <h1>Why We Built iVoiceUp Ventures</h1>
-      <div class="byline"><span>Hashem Aly</span><span class="sep"></span><time datetime="2026-09-27">September 27, 2026</time><span class="sep"></span><span>4 min read</span></div>
+<nav class="margin" id="margin" aria-label="Sections">
+  <a href="#turned-away" title="The companies we kept turning away">01</a>
+  <a href="#channel" title="A channel, not a smaller investigation suite">02</a>
+  <a href="#plans" title="Starter and Pro">03</a>
+  <a href="#certainty" title="Price certainty">04</a>
+  <a href="#matters" title="Why it matters">05</a>
+  <a href="#culture" title="Culture is set early">06</a>
+</nav>
+
+<!-- ============================== HERO ============================== -->
+<section class="hero tone-night" aria-label="Why We Built iVoiceUp Ventures">
+  <div class="bar">
+    <a href="../../"><span class="arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></span>Hashem Aly</a>
+    <span><time datetime="2026-09-27">September 27, 2026</time></span>
+  </div>
+  <canvas id="voices" aria-hidden="true"></canvas>
+  <div class="title">
+    <div class="kick">#startups · #building</div>
+    <h1>Why We Built <em>iVoiceUp Ventures</em></h1>
+    <div class="sub">Set up today, audit-ready tomorrow.</div>
+  </div>
+  <p class="cap" id="cap">Voices in Arabic, English and sixty other languages, arriving through one confidential channel.</p>
+</section>
+
+<main id="doc">
+
+<!-- ============================== TURNED AWAY ============================== -->
+<section id="turned-away" class="tone-night" style="background: linear-gradient(#0b1716, #10211f)">
+  <div class="inner grid">
+    <div class="text">
+      <div class="head rv"><span class="num">01</span><div><span class="label">The pattern</span><h2>The companies we kept <em>turning away</em>.</h2></div></div>
+      <div class="trusted rv"><span class="k">Enterprise clients who trust us</span><span>Coca-Cola</span><span>Americana</span><span>Banque Misr</span><span>Orascom</span><span>ALJ</span></div>
+      <p class="rv">For most of iVoiceUp’s life, we built for the largest organisations in the region. Coca-Cola, Americana, Banque Misr, Orascom and ALJ trust us with some of the most sensitive conversations their people will ever have. We are proud of that work, and we are not walking away from it. But somewhere along the way, we noticed that the companies who needed us most were often the ones for whom our enterprise product simply was not feasible.</p>
+      <p class="rv">The pattern showed up in our inbox before it showed up in our strategy. A founder of a fast-growing logistics company would reach out because an investor had asked about their speak-up policy. An HR director at a 300-person manufacturer would book a demo after a difficult internal incident. A family business preparing for its first audit would ask what "whistleblowing channel" actually meant in practice. They were serious buyers with a real need, and we kept handing them a product designed for a multinational: months of procurement, security questionnaires, custom configuration and a price that assumed a compliance department they did not have.</p>
     </div>
-    <figure class="plate"><svg viewBox="0 0 680 240" role="img" aria-label="Many small dots, each a voice, whose lines converge into a single channel ending in a shield"><path class="thread " d="M39.8 29.4 Q175.4 57.6 298.3 99.3 Q358.8 111.5 417.6 120.0" style="animation-delay:0.10s"/><path class="thread " d="M92.8 41.4 Q192.7 64.6 301.0 100.3 Q361.1 116.1 421.1 118.4" style="animation-delay:0.15s"/><path class="thread " d="M150.4 31.3 Q227.7 68.6 299.4 98.7 Q357.5 102.2 418.1 119.0" style="animation-delay:0.20s"/><path class="thread " d="M203.9 40.6 Q257.5 64.2 298.9 102.0 Q356.8 111.8 418.6 121.9" style="animation-delay:0.25s"/><path class="thread " d="M49.7 69.6 Q177.1 94.0 302.0 105.6 Q356.5 104.0 420.5 118.2" style="animation-delay:0.30s"/><path class="thread " d="M105.0 82.2 Q200.1 93.7 297.7 108.5 Q361.1 108.8 420.0 122.0" style="animation-delay:0.35s"/><path class="thread " d="M162.4 68.4 Q233.2 83.5 300.5 109.7 Q355.5 122.9 417.9 120.3" style="animation-delay:0.40s"/><path class="thread " d="M219.4 80.2 Q252.9 94.3 301.0 112.7 Q362.6 118.0 418.7 120.5" style="animation-delay:0.45s"/><path class="thread " d="M65.3 108.0 Q180.7 121.4 299.3 119.2 Q361.0 111.8 420.4 119.8" style="animation-delay:0.50s"/><path class="thread " d="M120.4 121.2 Q203.5 122.2 299.7 119.1 Q353.4 123.7 419.7 119.2" style="animation-delay:0.55s"/><path class="thread " d="M171.7 111.3 Q240.4 113.2 301.5 117.5 Q356.9 125.6 421.0 118.8" style="animation-delay:0.60s"/><path class="thread " d="M228.5 121.4 Q270.6 116.8 301.7 119.9 Q354.1 126.8 420.8 118.4" style="animation-delay:0.65s"/><path class="thread " d="M74.4 152.1 Q183.7 138.3 302.3 128.0 Q361.8 130.4 417.7 117.9" style="animation-delay:0.70s"/><path class="thread " d="M130.3 160.3 Q218.4 137.6 300.3 128.8 Q358.4 127.8 418.0 120.3" style="animation-delay:0.75s"/><path class="thread " d="M187.3 149.4 Q250.6 137.6 301.9 125.9 Q355.0 116.4 421.0 121.3" style="animation-delay:0.80s"/><path class="thread " d="M241.1 160.4 Q263.1 139.3 300.6 128.5 Q360.3 124.5 421.3 118.7" style="animation-delay:0.85s"/><path class="thread " d="M87.5 188.4 Q186.1 171.9 299.9 139.6 Q366.3 131.6 420.2 122.1" style="animation-delay:0.90s"/><path class="thread " d="M143.1 202.2 Q219.3 173.9 302.0 138.4 Q364.9 123.0 420.7 120.2" style="animation-delay:0.95s"/><path class="thread " d="M199.0 189.8 Q247.4 170.0 300.0 138.2 Q354.6 134.5 417.9 120.5" style="animation-delay:1.00s"/><path class="thread " d="M254.1 202.6 Q280.8 168.9 301.8 138.3 Q354.2 124.4 420.5 120.5" style="animation-delay:1.05s"/><path class="thread main" d="M420.1 119.6 Q467.9 119.8 519.5 117.8 Q559.1 120.1 600.0 120.0" style="animation-delay:1.40s"/><circle class="node" cx="40.0" cy="30.0" r="4" style="animation-delay:0.05s"/><circle class="node" cx="95.0" cy="42.0" r="4" style="animation-delay:0.09s"/><circle class="node" cx="150.0" cy="30.0" r="4" style="animation-delay:0.13s"/><circle class="node lit" cx="205.0" cy="42.0" r="4" style="animation-delay:0.17s"/><circle class="node" cx="52.0" cy="70.0" r="4" style="animation-delay:0.21s"/><circle class="node" cx="107.0" cy="82.0" r="4" style="animation-delay:0.25s"/><circle class="node" cx="162.0" cy="70.0" r="4" style="animation-delay:0.29s"/><circle class="node" cx="217.0" cy="82.0" r="4" style="animation-delay:0.33s"/><circle class="node" cx="64.0" cy="110.0" r="4" style="animation-delay:0.37s"/><circle class="node" cx="119.0" cy="122.0" r="4" style="animation-delay:0.41s"/><circle class="node" cx="174.0" cy="110.0" r="4" style="animation-delay:0.45s"/><circle class="node lit" cx="229.0" cy="122.0" r="4" style="animation-delay:0.49s"/><circle class="node" cx="76.0" cy="150.0" r="4" style="animation-delay:0.53s"/><circle class="node" cx="131.0" cy="162.0" r="4" style="animation-delay:0.57s"/><circle class="node" cx="186.0" cy="150.0" r="4" style="animation-delay:0.61s"/><circle class="node" cx="241.0" cy="162.0" r="4" style="animation-delay:0.65s"/><circle class="node" cx="88.0" cy="190.0" r="4" style="animation-delay:0.69s"/><circle class="node lit" cx="143.0" cy="202.0" r="4" style="animation-delay:0.73s"/><circle class="node" cx="198.0" cy="190.0" r="4" style="animation-delay:0.77s"/><circle class="node" cx="253.0" cy="202.0" r="4" style="animation-delay:0.81s"/><circle class="node" cx="420.0" cy="120.0" r="6" style="animation-delay:1.30s"/><path class="thread ink" d="M618 96 L646 104 L646 126 Q646 146 618 156 Q590 146 590 126 L590 104 Z" style="animation-delay:1.90s"/><path class="thread main" d="M606 126 l9 9 l17 -19" style="animation-delay:2.40s"/><text class="lbl " x="40" y="228" text-anchor="start" style="animation-delay:1.40s">people who speak up</text><text class="lbl acc" x="618" y="186" text-anchor="middle" style="animation-delay:2.60s">audit-ready</text></svg><figcaption>fig. — many voices, one trusted channel</figcaption></figure>
-    <article class="prose">
-<h2>The companies we kept turning away</h2>
-<p>For most of iVoiceUp’s life, we built for the largest organisations in the region. Coca-Cola, Americana, Banque Misr, Orascom and ALJ trust us with some of the most sensitive conversations their people will ever have. We are proud of that work, and we are not walking away from it. But somewhere along the way, we noticed that the companies who needed us most were often the ones for whom our enterprise product simply was not feasible.</p>
-<p>The pattern showed up in our inbox before it showed up in our strategy. A founder of a fast-growing logistics company would reach out because an investor had asked about their speak-up policy. An HR director at a 300-person manufacturer would book a demo after a difficult internal incident. A family business preparing for its first audit would ask what "whistleblowing channel" actually meant in practice. They were serious buyers with a real need, and we kept handing them a product designed for a multinational: months of procurement, security questionnaires, custom configuration and a price that assumed a compliance department they did not have.</p>
-<h2>A channel, not a smaller investigation suite</h2>
-<p>That was the moment we had to be honest with ourselves. Our enterprise platform is, at its heart, an investigation system. It is built for organisations with dedicated ethics teams, layered approval chains and cases that move across entities and countries. A growing company does not need most of that on day one. It needs less control and a more affordable option: a trusted, confidential channel that works immediately, that its people will actually use, and that stands up when an auditor, a regulator or a board member asks what happens when someone raises a concern.</p>
-<p>So we created a new product. Ventures is built without the features and services enterprises require but a growing company does not, which is what makes it feasible for them. It comes from our enterprise background, and we have not compromised on what matters most: confidentiality, anonymity and audit readiness. Its promise is simple: set up today, audit-ready tomorrow.</p>
-<figure class="plate fig"><svg viewBox="0 0 680 205" role="img" aria-label="Two timelines: enterprise onboarding runs for months through procurement, security questionnaires and configuration; Ventures goes live in about thirty minutes"><text class="lbl " x="20" y="36" text-anchor="start" style="animation-delay:0.00s">Enterprise</text><path class="thread ink" d="M19.6 62.2 Q97.9 61.6 180.2 62.0 Q260.3 60.4 339.7 62.4 Q421.2 61.1 500.4 62.0 Q569.1 60.0 640.0 61.7" style="animation-delay:0.30s;animation-duration:4s"/><circle class="node" cx="20.0" cy="62.0" r="5" style="animation-delay:0.30s"/><circle class="node" cx="180.0" cy="62.0" r="5" style="animation-delay:1.33s"/><circle class="node" cx="340.0" cy="62.0" r="5" style="animation-delay:2.36s"/><circle class="node" cx="500.0" cy="62.0" r="5" style="animation-delay:3.40s"/><circle class="node" cx="640.0" cy="62.0" r="5" style="animation-delay:4.30s"/><text class="lbl " x="100" y="90" text-anchor="middle" style="animation-delay:0.82s">procurement</text><text class="lbl " x="260" y="114" text-anchor="middle" style="animation-delay:1.85s">security questionnaires</text><text class="lbl " x="420" y="90" text-anchor="middle" style="animation-delay:2.88s">custom configuration</text><text class="lbl " x="640" y="36" text-anchor="end" style="animation-delay:4.30s">live, months later</text><text class="lbl " x="20" y="156" text-anchor="start" style="animation-delay:0.20s">Ventures</text><path class="thread main" d="M20.3 180.1 Q54.3 179.8 90.2 180.1" style="animation-delay:0.50s;animation-duration:0.6s"/><circle class="node" cx="20.0" cy="180.0" r="5" style="animation-delay:0.40s"/><circle class="node lit" cx="90.0" cy="180.0" r="7" style="animation-delay:1.10s"/><text class="lbl acc" x="108" y="185" text-anchor="start" style="animation-delay:1.20s">live in about thirty minutes</text></svg><figcaption>fig. — set up today, audit-ready tomorrow</figcaption></figure>
-<h2>Starter and Pro</h2>
-<p>The Starter plan is where most companies begin. Starting at $399 a month, billed annually, and about ten times less than an enterprise product, a company gets a branded reporting portal in full Arabic, English and 60+ other languages, anonymous two-way messaging so investigators can follow up without ever learning who reported, voice recording, and a unified case inbox with a complete audit trail. Core AI is included rather than sold back as an extra, so reports are transcribed, translated and read for sentiment automatically. It comes with a MENA compliance pack, a one-click board and audit report, and free implementation. Most customers are live in about thirty minutes, with no IT project required.</p>
-<p>The Pro plan, starting at $665 a month, is for companies where speaking up has become part of the culture and the volume shows it. It brings an AI chatbot that guides reporters through a submission, AI triage and summaries, investigation plans and report drafting, custom forms and routing, SLA reminders so no case quietly ages, scheduled board reports, and a choice of hosting in the UAE, Saudi Arabia or Frankfurt. It is, in short, a compliance function on autopilot for companies that cannot yet justify building one.</p>
-<h2>Price certainty</h2>
-<p>The decision we care about most sits underneath both plans. Our pricing never grows with headcount. Reporters are never counted as users, and cases are never capped. Many platforms in this category charge by the number of employees, which means a company pays more the moment it succeeds in hiring, and in some cases pays more the moment its people start speaking up. We think that gets the incentive exactly backwards. A company should be able to grow from two hundred people to two thousand without renegotiating the price of its integrity.</p>
-<figure class="plate fig"><svg viewBox="0 0 680 230" role="img" aria-label="A chart of price against headcount: per-employee pricing climbs from 200 to 2,000 people, while Ventures stays flat"><path class="thread ink" d="M60 30 L60 190 L640 190" style="animation-delay:0.00s;animation-duration:1.2s"/><text class="lbl " x="68" y="30" text-anchor="start" style="animation-delay:0.80s">price</text><path class="thread ink" d="M90 186 L90 194" style="animation-delay:0.90s;animation-duration:0.3s"/><text class="lbl " x="90" y="216" text-anchor="middle" style="animation-delay:1.00s">200 people</text><path class="thread ink" d="M600 186 L600 194" style="animation-delay:0.90s;animation-duration:0.3s"/><text class="lbl " x="600" y="216" text-anchor="middle" style="animation-delay:1.00s">2,000 people</text><path class="thread " d="M91.4 170.9 Q178.9 153.5 258.6 141.5 Q348.4 118.4 429.1 98.9 Q515.8 79.5 600.5 51.5" style="animation-delay:0.60s;animation-duration:2.4s"/><text class="lbl " x="600" y="38" text-anchor="end" style="animation-delay:2.80s">priced per employee</text><path class="thread main" d="M90.1 150.3 Q345.9 150.2 600.1 149.7" style="animation-delay:0.90s;animation-duration:2.4s"/><circle class="node lit" cx="90.0" cy="150.0" r="5" style="animation-delay:0.90s"/><circle class="node lit" cx="600.0" cy="150.0" r="7" style="animation-delay:3.20s"/><text class="lbl acc" x="600" y="136" text-anchor="end" style="animation-delay:3.30s">Ventures: flat, never by headcount</text></svg><figcaption>fig. — grow from two hundred people to two thousand without renegotiating the price of your integrity</figcaption></figure>
-<h2>Why it matters</h2>
-<p>Changing direction also changed us. Enterprise deals take the better part of a year; our first Ventures customers signed in weeks. That speed matters beyond revenue. When dozens of companies use a product rather than a handful, we learn faster what reporters trust, what investigators need, and what regulators and auditors actually ask to see. Every one of those lessons flows back into the enterprise platform as well. And when a Ventures customer outgrows Pro, adding subsidiaries, complex approval chains or its own data residency requirements, our enterprise tier is waiting for them. We would rather grow alongside a company than try to sell it everything on day one.</p>
-<figure class="plate fig"><svg viewBox="0 0 680 240" role="img" aria-label="A rising path through three growing nodes: Starter, Pro and Enterprise"><path class="thread main" d="M41.5 197.6 Q98.1 176.5 161.4 156.5 Q255.2 127.1 360.3 107.7 Q462.7 80.3 560.1 54.7 Q599.7 48.0 638.9 35.8" style="animation-delay:0.20s;animation-duration:2.6s"/><circle class="node" cx="160.0" cy="158.0" r="6" style="animation-delay:0.70s"/><text class="lbl " x="160" y="188" text-anchor="middle" style="animation-delay:0.90s">Starter</text><text class="lbl " x="160" y="206" text-anchor="middle" style="animation-delay:1.00s">from $399 / month</text><circle class="node" cx="360.0" cy="108.0" r="9" style="animation-delay:1.50s"/><text class="lbl " x="360" y="141" text-anchor="middle" style="animation-delay:1.70s">Pro</text><text class="lbl " x="360" y="159" text-anchor="middle" style="animation-delay:1.80s">from $665 / month</text><circle class="node lit" cx="560.0" cy="56.0" r="13" style="animation-delay:2.30s"/><text class="lbl acc" x="560" y="93" text-anchor="middle" style="animation-delay:2.50s">Enterprise</text><text class="lbl " x="560" y="111" text-anchor="middle" style="animation-delay:2.60s">subsidiaries, approvals, residency</text></svg><figcaption>fig. — growing alongside a company, instead of selling it everything on day one</figcaption></figure>
-<p>There is a bigger reason behind all of this. Culture is set early. By the time a company reaches enterprise scale, the habits around silence and speaking up are already formed. If we only arrive once an organisation has a chief compliance officer, we arrive after the moment that matters most. We want a confidential, Arabic-first speak-up channel to be as ordinary for a growing company in Cairo, Riyadh or Dubai as payroll or an accounting system, something you put in place early because that is simply how well-run companies operate.</p>
-<p>That is why we built Ventures. Not as a smaller version of what we already had, but as the version of iVoiceUp we should have been offering all along to the companies that will become the region’s next enterprises.</p>
-<p class="signoff">Prevent. Protect. Prosper.</p>
-    </article>
-    <div class="fleuron">• • •</div>
-    <div class="end">
-      <span>Originally published on <a href="https://www.linkedin.com/pulse/why-we-built-ivoiceup-ventures-hashem-aly-pas4e/" target="_blank" rel="noopener">LinkedIn</a>, September 27, 2026.</span>
-      <a href="../../">← All writing</a>
+    <div class="widget rv" id="inbox">
+      <div class="k"><span>Inbox</span><span class="muted">3 new</span></div>
+      <div class="inbox">
+        <div class="mail"><div class="from"><b>Founder, logistics company</b><span>fast-growing</span></div><div class="subj">An investor asked about our speak-up policy.</div><div class="pad"></div><span class="stamp">Sent the enterprise product</span></div>
+        <div class="mail"><div class="from"><b>HR director, manufacturer</b><span>300 people</span></div><div class="subj">Booking a demo, after a difficult internal incident.</div><div class="pad"></div><span class="stamp">Sent the enterprise product</span></div>
+        <div class="mail"><div class="from"><b>Family business</b><span>first audit</span></div><div class="subj">What does “whistleblowing channel” actually mean in practice?</div><div class="pad"></div><span class="stamp">Sent the enterprise product</span></div>
+      </div>
+      <p class="note">Serious buyers with a real need, handed a product designed for a multinational.</p>
     </div>
+  </div>
+</section>
+
+<!-- ============================== CHANNEL ============================== -->
+<section id="channel" class="tone-night" style="background: linear-gradient(#10211f, #16302c)">
+  <div class="inner grid flip">
+    <div class="text">
+      <div class="head rv"><span class="num">02</span><div><span class="label">The product</span><h2>A channel, not a smaller <em>investigation suite</em>.</h2></div></div>
+      <p class="rv">That was the moment we had to be honest with ourselves. Our enterprise platform is, at its heart, an investigation system. It is built for organisations with dedicated ethics teams, layered approval chains and cases that move across entities and countries. A growing company does not need most of that on day one. It needs less control and a more affordable option: a trusted, confidential channel that works immediately, that its people will actually use, and that stands up when an auditor, a regulator or a board member asks what happens when someone raises a concern.</p>
+      <p class="rv">So we created a new product. Ventures is built without the features and services enterprises require but a growing company does not, which is what makes it feasible for them. It comes from our enterprise background, and we have not compromised on what matters most: confidentiality, anonymity and audit readiness. Its promise is simple: set up today, audit-ready tomorrow.</p>
+    </div>
+    <div class="widget rv" id="race">
+      <div class="k"><span>From first call to live</span></div>
+      <div class="race">
+        <div class="lane" id="lane-ent">
+          <div class="nm"><span>Enterprise</span><b id="ent-t">day one</b></div>
+          <div class="track"><div class="rail"></div><div class="fill"></div><span class="stop" style="left:33%"></span><span class="stop" style="left:66%"></span><div class="dot"></div><span class="flag">LIVE</span></div>
+          <div class="stops"><span style="left:16%">procurement</span><span style="left:50%">security questionnaires</span><span style="left:84%">custom configuration</span></div>
+        </div>
+        <div class="lane" id="lane-ven">
+          <div class="nm"><span>Ventures</span><b id="ven-t">day one</b></div>
+          <div class="track"><div class="rail"></div><div class="fill"></div><div class="dot"></div><span class="flag">LIVE</span></div>
+          <div class="stops"><span style="left:50%">no IT project required</span></div>
+        </div>
+      </div>
+      <div style="margin-top:18px"><button class="btn" type="button" id="race-go">Start both</button></div>
+      <p class="note">Most Ventures customers are live in about thirty minutes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== PLANS ============================== -->
+<section id="plans" class="tone-day" style="background: linear-gradient(#16302c 0px, #c9c7b6 150px, #e9e2d3 240px, #f3ede2); padding-top: 260px">
+  <div class="inner">
+    <div class="text">
+      <div class="head rv"><span class="num">03</span><div><span class="label">Two plans</span><h2>Starter and <em>Pro</em>.</h2></div></div>
+      <p class="rv">The Starter plan is where most companies begin. Starting at $399 a month, billed annually, and about ten times less than an enterprise product, a company gets a branded reporting portal in full Arabic, English and 60+ other languages, anonymous two-way messaging so investigators can follow up without ever learning who reported, voice recording, and a unified case inbox with a complete audit trail. Core AI is included rather than sold back as an extra, so reports are transcribed, translated and read for sentiment automatically. It comes with a MENA compliance pack, a one-click board and audit report, and free implementation. Most customers are live in about thirty minutes, with no IT project required.</p>
+      <p class="rv">The Pro plan, starting at $665 a month, is for companies where speaking up has become part of the culture and the volume shows it. It brings an AI chatbot that guides reporters through a submission, AI triage and summaries, investigation plans and report drafting, custom forms and routing, SLA reminders so no case quietly ages, scheduled board reports, and a choice of hosting in the UAE, Saudi Arabia or Frankfurt. It is, in short, a compliance function on autopilot for companies that cannot yet justify building one.</p>
+    </div>
+    <div class="plans">
+      <div class="plan rv">
+        <span class="badge">Where most begin</span>
+        <div class="nm">Starter</div>
+        <div class="price">$399<small>a month, billed annually</small></div>
+        <p class="for">About ten times less than an enterprise product.</p>
+        <ul>
+          <li>Branded reporting portal in full Arabic, English and 60+ other languages</li>
+          <li>Anonymous two-way messaging</li>
+          <li>Voice recording</li>
+          <li>Unified case inbox with a complete audit trail</li>
+          <li>Core AI included: transcription, translation, sentiment</li>
+          <li>MENA compliance pack</li>
+          <li>One-click board and audit report</li>
+          <li>Free implementation, live in about thirty minutes</li>
+        </ul>
+      </div>
+      <div class="plan rv" style="transition-delay:.15s">
+        <div class="nm">Pro</div>
+        <div class="price">$665<small>a month</small></div>
+        <p class="for">A compliance function on autopilot, for companies that cannot yet justify building one.</p>
+        <div class="plus">Everything in Starter, plus</div>
+        <ul>
+          <li>AI chatbot that guides reporters through a submission</li>
+          <li>AI triage and summaries</li>
+          <li>Investigation plans and report drafting</li>
+          <li>Custom forms and routing</li>
+          <li>SLA reminders, so no case quietly ages</li>
+          <li>Scheduled board reports</li>
+          <li>Hosting in the UAE, Saudi Arabia or Frankfurt</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== PRICE CERTAINTY ============================== -->
+<section id="certainty" class="tone-day" style="background: linear-gradient(#f3ede2, #efe6d6)">
+  <div class="inner grid">
+    <div class="text">
+      <div class="head rv"><span class="num">04</span><div><span class="label">The decision we care about most</span><h2>Price <em>certainty</em>.</h2></div></div>
+      <p class="rv">The decision we care about most sits underneath both plans. Our pricing never grows with headcount. Reporters are never counted as users, and cases are never capped. Many platforms in this category charge by the number of employees, which means a company pays more the moment it succeeds in hiring, and in some cases pays more the moment its people start speaking up. We think that gets the incentive exactly backwards.</p>
+      <div class="never rv"><span>Priced by headcount</span><span>Reporters counted as users</span><span>Cases capped</span></div>
+    </div>
+    <div class="widget rv" data-fig id="grow">
+      <div class="k"><span>Grow the company</span></div>
+      <svg class="dg" viewBox="0 0 480 280" role="img" aria-label="Price against headcount from 200 to 2,000 people: pricing by employee climbs with every hire, while Ventures stays flat">
+        <g id="chart"></g>
+      </svg>
+      <div class="scrub"><span>Headcount</span><input type="range" id="hc" min="200" max="2000" step="50" value="200" aria-label="Headcount"><b id="hc-v">200 people</b></div>
+      <div class="readout">
+        <div><div class="v up" id="pp-v">1×</div><div class="t">what you paid at 200 people, if priced per employee</div></div>
+        <div><div class="v flat">1×</div><div class="t">with Ventures, at any headcount</div></div>
+      </div>
+    </div>
+  </div>
+  <p class="pull" id="pull">A company should be able to grow from two hundred people to two thousand without renegotiating <em>the price of its integrity</em>.</p>
+</section>
+
+<!-- ============================== WHY IT MATTERS ============================== -->
+<section id="matters" class="tone-day" style="background: linear-gradient(#efe6d6, #f3ead9)">
+  <div class="inner grid flip">
+    <div class="text">
+      <div class="head rv"><span class="num">05</span><div><span class="label">Why it matters</span><h2>Changing direction <em>changed us</em>.</h2></div></div>
+      <p class="rv">Changing direction also changed us. Enterprise deals take the better part of a year; our first Ventures customers signed in weeks. That speed matters beyond revenue. When dozens of companies use a product rather than a handful, we learn faster what reporters trust, what investigators need, and what regulators and auditors actually ask to see. Every one of those lessons flows back into the enterprise platform as well. And when a Ventures customer outgrows Pro, adding subsidiaries, complex approval chains or its own data residency requirements, our enterprise tier is waiting for them. We would rather grow alongside a company than try to sell it everything on day one.</p>
+    </div>
+    <figure class="rv" data-fig>
+      <svg class="dg" viewBox="0 0 520 400" role="img" aria-label="A company climbs a rising path through three stages: Starter, Pro and Enterprise, where subsidiaries, complex approval chains and data residency are waiting">
+        <g id="path"></g>
+      </svg>
+      <figcaption>We would rather grow alongside a company than sell it everything on day one.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================== BAND ============================== -->
+<section class="band" id="band" aria-hidden="true">
+  <div class="line">Culture is set early.</div>
+  <svg viewBox="0 0 1200 500" preserveAspectRatio="xMidYMax slice" id="region"></svg>
+</section>
+
+<!-- ============================== CULTURE ============================== -->
+<section id="culture" class="tone-day" style="background: linear-gradient(#c98a52, #eadbc2 26%, #f6f0e5)">
+  <div class="inner">
+    <div class="text" style="margin:0 auto">
+      <div class="head rv"><span class="num">06</span><div><span class="label">The bigger reason</span><h2>Before the habits <em>are formed</em>.</h2></div></div>
+      <p class="rv lead">There is a bigger reason behind all of this. Culture is set early. By the time a company reaches enterprise scale, the habits around silence and speaking up are already formed. If we only arrive once an organisation has a chief compliance officer, we arrive after the moment that matters most.</p>
+      <p class="rv">We want a confidential, Arabic-first speak-up channel to be as ordinary for a growing company in Cairo, Riyadh or Dubai as payroll or an accounting system, something you put in place early because that is simply how well-run companies operate.</p>
+      <p class="rv">That is why we built Ventures. Not as a smaller version of what we already had, but as the version of iVoiceUp we should have been offering all along to the companies that will become the region’s next enterprises.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== CODA ============================== -->
+<section class="coda tone-day" id="coda" style="background: linear-gradient(#f6f0e5, #f8f4ec)">
+  <div class="inner">
+    <div class="motto"><span>Prevent.</span> <span style="transition-delay:.35s">Protect.</span> <span style="transition-delay:.7s">Prosper.</span></div>
+    <div class="sig">Hashem Aly · September 27, 2026 · Originally published on <a href="https://www.linkedin.com/pulse/why-we-built-ivoiceup-ventures-hashem-aly-pas4e/" target="_blank" rel="noopener">LinkedIn</a></div>
     <nav class="next" aria-label="More essays">
-      <a class="" href="../how-my-startup-failed/"><div class="k">Earlier</div><div class="t">How My Startup Failed</div></a>
-      <span class="empty"></span>
+      <a href="../how-my-startup-failed/"><div class="k">Earlier</div><div class="t">How My Startup Failed</div></a>
     </nav>
-  </main>
+    <footer>
+      <span>© <span id="yr"></span> Hashem Aly</span>
+      <nav>
+        <a href="../../">All writing</a>
+        <a href="https://medium.com/@shoomi" target="_blank" rel="noopener">Medium</a>
+        <a href="https://x.com/shooommi" target="_blank" rel="noopener">X</a>
+      </nav>
+    </footer>
+  </div>
+</section>
 
-  <footer>
-    <span>© <span id="yr"></span> Hashem Aly</span>
-    <nav>
-      <a href="../../">All writing</a>
-      <a href="https://medium.com/@shoomi" target="_blank" rel="noopener">Medium</a>
-      <a href="https://x.com/shooommi" target="_blank" rel="noopener">X</a>
-    </nav>
-  </footer>
-</div>
+</main>
+
 <script>
 (() => {
-  document.querySelectorAll(".thread").forEach(p => p.style.setProperty("--len", Math.ceil(p.getTotalLength())));
-  const bar = document.getElementById("progress"), body = document.querySelector(".prose");
+  const NS = "http://www.w3.org/2000/svg";
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const el = (tag, attrs, parent) => {
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(n);
+    return n;
+  };
+  const txt = (parent, x, y, s, cls = "", anchor = "middle", style = "") => {
+    const t = el("text", { x, y, "text-anchor": anchor, class: cls, style }, parent);
+    t.textContent = s; return t;
+  };
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  let seed = 11; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+  /* =================== HERO: many voices, one channel =================== */
+  const WORDS = ["صوت", "voice", "voix", "voz", "Stimme", "ses", "آواز", "голос", "φωνή", "קול", "suara", "voce", "stem", "sauti", "głos", "hang", "röst", "ääni", "hlas", "glas", "boses", "hääl", "صدا", "tiếng nói", "zëri", "आवाज़", "balso", "balss", "stemme", "veu"];
+  const cv = document.getElementById("voices"), ctx = cv.getContext("2d"), cap = document.getElementById("cap");
+  let W, H, dpr, words = [], sparks = [], t0, raf, visible = true, shield, lastSpeak = 0, arrived = 0;
+  function layout() {
+    dpr = Math.min(2, devicePixelRatio || 1);
+    W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    shield = { x: W / 2, y: H - (W < 640 ? 118 : 108), s: W < 640 ? 22 : 28 };
+    seed = 11;
+    const n = W < 640 ? 18 : 30;
+    words = [];
+    for (let i = 0, tries = 0; words.length < n && tries < 3000; tries++) {
+      const side = words.length % 2 ? 1 : -1;
+      const x = W / 2 + side * (W * .1 + rnd() * W * (W < 640 ? .28 : .38)), y = H * (.52 + rnd() * .32);
+      // keep each word clear of its neighbours
+      if (words.some(w => Math.abs(w.hx - x) < (W < 640 ? 64 : 96) && Math.abs(w.hy - y) < 30)) continue;
+      words.push({ w: WORDS[i++ % WORDS.length], hx: x, hy: y, x, y, ph: rnd() * 6, size: (W < 640 ? 13 : 15) + rnd() * 7, state: 0, k: 0 });
+    }
+  }
+  function drawShield(glow) {
+    const { x, y, s } = shield;
+    if (glow > 0) { ctx.fillStyle = `rgba(243,179,91,${.16 * glow})`; ctx.beginPath(); ctx.arc(x, y, s * (2.2 + glow), 0, 7); ctx.fill(); }
+    ctx.beginPath();
+    ctx.moveTo(x, y - s); ctx.lineTo(x + s * .85, y - s * .65); ctx.lineTo(x + s * .85, y); ctx.bezierCurveTo(x + s * .85, y + s * .6, x + s * .4, y + s * .9, x, y + s * 1.1);
+    ctx.bezierCurveTo(x - s * .4, y + s * .9, x - s * .85, y + s * .6, x - s * .85, y); ctx.lineTo(x - s * .85, y - s * .65); ctx.closePath();
+    ctx.fillStyle = "#0b1716"; ctx.fill(); ctx.strokeStyle = "#f3b35b"; ctx.lineWidth = 1.8; ctx.stroke();
+    // keyhole
+    ctx.fillStyle = "#f3b35b"; ctx.beginPath(); ctx.arc(x, y - s * .12, s * .16, 0, 7); ctx.fill();
+    ctx.fillRect(x - s * .06, y - s * .08, s * .12, s * .38);
+  }
+  let glow = 0;
+  function frame(now) {
+    const t = (now - t0) / 1000;
+    ctx.clearRect(0, 0, W, H);
+    const fade = clamp((t - .8) / 1.5, 0, 1);
+    // the channel: a soft guide from each side into the shield
+    ctx.strokeStyle = `rgba(243,179,91,${.12 * fade})`; ctx.lineWidth = 1;
+    for (let i = -3; i <= 3; i++) {
+      ctx.beginPath(); ctx.moveTo(W / 2 + i * W * .14, H * .5); ctx.quadraticCurveTo(W / 2 + i * W * .04, shield.y - 80, shield.x, shield.y - shield.s); ctx.stroke();
+    }
+    // a voice speaks up every so often
+    if (t > 2 && t - lastSpeak > (W < 640 ? 1.1 : .7)) {
+      const idle = words.filter(w => w.state === 0);
+      if (idle.length) { const w = idle[Math.floor(Math.random() * idle.length)]; w.state = 1; w.k = 0; w.sx = w.x; w.sy = w.y; }
+      lastSpeak = t;
+    }
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    for (const w of words) {
+      if (w.state === 0) {
+        w.x = w.hx + Math.sin(t * .4 + w.ph) * 8; w.y = w.hy + Math.cos(t * .5 + w.ph) * 5;
+        ctx.globalAlpha = (.28 + .18 * Math.sin(t + w.ph)) * fade;
+        ctx.fillStyle = "#edf3f1"; ctx.font = `italic ${w.size}px Fraunces, Amiri, Georgia, serif`;
+        ctx.fillText(w.w, w.x, w.y);
+      } else if (w.state === 1) {
+        w.k = Math.min(1, w.k + 1 / 110);
+        const e = w.k < .5 ? 2 * w.k * w.k : 1 - Math.pow(-2 * w.k + 2, 2) / 2;
+        const cx = (w.sx + shield.x) / 2, cy = Math.min(w.sy, shield.y) - 30;
+        const x = (1 - e) * (1 - e) * w.sx + 2 * (1 - e) * e * cx + e * e * shield.x;
+        const y = (1 - e) * (1 - e) * w.sy + 2 * (1 - e) * e * cy + e * e * (shield.y - shield.s * .2);
+        w.x = x; w.y = y;
+        if (e < .55) {
+          ctx.globalAlpha = 1 - e * 1.2; ctx.fillStyle = "#f3b35b"; ctx.font = `italic ${w.size * (1 - e * .5)}px Fraunces, Amiri, Georgia, serif`;
+          ctx.fillText(w.w, x, y);
+        }
+        ctx.globalAlpha = clamp(e * 2, 0, 1); ctx.fillStyle = "#f3b35b";
+        ctx.beginPath(); ctx.arc(x, y, 2.6, 0, 7); ctx.fill();
+        if (w.k >= 1) { w.state = 2; w.back = t + 2 + Math.random() * 3; glow = 1; arrived++; if (arrived >= 3) cap.classList.add("show"); }
+      } else if (t > w.back) {
+        // quietly back among the crowd
+        w.state = 0;
+      }
+    }
+    ctx.globalAlpha = fade;
+    glow = Math.max(0, glow - .02);
+    drawShield(glow);
+    ctx.globalAlpha = 1;
+    if (visible && !reduce) raf = requestAnimationFrame(frame);
+  }
+  function start() { layout(); t0 = performance.now(); cancelAnimationFrame(raf); if (reduce) { t0 -= 5000; cap.classList.add("show"); } raf = requestAnimationFrame(frame); }
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(start);
+  let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { layout(); if (reduce) frame(performance.now()); }, 150); });
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; cancelAnimationFrame(raf); if (visible && t0 && !reduce) raf = requestAnimationFrame(frame); }).observe(cv);
+
+  /* =================== inbox =================== */
+  const mails = [...document.querySelectorAll(".mail")];
+  function playInbox() {
+    mails.forEach((m, i) => {
+      setTimeout(() => m.classList.add("show"), reduce ? 0 : 300 + i * 900);
+      setTimeout(() => m.classList.add("stamped"), reduce ? 0 : 1100 + i * 900);
+    });
+  }
+
+  /* =================== race to live =================== */
+  const lanes = { ent: document.getElementById("lane-ent"), ven: document.getElementById("lane-ven") };
+  const entT = document.getElementById("ent-t"), venT = document.getElementById("ven-t");
+  const entStops = [...lanes.ent.querySelectorAll(".stops span")];
+  let rraf;
+  function setLane(l, k) { l.querySelector(".fill").style.width = k * 100 + "%"; l.querySelector(".dot").style.left = k * 100 + "%"; l.querySelector(".flag").style.color = k >= 1 ? "var(--acc)" : ""; }
+  function race() {
+    cancelAnimationFrame(rraf);
+    const s = performance.now(), ENT = reduce ? 1 : 6500, VEN = reduce ? 1 : 700;
+    const step = now => {
+      const e = clamp((now - s) / ENT, 0, 1), v = clamp((now - s) / VEN, 0, 1);
+      setLane(lanes.ent, e); setLane(lanes.ven, v);
+      venT.textContent = v >= 1 ? "live in about 30 minutes" : "setting up…";
+      entT.textContent = e >= 1 ? "live, months later" : e > .66 ? "configuring…" : e > .33 ? "questionnaires…" : "procurement…";
+      entStops.forEach((sp, i) => sp.classList.toggle("on", e > i / 3 && e <= (i + 1) / 3 + .001));
+      if (e < 1) rraf = requestAnimationFrame(step);
+    };
+    rraf = requestAnimationFrame(step);
+  }
+  document.getElementById("race-go").addEventListener("click", race);
+
+  /* =================== price vs headcount =================== */
+  const ch = document.getElementById("chart");
+  const X = h => 50 + (h - 200) / 1800 * 400, Y = r => 240 - r * 20; // r: multiple of the price at 200 people
+  el("path", { d: "M50 240 H 456", class: "fg-s" }, ch);
+  el("path", { d: "M50 240 V 26", class: "ln" }, ch);
+  [200, 500, 1000, 1500, 2000].forEach(h => { el("path", { d: `M${X(h)} 240 v5`, class: "fg-s" }, ch); txt(ch, X(h), 262, h.toLocaleString("en-US"), "", "middle", "font-style:normal;font-family:Inter,sans-serif;font-size:11px"); });
+  txt(ch, 44, 32, "price", "sc", "end");
+  txt(ch, 456, 280, "people", "sc", "end");
+  const per = el("path", { d: `M${X(200)} ${Y(1)} L${X(2000)} ${Y(10)}`, stroke: "#c0492b", "stroke-width": 1.4, fill: "none", "stroke-dasharray": "4 5", opacity: .45 }, ch);
+  const perOn = el("path", { d: "", stroke: "#c0492b", "stroke-width": 2.4, fill: "none", "stroke-linecap": "round" }, ch);
+  el("path", { d: `M${X(200)} ${Y(1)} H${X(2000)}`, class: "al" }, ch);
+  txt(ch, X(2000) - 4, Y(10) - 12, "priced per employee", "", "end", "fill:#c0492b");
+  txt(ch, X(2000) - 4, Y(1) - 12, "Ventures", "ac", "end", "font-size:17px;font-style:normal;font-family:Fraunces,serif");
+  const mk = el("circle", { r: 6, fill: "#c0492b" }, ch), mv = el("circle", { r: 6, class: "fa" }, ch);
+  const vline = el("path", { d: "", class: "ln", "stroke-dasharray": "2 4" }, ch);
+  const hc = document.getElementById("hc"), hcv = document.getElementById("hc-v"), ppv = document.getElementById("pp-v");
+  function renderHC() {
+    const h = +hc.value, r = h / 200;
+    perOn.setAttribute("d", `M${X(200)} ${Y(1)} L${X(h)} ${Y(r)}`);
+    mk.setAttribute("cx", X(h)); mk.setAttribute("cy", Y(r)); mv.setAttribute("cx", X(h)); mv.setAttribute("cy", Y(1));
+    vline.setAttribute("d", `M${X(h)} 240 V ${Y(r)}`);
+    hcv.textContent = h.toLocaleString("en-US") + " people";
+    ppv.textContent = (Math.round(r * 10) / 10).toString().replace(/\.0$/, "") + "×";
+  }
+  hc.addEventListener("input", () => { cancelAnimationFrame(hraf); renderHC(); });
+  let hraf;
+  function sweep() {
+    const s = performance.now();
+    const f = now => { const k = clamp((now - s) / 3200, 0, 1), e = 1 - Math.pow(1 - k, 3); hc.value = 200 + Math.round(e * 1800 / 50) * 50; renderHC(); if (k < 1) hraf = requestAnimationFrame(f); };
+    hraf = requestAnimationFrame(f);
+  }
+  renderHC();
+
+  /* =================== pull quote words =================== */
+  const pull = document.getElementById("pull"); let wi = 0;
+  const wrap = node => [...node.childNodes].forEach(n => {
+    if (n.nodeType === 3) {
+      const frag = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach(w => {
+        if (!w.trim()) { frag.appendChild(document.createTextNode(w)); return; }
+        const s = document.createElement("span"); s.className = "w"; s.textContent = w; s.style.transitionDelay = (wi++ * .06) + "s"; frag.appendChild(s);
+      });
+      n.replaceWith(frag);
+    } else wrap(n);
+  });
+  wrap(pull);
+
+  /* =================== growth path =================== */
+  const pg = document.getElementById("path");
+  const route = "M40 360 C 120 360, 130 300, 170 290 S 250 250, 290 214 S 380 140, 470 100";
+  el("path", { d: route, class: "ln", "stroke-width": 8, opacity: .5 }, pg);
+  el("path", { d: route, class: "al draw" }, pg);
+  const stages = [[170, 290, 12, "Starter", "where most companies begin"], [290, 214, 17, "Pro", "when speaking up becomes culture"], [470, 100, 24, "Enterprise", "subsidiaries, approval chains, data residency"]];
+  stages.forEach(([x, y, r, a, b], i) => {
+    el("circle", { cx: x, cy: y, r, fill: "#f3ead9", stroke: "#a8610f", "stroke-width": 1.8, class: "pop", style: `transition-delay:${.6 + i * .5}s` }, pg);
+    el("circle", { cx: x, cy: y, r: r * .38, class: "fa pop", style: `transition-delay:${.7 + i * .5}s` }, pg);
+    const right = i < 2;
+    txt(pg, right ? x + r + 12 : x + r, right ? y + 30 : y - r - 30, a, "fg pop", right ? "start" : "end", `font-style:normal;font-size:20px;transition-delay:${.8 + i * .5}s`);
+    txt(pg, right ? x + r + 12 : x + r, right ? y + 50 : y - r - 10, b, "pop", right ? "start" : "end", `transition-delay:${.9 + i * .5}s`);
+  });
+  const cl = el("circle", { r: 6, fill: "#17231f", class: "climber" }, pg); cl.style.offsetPath = `path("${route}")`;
+  txt(pg, 40, 388, "a growing company", "pop", "start");
+  txt(pg, 0, 150, "enterprise deals: the better part of a year", "pop", "start", "transition-delay:2s");
+  txt(pg, 0, 172, "first Ventures customers: signed in weeks", "ac pop", "start", "transition-delay:2.2s");
+
+  /* =================== region band: Cairo, Riyadh, Dubai =================== */
+  const rg = document.getElementById("region");
+  el("defs", {}, rg).innerHTML = '<radialGradient id="sunG" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff6e4"/><stop offset=".6" stop-color="#ffd9a0" stop-opacity=".7"/><stop offset="1" stop-color="#ffc27a" stop-opacity="0"/></radialGradient>';
+  el("circle", { cx: 600, cy: 470, r: 230, fill: "url(#sunG)" }, rg);
+  el("rect", { x: -600, y: 470, width: 2400, height: 200, fill: "#c98a52" }, rg);
+  el("path", { d: "M0 470 H1200", stroke: "#fff4e2", "stroke-width": 1.4, opacity: .8 }, rg);
+  // faint graticule, longitude 28°E to 58°E across the band
+  const LX = lon => 180 + (lon - 28) / 30 * 840, LY = lat => 400 - (lat - 22) * 22;
+  for (let lon = 30; lon <= 56; lon += 5) el("path", { d: `M${LX(lon)} 250 V 470`, stroke: "#6b4020", "stroke-opacity": .12 }, rg);
+  for (let lat = 24; lat <= 32; lat += 4) el("path", { d: `M120 ${LY(lat)} H 1080`, stroke: "#6b4020", "stroke-opacity": .12 }, rg);
+  const cities = [["Cairo", 31.24, 30.04], ["Riyadh", 46.72, 24.71], ["Dubai", 55.27, 25.2]];
+  const pts = cities.map(([, lon, lat]) => [LX(lon), LY(lat)]);
+  el("path", { d: `M${pts[0][0]} ${pts[0][1]} Q ${(pts[0][0] + pts[1][0]) / 2} ${pts[0][1] - 60}, ${pts[1][0]} ${pts[1][1]} Q ${(pts[1][0] + pts[2][0]) / 2} ${pts[1][1] - 50}, ${pts[2][0]} ${pts[2][1]}`, fill: "none", stroke: "#6b4020", "stroke-opacity": .35, "stroke-dasharray": "3 7", "stroke-width": 1.4 }, rg);
+  cities.forEach(([name], i) => {
+    const [x, y] = pts[i];
+    const g = el("g", { class: "city", style: `transition-delay:${.4 + i * .4}s` }, rg);
+    el("circle", { cx: x, cy: y, r: 16, fill: "none", stroke: "#fff", "stroke-width": 1.2, class: "halo", style: `animation-delay:${i * .8}s` }, g);
+    el("circle", { cx: x, cy: y, r: 6, fill: "#fff8ec", stroke: "#8a4a17", "stroke-width": 1.4 }, g);
+    const t = el("text", { x, y: y + 34, "text-anchor": "middle", style: "font-family:Fraunces,serif;font-size:22px;fill:#2a1a0c" }, g); t.textContent = name;
+  });
+
+  /* =================== reveal =================== */
+  document.querySelectorAll(".draw").forEach(p => { if (p.getTotalLength) p.style.setProperty("--len", Math.ceil(p.getTotalLength()) + 2); });
+  const targets = document.querySelectorAll(".rv, [data-fig], .coda, .band, .pull");
+  const show = e => {
+    e.classList.add("in");
+    if (e.id === "inbox") playInbox();
+    if (e.id === "race") setTimeout(race, reduce ? 0 : 400);
+    if (e.id === "grow") { if (reduce) { hc.value = 2000; renderHC(); } else setTimeout(sweep, 600); }
+  };
+  if ("IntersectionObserver" in window && !reduce) {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } }), { threshold: .25, rootMargin: "0px 0px -8% 0px" });
+    targets.forEach(t => io.observe(t));
+  } else targets.forEach(show);
+
+  /* =================== margin nav =================== */
+  const margin = document.getElementById("margin"), links = [...margin.querySelectorAll("a")];
+  const secs = links.map(a => document.querySelector(a.getAttribute("href")));
   const onScroll = () => {
-    const r = body.getBoundingClientRect(), total = r.height - innerHeight * .6;
-    bar.style.transform = `scaleX(${Math.min(1, Math.max(0, -r.top / total))})`;
+    const y = innerHeight * .45;
+    margin.classList.toggle("show", scrollY > innerHeight * .6);
+    let cur = -1; secs.forEach((s, i) => { if (s.getBoundingClientRect().top < y) cur = i; });
+    links.forEach((a, i) => a.classList.toggle("on", i === cur));
+    const day = cur >= 2;
+    margin.style.setProperty("--mcolor", day ? "#5e6d68" : "#98aba7");
+    margin.style.setProperty("--macc", day ? "#a8610f" : "#f3b35b");
   };
   addEventListener("scroll", onScroll, { passive: true }); onScroll();
-  const figs = document.querySelectorAll(".fig");
-  if ("IntersectionObserver" in window) {
-    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .45 });
-    figs.forEach(f => io.observe(f));
-  } else figs.forEach(f => f.classList.add("in"));
-  const root = document.documentElement;
-  document.getElementById("themeBtn").addEventListener("click", () => {
-    const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
-    root.dataset.theme = dark ? "light" : "dark";
-    try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
-  });
   document.getElementById("yr").textContent = new Date().getFullYear();
 })();
 </script>

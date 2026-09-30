@@ -4,98 +4,749 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Deep Learning and the Race to Build the Artificial Human Brain — Hashem Aly</title>
-<meta name="description" content="Deep Learning is a subject many tech companies and universities such as Google, Facebook and Stanford are currently focusing on intensely. The idea behind deep learning is setting ">
+<meta name="description" content="The idea behind deep learning is setting up machines to work like the human brain. Google Brain, Baidu, Facebook’s DeepFace and Stanford’s Neurogrid, circa 2015.">
 <meta property="og:title" content="Deep Learning and the Race to Build the Artificial Human Brain">
-<meta property="og:description" content="Deep Learning is a subject many tech companies and universities such as Google, Facebook and Stanford are currently focusing on intensely. The idea behind deep learning is setting ">
+<meta property="og:description" content="The idea behind deep learning is setting up machines to work like the human brain. Google Brain, Baidu, Facebook’s DeepFace and Stanford’s Neurogrid, circa 2015.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://shoommii.github.io/thoughts/deep-learning-and-the-race-to-build-the-artificial-human-brain/">
-<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23c2562f'/%3E%3Ctext x='16' y='22' font-family='Georgia' font-size='17' text-anchor='middle' fill='%23fbf7f0'%3EH%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="../../assets/article.css">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23070a12'/%3E%3Cg stroke='%236fe3d4' stroke-width='1.2'%3E%3Cpath d='M9 10 L16 16 L23 12 M9 22 L16 16 L23 20'/%3E%3C/g%3E%3Cg fill='%236fe3d4'%3E%3Ccircle cx='9' cy='10' r='2'/%3E%3Ccircle cx='9' cy='22' r='2'/%3E%3Ccircle cx='23' cy='12' r='2'/%3E%3Ccircle cx='23' cy='20' r='2'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='3' fill='%23f2b84b'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --night-fg: #e7ebf3;
+    --night-muted: #8f98ad;
+    --night-acc: #6fe3d4;
+    --night-spark: #f2b84b;
+    --night-line: rgba(231, 235, 243, .16);
+    --day-fg: #151a24;
+    --day-muted: #5d6576;
+    --day-acc: #0f7f74;
+    --day-spark: #b7791f;
+    --day-line: rgba(21, 26, 36, .16);
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    margin: 0; background: #070a12; color: var(--night-fg);
+    font-family: "Newsreader", Georgia, serif; font-size: 20px; line-height: 1.65;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  a { color: inherit; }
+  .tone-night { --fg: var(--night-fg); --muted: var(--night-muted); --acc: var(--night-acc); --spark: var(--night-spark); --line: var(--night-line); color: var(--fg); }
+  .tone-day { --fg: var(--day-fg); --muted: var(--day-muted); --acc: var(--day-acc); --spark: var(--day-spark); --line: var(--day-line); color: var(--fg); }
+
+  section { position: relative; padding: 120px 24px; }
+  .inner { max-width: 1080px; margin: 0 auto; position: relative; z-index: 1; }
+  .text { max-width: 640px; }
+  .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 64px; align-items: center; }
+  .grid.flip > :first-child { order: 2; }
+
+  .bar {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 5;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 26px 28px; font-family: "Inter", system-ui, sans-serif; font-size: 14px; color: var(--night-muted);
+  }
+  .bar a { text-decoration: none; display: inline-flex; align-items: center; gap: 10px; color: var(--night-fg); font-family: "Fraunces", Georgia, serif; font-size: 19px; font-weight: 500; letter-spacing: -.005em; font-variation-settings: "opsz" 36; }
+  .bar .arrow { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--night-line); transition: all .25s; }
+  .bar a:hover .arrow { background: var(--night-acc); border-color: var(--night-acc); color: #070a12; transform: translateX(-3px); }
+
+  .margin {
+    position: fixed; left: 20px; top: 50%; transform: translateY(-50%); z-index: 6;
+    display: flex; flex-direction: column; gap: 16px; opacity: 0; transition: opacity .6s;
+  }
+  .margin.show { opacity: 1; }
+  .margin a { display: block; width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--mcolor, #8f98ad); opacity: .55; transition: all .3s; }
+  .margin a.on { opacity: 1; background: var(--macc, #6fe3d4); border-color: var(--macc, #6fe3d4); box-shadow: 0 0 12px var(--macc, #6fe3d4); transform: scale(1.3); }
+
+  /* ---------- hero ---------- */
+  .hero { height: 100vh; min-height: 660px; padding: 0; background: radial-gradient(ellipse at 50% 70%, #0e1628, #070a12 70%); overflow: hidden; }
+  #net { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .hero .title { position: absolute; left: 0; right: 0; top: 13vh; text-align: center; z-index: 2; pointer-events: none; padding: 0 16px; }
+  .kick { font-family: "Inter", system-ui, sans-serif; font-size: 13px; letter-spacing: .32em; text-transform: uppercase; font-weight: 600; color: var(--night-acc); opacity: 0; animation: rise 1.6s ease-out .3s forwards; }
+  .hero h1 {
+    font-family: "Fraunces", Georgia, serif; font-weight: 300;
+    font-size: clamp(40px, 6.2vw, 88px); line-height: 1; letter-spacing: -.025em; margin: 16px auto 14px; max-width: 1100px;
+    font-variation-settings: "opsz" 144; opacity: 0; animation: rise 1.8s ease-out .6s forwards;
+    text-shadow: 0 0 40px #070a12;
+  }
+  .hero h1 em { color: var(--night-acc); }
+  .hero .sub { font-family: "Inter", system-ui, sans-serif; font-size: 13px; letter-spacing: .26em; text-transform: uppercase; color: var(--night-muted); opacity: 0; animation: rise 1.6s ease-out 1.1s forwards; }
+  .hero .cap { position: absolute; left: 0; right: 0; bottom: 24px; text-align: center; z-index: 2; padding: 0 20px; font-style: italic; font-size: 15px; color: var(--night-muted); opacity: 0; transition: opacity 1.2s; }
+  .hero .cap.show { opacity: 1; }
+  @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+  .head { display: flex; align-items: baseline; gap: 18px; margin-bottom: 26px; }
+  .num { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 15px; line-height: 1; color: var(--acc); border: 1px solid var(--acc); border-radius: 999px; padding: 6px 10px; white-space: nowrap; transform: translateY(-4px); }
+  .label { font-family: "Inter", system-ui, sans-serif; font-size: 12px; letter-spacing: .26em; text-transform: uppercase; color: var(--muted); }
+  h2 { font-family: "Fraunces", Georgia, serif; font-weight: 300; font-size: clamp(36px, 5vw, 62px); line-height: 1.04; letter-spacing: -.02em; margin: 6px 0 0; font-variation-settings: "opsz" 144; }
+  h2 em { color: var(--acc); }
+  p { margin: 0 0 1.1em; }
+  .lead { font-size: 23px; }
+  .muted { color: var(--muted); }
+  .dropcap::first-letter { float: left; font-family: "Fraunces", serif; font-size: 4.3em; line-height: .8; padding: .06em .1em 0 0; color: var(--acc); }
+
+  svg.dg { width: 100%; height: auto; display: block; overflow: visible; }
+  .dg text { font-family: "Fraunces", Georgia, serif; font-style: italic; font-size: 15px; fill: var(--muted); }
+  .dg text.fg { fill: var(--fg); }
+  .dg text.ac { fill: var(--acc); }
+  .dg text.sp { fill: var(--spark); }
+  .dg text.sc { font-family: "Inter", sans-serif; font-style: normal; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; }
+  .dg .ln { fill: none; stroke: var(--line); stroke-width: 1.2; }
+  .dg .al { fill: none; stroke: var(--acc); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .dg .fg-s { fill: none; stroke: var(--fg); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+  .dg .fa { fill: var(--acc); }
+  .dg .fs { fill: var(--spark); }
+  .draw { stroke-dasharray: var(--len, 2000); stroke-dashoffset: var(--len, 2000); transition: stroke-dashoffset 2s cubic-bezier(.6, .1, .2, 1); }
+  .in .draw { stroke-dashoffset: 0; }
+  .pop { opacity: 0; transition: opacity .9s ease; }
+  .in .pop { opacity: 1; }
+  figure { margin: 0; }
+  figcaption { font-style: italic; font-size: 15px; color: var(--muted); margin-top: 14px; }
+
+  .pulse { offset-rotate: 0deg; animation: pulse 2.4s linear infinite; animation-play-state: paused; opacity: 0; }
+  .in .pulse { animation-play-state: running; }
+  @keyframes pulse { 0% { offset-distance: 0%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+  .glow { transform-box: fill-box; transform-origin: center; animation: glow 2.4s ease-in-out infinite; }
+  @keyframes glow { 0%, 70%, 100% { opacity: .25; transform: scale(1); } 85% { opacity: .9; transform: scale(1.35); } }
+
+  /* orbit */
+  .orbit-lbl { transition: opacity .6s; }
+
+  /* ---------- widgets ---------- */
+  .widget { border: 1px solid var(--line); border-radius: 14px; padding: 22px; background: rgba(255, 255, 255, .025); }
+  .tone-day .widget { background: rgba(255, 255, 255, .6); }
+  .widget .k { font-family: "Inter", sans-serif; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--acc); margin-bottom: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .frames { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; }
+  .frames i { aspect-ratio: 4 / 3; border-radius: 3px; border: 1px solid var(--line); background: rgba(255, 255, 255, .03); position: relative; transition: background .3s, border-color .3s, box-shadow .3s; }
+  .frames i.scan { border-color: var(--fg); }
+  .frames i.hit { background: rgba(111, 227, 212, .75); border-color: var(--acc); box-shadow: 0 0 10px rgba(111, 227, 212, .45); }
+  .frames i.miss { background: transparent; border-style: dashed; opacity: .55; }
+  .readout { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
+  .readout .v { font-family: "Fraunces", serif; font-size: 52px; line-height: 1; color: var(--acc); font-variant-numeric: tabular-nums; }
+  .readout .d { font-family: "Inter", sans-serif; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .btn {
+    appearance: none; border: 1px solid var(--line); background: transparent; color: var(--fg); font: 500 14px "Inter", sans-serif;
+    padding: 10px 18px; border-radius: 999px; cursor: pointer; transition: border-color .25s, color .25s;
+  }
+  .btn:hover { border-color: var(--acc); color: var(--acc); }
+  .btn:focus-visible, .seg button:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; gap: 2px; flex-wrap: wrap; }
+  .seg button { appearance: none; border: 0; background: transparent; color: var(--muted); font: 500 13px "Inter", sans-serif; padding: 7px 14px; border-radius: 999px; cursor: pointer; transition: background .25s, color .25s; }
+  .seg button[aria-pressed="true"] { background: var(--acc); color: #070a12; }
+  .note { font-size: 14px; color: var(--muted); font-style: italic; margin: 14px 0 0; }
+  .big-stat { font-family: "Fraunces", serif; font-weight: 300; font-size: clamp(64px, 9vw, 120px); line-height: .9; color: var(--acc); letter-spacing: -.03em; margin: 8px 0 4px; font-variant-numeric: lining-nums; }
+  .big-stat small { font-family: "Inter", sans-serif; font-size: 13px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); display: block; margin-top: 10px; }
+
+  /* ---------- interview ---------- */
+  .interview { max-width: 820px; margin: 70px auto 0; border-left: 1px solid var(--acc); padding: 6px 0 6px 34px; }
+  .interview .src { font-family: "Inter", sans-serif; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--acc); margin-bottom: 18px; }
+  .interview .q { font-family: "Fraunces", serif; font-weight: 400; font-style: italic; font-size: 24px; line-height: 1.35; margin: 0 0 22px; }
+  .interview .a p { font-style: italic; color: var(--muted); font-size: 19px; }
+  .interview .a p .hl { color: var(--fg); font-style: normal; font-family: "Fraunces", serif; font-size: 22px; line-height: 1.35; display: block; margin: 6px 0; }
+  .scale { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin: 60px auto 0; max-width: 980px; }
+  .scale .col { border-top: 1px solid var(--line); padding-top: 14px; }
+  .scale .col .k { font-family: "Inter", sans-serif; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+  .scale .col h3 { font-family: "Fraunces", serif; font-weight: 400; font-size: 24px; margin: 4px 0 12px; }
+  .scale .col h3 span { color: var(--acc); }
+  .dots { display: flex; flex-wrap: wrap; gap: 2px; }
+  .dots i { width: 5px; height: 5px; border-radius: 1px; background: var(--muted); opacity: 0; transition: opacity .3s; }
+  .dots.gpu { gap: 10px; }
+  .dots.gpu i { width: 44px; height: 30px; border-radius: 4px; background: rgba(111, 227, 212, .18); border: 1px solid var(--acc); }
+  .in .dots i { opacity: .8; }
+
+  /* ---------- deepface ---------- */
+  .faces { display: grid; grid-template-columns: 1fr; gap: 22px; }
+  #head { width: 100%; height: auto; aspect-ratio: 5 / 4; display: block; }
+  .versus { display: grid; gap: 14px; }
+  .vs-row .nm { display: flex; justify-content: space-between; font-family: "Fraunces", serif; font-size: 19px; }
+  .vs-row .nm b { font-weight: 400; font-variant-numeric: tabular-nums; }
+  .vs-bar { height: 12px; border-radius: 6px; background: rgba(255, 255, 255, .06); margin-top: 6px; overflow: hidden; }
+  .vs-bar i { display: block; height: 100%; width: 0; border-radius: 6px; transition: width 2s cubic-bezier(.3, .9, .3, 1); }
+  .vs-row.h .vs-bar i { background: var(--spark); }
+  .vs-row.m .vs-bar i { background: var(--acc); }
+  .zoomed { font-family: "Inter", sans-serif; font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; margin-top: 4px; }
+
+  /* ---------- neurogrid ---------- */
+  #brain { width: 100%; height: auto; display: block; border-radius: 10px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 24px; }
+  .stats > div { border-top: 1px solid var(--line); padding-top: 12px; }
+  .stats .v { font-family: "Fraunces", serif; font-size: 40px; line-height: 1; color: var(--acc); font-variant-numeric: tabular-nums; }
+  .stats .t { font-size: 15px; line-height: 1.4; color: var(--muted); margin-top: 6px; }
+
+  /* ---------- coda ---------- */
+  .coda { text-align: center; padding-top: 120px; padding-bottom: 60px; }
+  .coda blockquote { margin: 0 auto 40px; max-width: 900px; font-family: "Fraunces", Georgia, serif; font-weight: 300; font-style: italic; font-size: clamp(30px, 4.2vw, 54px); line-height: 1.18; letter-spacing: -.01em; }
+  .coda blockquote .w { display: inline-block; opacity: 0; transform: translateY(12px); filter: blur(5px); transition: opacity .9s, transform .9s, filter .9s; }
+  .coda.in blockquote .w { opacity: 1; transform: none; filter: none; }
+  .coda blockquote cite { display: block; font-family: "Inter", sans-serif; font-style: normal; font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-top: 20px; }
+  .coda .text { margin: 0 auto; text-align: left; }
+  .sig { font-family: "Inter", sans-serif; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-top: 52px; }
+  .sig a { color: var(--acc); text-underline-offset: 3px; }
+  .next { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 48px 0 0; text-align: left; }
+  .next a { display: block; text-decoration: none; border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; transition: border-color .25s, transform .25s; }
+  .next a:hover { border-color: var(--acc); transform: translateY(-2px); }
+  .next .k { font-family: "Inter", sans-serif; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .next .t { font-family: "Fraunces", Georgia, serif; font-size: 21px; line-height: 1.25; margin-top: 6px; }
+  .next .r { text-align: right; grid-column: 2; }
+  footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; max-width: 1080px; margin: 60px auto 0; padding: 22px 0 10px; border-top: 1px solid var(--line); font-family: "Inter", sans-serif; font-size: 13px; color: var(--muted); }
+  footer nav { display: flex; gap: 18px; }
+  footer a { text-decoration: none; }
+  footer a:hover { color: var(--fg); }
+
+  .rv { opacity: 0; transform: translateY(18px); transition: opacity 1s ease, transform 1s ease; }
+  .rv.in { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) {
+    .grid, .grid.flip { grid-template-columns: 1fr; gap: 36px; }
+    .grid.flip > :first-child { order: 0; }
+    .margin { display: none; }
+    .scale { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    body { font-size: 18px; }
+    section { padding: 84px 16px; }
+    .bar { padding: 20px 16px; }
+    .lead { font-size: 20px; }
+    .dg text { font-size: 19px; }
+    .dg text.sc { font-size: 13px; }
+    .widget { padding: 18px 16px; }
+    .frames { gap: 3px; }
+    .interview { padding-left: 18px; }
+    .interview .q { font-size: 20px; }
+    .interview .a p { font-size: 17px; }
+    .interview .a p .hl { font-size: 19px; }
+    .stats { grid-template-columns: 1fr; }
+    .next { grid-template-columns: 1fr; }
+    .next .r { text-align: left; grid-column: auto; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    .pulse { display: none; }
+  }
+</style>
 </head>
 <body>
-<div class="progress" id="progress"></div>
-<div class="wrap">
-  <header class="bar">
-    <a class="back" href="../../"><span class="arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></span>Hashem Aly</a>
-    <button class="theme-btn" id="themeBtn" aria-label="Toggle dark mode"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
-  </header>
 
-  <main class="col">
-    <div class="head">
-      <div class="eyebrow"><span>#ai</span></div>
-      <h1>Deep Learning and the Race to Build the Artificial Human Brain</h1>
-      <div class="byline"><span>Hashem Aly</span><span class="sep"></span><time datetime="2015-08-19">August 19, 2015</time><span class="sep"></span><span>4 min read</span></div>
+<nav class="margin" id="margin" aria-label="Sections">
+  <a href="#brain-like" title="Machines like the brain"></a>
+  <a href="#googlex" title="Google X"></a>
+  <a href="#cats" title="Google Brain"></a>
+  <a href="#baidu" title="Baidu and Andrew Ng"></a>
+  <a href="#deepface" title="DeepFace"></a>
+  <a href="#neurogrid" title="Neurogrid"></a>
+</nav>
+
+<!-- ============================== HERO ============================== -->
+<section class="hero tone-night" aria-label="Deep Learning and the Race to Build the Artificial Human Brain">
+  <div class="bar">
+    <a href="../../"><span class="arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></span>Hashem Aly</a>
+    <span><time datetime="2015-08-19">August 19, 2015</time></span>
+  </div>
+  <canvas id="net" aria-hidden="true"></canvas>
+  <div class="title">
+    <div class="kick">#ai · Written in 2015</div>
+    <h1>Deep Learning and the Race to Build the <em>Artificial Human Brain</em></h1>
+    <div class="sub">Google Brain · Baidu · DeepFace · Neurogrid</div>
+  </div>
+  <p class="cap" id="cap">A picture goes in as pixels, and a network of artificial neurons decides what it sees.</p>
+</section>
+
+<main id="doc">
+
+<!-- ============================== BRAIN-LIKE ============================== -->
+<section id="brain-like" class="tone-night" style="background: linear-gradient(#070a12, #0b1120)">
+  <div class="inner grid">
+    <div class="text">
+      <div class="head rv"><span class="num">layer 1</span><div><span class="label">The idea</span><h2>Machines that work <em>like the brain</em>.</h2></div></div>
+      <p class="dropcap lead rv">Deep Learning is a subject many tech companies and universities such as Google, Facebook and Stanford are currently focusing on intensely. The idea behind deep learning is setting up machines to work like the human brain.</p>
+      <p class="rv">The Human Brain is made up of millions upon millions of neurons that transfer messages around the brain and body. With deep learning scientists are creating artificial neurons to create a machine that learns without the aid of humans, very similar to the brain.</p>
     </div>
-    <figure class="plate"><svg viewBox="0 0 680 240" role="img" aria-label="A small neural network drawn as layers of connected nodes"><path class="thread " d="M79.5 76.1 Q155.4 51.5 229.8 32.2" style="animation-delay:0.10s"/><path class="thread " d="M79.1 76.6 Q157.3 75.9 229.6 75.5" style="animation-delay:0.10s"/><path class="thread " d="M80.6 76.0 Q156.2 99.9 230.3 119.4" style="animation-delay:0.10s"/><path class="thread " d="M80.0 76.4 Q156.7 120.4 230.3 163.2" style="animation-delay:0.10s"/><path class="thread " d="M79.6 75.2 Q156.5 143.8 230.7 208.0" style="animation-delay:0.10s"/><path class="thread " d="M80.4 120.8 Q154.8 79.3 229.8 32.5" style="animation-delay:0.10s"/><path class="thread " d="M80.7 119.3 Q157.8 97.0 229.3 75.5" style="animation-delay:0.10s"/><path class="thread main" d="M80.2 119.6 Q154.2 120.2 230.0 119.8" style="animation-delay:0.70s"/><path class="thread " d="M80.2 120.7 Q157.4 145.7 230.3 164.8" style="animation-delay:0.10s"/><path class="thread " d="M80.3 119.4 Q157.9 164.5 230.6 208.8" style="animation-delay:0.10s"/><path class="thread " d="M80.4 163.5 Q154.2 95.2 230.6 32.1" style="animation-delay:0.10s"/><path class="thread " d="M80.6 164.9 Q154.4 118.6 229.3 76.5" style="animation-delay:0.10s"/><path class="thread " d="M79.6 164.5 Q155.8 139.1 230.7 119.2" style="animation-delay:0.10s"/><path class="thread " d="M80.4 163.7 Q155.6 167.3 230.7 164.9" style="animation-delay:0.10s"/><path class="thread " d="M79.7 163.2 Q153.1 184.6 230.2 207.2" style="animation-delay:0.10s"/><path class="thread " d="M230.2 31.4 Q303.6 34.8 379.2 32.7" style="animation-delay:0.45s"/><path class="thread " d="M230.7 31.8 Q306.2 54.5 379.9 76.0" style="animation-delay:0.45s"/><path class="thread " d="M230.1 32.2 Q305.0 77.4 380.8 120.0" style="animation-delay:0.45s"/><path class="thread " d="M229.5 31.6 Q305.5 94.9 380.9 164.0" style="animation-delay:0.45s"/><path class="thread " d="M229.8 32.1 Q305.3 117.5 379.1 208.2" style="animation-delay:0.45s"/><path class="thread " d="M230.2 75.9 Q306.5 55.3 380.3 31.7" style="animation-delay:0.45s"/><path class="thread " d="M229.1 75.2 Q303.2 75.8 380.3 76.8" style="animation-delay:0.45s"/><path class="thread " d="M230.2 75.7 Q304.2 98.2 379.8 119.7" style="animation-delay:0.45s"/><path class="thread " d="M229.6 75.8 Q305.5 120.9 380.5 163.1" style="animation-delay:0.45s"/><path class="thread " d="M229.7 75.5 Q303.2 141.1 380.5 207.5" style="animation-delay:0.45s"/><path class="thread " d="M230.4 119.3 Q307.0 75.1 379.7 31.7" style="animation-delay:0.45s"/><path class="thread main" d="M230.6 119.4 Q307.5 97.5 379.7 76.3" style="animation-delay:1.05s"/><path class="thread " d="M229.5 119.3 Q306.6 121.4 380.1 119.4" style="animation-delay:0.45s"/><path class="thread " d="M229.4 119.6 Q306.8 141.0 380.6 164.3" style="animation-delay:0.45s"/><path class="thread " d="M229.3 119.6 Q304.0 163.1 380.5 207.6" style="animation-delay:0.45s"/><path class="thread " d="M229.9 163.8 Q302.3 100.3 380.8 31.4" style="animation-delay:0.45s"/><path class="thread " d="M230.7 164.9 Q307.8 119.2 379.9 76.8" style="animation-delay:0.45s"/><path class="thread " d="M230.4 164.6 Q304.1 141.4 380.3 120.0" style="animation-delay:0.45s"/><path class="thread " d="M229.5 163.2 Q306.7 160.7 380.2 163.6" style="animation-delay:0.45s"/><path class="thread " d="M230.7 164.3 Q308.1 187.0 380.8 208.7" style="animation-delay:0.45s"/><path class="thread " d="M229.1 208.4 Q305.2 120.2 379.4 31.6" style="animation-delay:0.45s"/><path class="thread " d="M229.8 208.8 Q303.5 144.4 380.2 75.7" style="animation-delay:0.45s"/><path class="thread " d="M230.0 208.5 Q305.1 165.9 379.7 119.5" style="animation-delay:0.45s"/><path class="thread " d="M229.4 208.5 Q307.0 183.6 380.8 164.6" style="animation-delay:0.45s"/><path class="thread " d="M230.2 208.7 Q303.3 208.3 379.2 207.6" style="animation-delay:0.45s"/><path class="thread " d="M379.9 32.0 Q452.5 40.3 530.5 53.1" style="animation-delay:0.80s"/><path class="thread " d="M379.3 31.2 Q452.6 64.9 530.9 98.6" style="animation-delay:0.80s"/><path class="thread " d="M379.7 31.7 Q455.2 86.1 529.7 142.3" style="animation-delay:0.80s"/><path class="thread " d="M379.4 31.7 Q455.7 108.2 529.3 186.1" style="animation-delay:0.80s"/><path class="thread " d="M379.2 75.4 Q456.2 64.1 529.8 54.2" style="animation-delay:0.80s"/><path class="thread " d="M380.5 76.2 Q455.2 88.2 529.9 97.8" style="animation-delay:0.80s"/><path class="thread main" d="M379.9 76.3 Q455.1 110.1 529.9 141.5" style="animation-delay:1.40s"/><path class="thread " d="M379.2 75.9 Q457.2 130.5 529.9 186.7" style="animation-delay:0.80s"/><path class="thread " d="M380.7 120.5 Q452.9 89.1 529.6 53.9" style="animation-delay:0.80s"/><path class="thread " d="M380.3 120.7 Q456.8 109.9 530.5 98.3" style="animation-delay:0.80s"/><path class="thread " d="M379.3 120.2 Q455.8 128.0 529.1 141.4" style="animation-delay:0.80s"/><path class="thread " d="M379.3 119.3 Q452.1 154.4 530.7 185.4" style="animation-delay:0.80s"/><path class="thread " d="M379.3 164.6 Q457.5 110.1 530.3 54.6" style="animation-delay:0.80s"/><path class="thread " d="M380.5 163.2 Q456.8 128.2 530.5 98.0" style="animation-delay:0.80s"/><path class="thread " d="M380.4 164.8 Q455.2 155.2 529.2 141.7" style="animation-delay:0.80s"/><path class="thread " d="M379.5 163.4 Q456.1 174.2 529.5 186.2" style="animation-delay:0.80s"/><path class="thread " d="M379.8 207.8 Q452.2 130.8 529.7 53.9" style="animation-delay:0.80s"/><path class="thread " d="M380.9 207.8 Q456.8 154.2 530.4 97.4" style="animation-delay:0.80s"/><path class="thread " d="M380.3 208.0 Q457.5 173.0 530.0 142.3" style="animation-delay:0.80s"/><path class="thread " d="M379.3 208.4 Q454.7 198.6 530.7 186.0" style="animation-delay:0.80s"/><path class="thread " d="M529.4 53.6 Q583.3 74.3 639.5 98.2" style="animation-delay:1.15s"/><path class="thread " d="M530.3 54.8 Q584.5 100.7 639.6 142.4" style="animation-delay:1.15s"/><path class="thread " d="M530.2 97.6 Q584.7 96.7 639.5 97.1" style="animation-delay:1.15s"/><path class="thread " d="M529.4 97.7 Q582.4 123.1 639.7 142.5" style="animation-delay:1.15s"/><path class="thread main" d="M530.0 142.2 Q586.9 120.7 639.9 98.6" style="animation-delay:1.75s"/><path class="thread " d="M530.0 142.4 Q586.7 144.9 640.6 141.8" style="animation-delay:1.15s"/><path class="thread " d="M529.9 185.5 Q585.8 144.7 639.5 98.4" style="animation-delay:1.15s"/><path class="thread " d="M530.6 185.5 Q583.2 164.8 639.4 141.6" style="animation-delay:1.15s"/><circle class="node" cx="80.0" cy="76.0" r="5" style="animation-delay:0.30s"/><circle class="node lit" cx="80.0" cy="120.0" r="6" style="animation-delay:0.30s"/><circle class="node" cx="80.0" cy="164.0" r="5" style="animation-delay:0.30s"/><circle class="node" cx="230.0" cy="32.0" r="5" style="animation-delay:0.65s"/><circle class="node" cx="230.0" cy="76.0" r="5" style="animation-delay:0.65s"/><circle class="node lit" cx="230.0" cy="120.0" r="6" style="animation-delay:0.65s"/><circle class="node" cx="230.0" cy="164.0" r="5" style="animation-delay:0.65s"/><circle class="node" cx="230.0" cy="208.0" r="5" style="animation-delay:0.65s"/><circle class="node" cx="380.0" cy="32.0" r="5" style="animation-delay:1.00s"/><circle class="node lit" cx="380.0" cy="76.0" r="6" style="animation-delay:1.00s"/><circle class="node" cx="380.0" cy="120.0" r="5" style="animation-delay:1.00s"/><circle class="node" cx="380.0" cy="164.0" r="5" style="animation-delay:1.00s"/><circle class="node" cx="380.0" cy="208.0" r="5" style="animation-delay:1.00s"/><circle class="node" cx="530.0" cy="54.0" r="5" style="animation-delay:1.35s"/><circle class="node" cx="530.0" cy="98.0" r="5" style="animation-delay:1.35s"/><circle class="node lit" cx="530.0" cy="142.0" r="6" style="animation-delay:1.35s"/><circle class="node" cx="530.0" cy="186.0" r="5" style="animation-delay:1.35s"/><circle class="node lit" cx="640.0" cy="98.0" r="6" style="animation-delay:1.70s"/><circle class="node" cx="640.0" cy="142.0" r="5" style="animation-delay:1.70s"/><text class="lbl " x="80" y="238" text-anchor="middle" style="animation-delay:1.60s">input</text><text class="lbl " x="380" y="238" text-anchor="middle" style="animation-delay:1.80s">hidden layers</text><text class="lbl acc" x="640" y="238" text-anchor="middle" style="animation-delay:2.20s">“cat”</text></svg><figcaption>fig. — layers of artificial neurons</figcaption></figure>
-    <article class="prose">
-<p>Deep Learning is a subject many tech companies and universities such as Google, Facebook and Stanford are currently focusing on intensely. The idea behind deep learning is setting up machines to work like the human brain. The Human Brain is made up of millions upon millions of neurons that transfer messages around the brain and body. With deep learning scientists are creating artificial neurons to create a machine that learns without the aid of humans, very similar to the brain.</p>
-<p>Andrew Ng is a former Stanford professor hired by Google in 2010 to lead their deep learning efforts. Andrew was placed within Google X which is a secret division within Google, lead by Google cofounder Sergey Brin, that creates ’Science Fiction sounding solutions’. Projects within Google X include self-driving cars, augmented reality glasses, contact lenses that monitor glucose levels in tears, internet service via Balloons in the stratosphere and Google Brain formerly known as the Google Deep Learning Project.</p>
-<p>Google Brain was set up in a way very much similar to the human brain. It is a neural network that uses unsupervised learning. In other words a machine that can understand images and voices without human input. The Google Brain was set up in a way to let the machines learn on their own.</p>
-<p>Recently 10 million images of cats were displayed to the machine by watching Youtube videos and the result was that the machine can now detect a cat when it sees one. However according to Andrew Ng the project lead the accuracy is currently at 70%.</p>
-<p>Baidu which is the ’Google of China’ as many call them have recently hired Andrew Ng from Google to lead their own AI Project. The objective is to create machines that can learn about the world around them on their own. Ng recently sat with MIT Tech and this is what he had to say about the subject.</p>
-<blockquote>
-<p><em><strong>At Stanford—inspired by the Google Brain experiment—you developed an even larger neural network. Will bigger “brains” automatically be smarter?</strong></em></p>
-<p><em>For the scale of the challenge we’re looking at—human level performance—it’s very clear that for a small neural network there’s no hope. State-of-the-art ones have hundreds of millions of connections. You can do a lot with that; recognize a lot of objects, for example.</em></p>
-<p><em>[But] it does not seem to be as simple as just making the neural network much bigger. The Google Brain result was built on a huge distributed system with a lot of CPU cores [16,000]. We found that if you put a lot of GPUs [specialized graphics processors] together we could make a much bigger neural network—10 billion nodes, with 16 machines instead of 1,000.</em></p>
-<p><em>We used that same benchmark [images from YouTube videos] that the Google team did. But even though we could train a much larger neural net, we didn’t necessarily get a better cat detector. Right now we can run neural networks that are larger than we know what to do with.</em></p>
-<p><em>[At the Baidu lab] we want to build a framework to run big enough experiments to test out all variations in algorithms that might universally improve performance.</em></p>
-</blockquote>
-<figure class="plate fig"><svg viewBox="0 0 680 240" role="img" aria-label="One thousand small dots representing Google Brain's machines beside sixteen larger dots representing Stanford's GPU machines"><path class="dots" d="M24 44h0M31 44h0M38 44h0M45 44h0M52 44h0M59 44h0M66 44h0M73 44h0M80 44h0M87 44h0M94 44h0M101 44h0M108 44h0M115 44h0M122 44h0M129 44h0M136 44h0M143 44h0M150 44h0M157 44h0M164 44h0M171 44h0M178 44h0M185 44h0M192 44h0M199 44h0M206 44h0M213 44h0M220 44h0M227 44h0M234 44h0M241 44h0M248 44h0M255 44h0M262 44h0M269 44h0M276 44h0M283 44h0M290 44h0M297 44h0M24 51h0M31 51h0M38 51h0M45 51h0M52 51h0M59 51h0M66 51h0M73 51h0M80 51h0M87 51h0M94 51h0M101 51h0M108 51h0M115 51h0M122 51h0M129 51h0M136 51h0M143 51h0M150 51h0M157 51h0M164 51h0M171 51h0M178 51h0M185 51h0M192 51h0M199 51h0M206 51h0M213 51h0M220 51h0M227 51h0M234 51h0M241 51h0M248 51h0M255 51h0M262 51h0M269 51h0M276 51h0M283 51h0M290 51h0M297 51h0M24 58h0M31 58h0M38 58h0M45 58h0M52 58h0M59 58h0M66 58h0M73 58h0M80 58h0M87 58h0M94 58h0M101 58h0M108 58h0M115 58h0M122 58h0M129 58h0M136 58h0M143 58h0M150 58h0M157 58h0M164 58h0M171 58h0M178 58h0M185 58h0M192 58h0M199 58h0M206 58h0M213 58h0M220 58h0M227 58h0M234 58h0M241 58h0M248 58h0M255 58h0M262 58h0M269 58h0M276 58h0M283 58h0M290 58h0M297 58h0M24 65h0M31 65h0M38 65h0M45 65h0M52 65h0M59 65h0M66 65h0M73 65h0M80 65h0M87 65h0M94 65h0M101 65h0M108 65h0M115 65h0M122 65h0M129 65h0M136 65h0M143 65h0M150 65h0M157 65h0M164 65h0M171 65h0M178 65h0M185 65h0M192 65h0M199 65h0M206 65h0M213 65h0M220 65h0M227 65h0M234 65h0M241 65h0M248 65h0M255 65h0M262 65h0M269 65h0M276 65h0M283 65h0M290 65h0M297 65h0M24 72h0M31 72h0M38 72h0M45 72h0M52 72h0M59 72h0M66 72h0M73 72h0M80 72h0M87 72h0M94 72h0M101 72h0M108 72h0M115 72h0M122 72h0M129 72h0M136 72h0M143 72h0M150 72h0M157 72h0M164 72h0M171 72h0M178 72h0M185 72h0M192 72h0M199 72h0M206 72h0M213 72h0M220 72h0M227 72h0M234 72h0M241 72h0M248 72h0M255 72h0M262 72h0M269 72h0M276 72h0M283 72h0M290 72h0M297 72h0M24 79h0M31 79h0M38 79h0M45 79h0M52 79h0M59 79h0M66 79h0M73 79h0M80 79h0M87 79h0M94 79h0M101 79h0M108 79h0M115 79h0M122 79h0M129 79h0M136 79h0M143 79h0M150 79h0M157 79h0M164 79h0M171 79h0M178 79h0M185 79h0M192 79h0M199 79h0M206 79h0M213 79h0M220 79h0M227 79h0M234 79h0M241 79h0M248 79h0M255 79h0M262 79h0M269 79h0M276 79h0M283 79h0M290 79h0M297 79h0M24 86h0M31 86h0M38 86h0M45 86h0M52 86h0M59 86h0M66 86h0M73 86h0M80 86h0M87 86h0M94 86h0M101 86h0M108 86h0M115 86h0M122 86h0M129 86h0M136 86h0M143 86h0M150 86h0M157 86h0M164 86h0M171 86h0M178 86h0M185 86h0M192 86h0M199 86h0M206 86h0M213 86h0M220 86h0M227 86h0M234 86h0M241 86h0M248 86h0M255 86h0M262 86h0M269 86h0M276 86h0M283 86h0M290 86h0M297 86h0M24 93h0M31 93h0M38 93h0M45 93h0M52 93h0M59 93h0M66 93h0M73 93h0M80 93h0M87 93h0M94 93h0M101 93h0M108 93h0M115 93h0M122 93h0M129 93h0M136 93h0M143 93h0M150 93h0M157 93h0M164 93h0M171 93h0M178 93h0M185 93h0M192 93h0M199 93h0M206 93h0M213 93h0M220 93h0M227 93h0M234 93h0M241 93h0M248 93h0M255 93h0M262 93h0M269 93h0M276 93h0M283 93h0M290 93h0M297 93h0M24 100h0M31 100h0M38 100h0M45 100h0M52 100h0M59 100h0M66 100h0M73 100h0M80 100h0M87 100h0M94 100h0M101 100h0M108 100h0M115 100h0M122 100h0M129 100h0M136 100h0M143 100h0M150 100h0M157 100h0M164 100h0M171 100h0M178 100h0M185 100h0M192 100h0M199 100h0M206 100h0M213 100h0M220 100h0M227 100h0M234 100h0M241 100h0M248 100h0M255 100h0M262 100h0M269 100h0M276 100h0M283 100h0M290 100h0M297 100h0M24 107h0M31 107h0M38 107h0M45 107h0M52 107h0M59 107h0M66 107h0M73 107h0M80 107h0M87 107h0M94 107h0M101 107h0M108 107h0M115 107h0M122 107h0M129 107h0M136 107h0M143 107h0M150 107h0M157 107h0M164 107h0M171 107h0M178 107h0M185 107h0M192 107h0M199 107h0M206 107h0M213 107h0M220 107h0M227 107h0M234 107h0M241 107h0M248 107h0M255 107h0M262 107h0M269 107h0M276 107h0M283 107h0M290 107h0M297 107h0M24 114h0M31 114h0M38 114h0M45 114h0M52 114h0M59 114h0M66 114h0M73 114h0M80 114h0M87 114h0M94 114h0M101 114h0M108 114h0M115 114h0M122 114h0M129 114h0M136 114h0M143 114h0M150 114h0M157 114h0M164 114h0M171 114h0M178 114h0M185 114h0M192 114h0M199 114h0M206 114h0M213 114h0M220 114h0M227 114h0M234 114h0M241 114h0M248 114h0M255 114h0M262 114h0M269 114h0M276 114h0M283 114h0M290 114h0M297 114h0M24 121h0M31 121h0M38 121h0M45 121h0M52 121h0M59 121h0M66 121h0M73 121h0M80 121h0M87 121h0M94 121h0M101 121h0M108 121h0M115 121h0M122 121h0M129 121h0M136 121h0M143 121h0M150 121h0M157 121h0M164 121h0M171 121h0M178 121h0M185 121h0M192 121h0M199 121h0M206 121h0M213 121h0M220 121h0M227 121h0M234 121h0M241 121h0M248 121h0M255 121h0M262 121h0M269 121h0M276 121h0M283 121h0M290 121h0M297 121h0M24 128h0M31 128h0M38 128h0M45 128h0M52 128h0M59 128h0M66 128h0M73 128h0M80 128h0M87 128h0M94 128h0M101 128h0M108 128h0M115 128h0M122 128h0M129 128h0M136 128h0M143 128h0M150 128h0M157 128h0M164 128h0M171 128h0M178 128h0M185 128h0M192 128h0M199 128h0M206 128h0M213 128h0M220 128h0M227 128h0M234 128h0M241 128h0M248 128h0M255 128h0M262 128h0M269 128h0M276 128h0M283 128h0M290 128h0M297 128h0M24 135h0M31 135h0M38 135h0M45 135h0M52 135h0M59 135h0M66 135h0M73 135h0M80 135h0M87 135h0M94 135h0M101 135h0M108 135h0M115 135h0M122 135h0M129 135h0M136 135h0M143 135h0M150 135h0M157 135h0M164 135h0M171 135h0M178 135h0M185 135h0M192 135h0M199 135h0M206 135h0M213 135h0M220 135h0M227 135h0M234 135h0M241 135h0M248 135h0M255 135h0M262 135h0M269 135h0M276 135h0M283 135h0M290 135h0M297 135h0M24 142h0M31 142h0M38 142h0M45 142h0M52 142h0M59 142h0M66 142h0M73 142h0M80 142h0M87 142h0M94 142h0M101 142h0M108 142h0M115 142h0M122 142h0M129 142h0M136 142h0M143 142h0M150 142h0M157 142h0M164 142h0M171 142h0M178 142h0M185 142h0M192 142h0M199 142h0M206 142h0M213 142h0M220 142h0M227 142h0M234 142h0M241 142h0M248 142h0M255 142h0M262 142h0M269 142h0M276 142h0M283 142h0M290 142h0M297 142h0M24 149h0M31 149h0M38 149h0M45 149h0M52 149h0M59 149h0M66 149h0M73 149h0M80 149h0M87 149h0M94 149h0M101 149h0M108 149h0M115 149h0M122 149h0M129 149h0M136 149h0M143 149h0M150 149h0M157 149h0M164 149h0M171 149h0M178 149h0M185 149h0M192 149h0M199 149h0M206 149h0M213 149h0M220 149h0M227 149h0M234 149h0M241 149h0M248 149h0M255 149h0M262 149h0M269 149h0M276 149h0M283 149h0M290 149h0M297 149h0M24 156h0M31 156h0M38 156h0M45 156h0M52 156h0M59 156h0M66 156h0M73 156h0M80 156h0M87 156h0M94 156h0M101 156h0M108 156h0M115 156h0M122 156h0M129 156h0M136 156h0M143 156h0M150 156h0M157 156h0M164 156h0M171 156h0M178 156h0M185 156h0M192 156h0M199 156h0M206 156h0M213 156h0M220 156h0M227 156h0M234 156h0M241 156h0M248 156h0M255 156h0M262 156h0M269 156h0M276 156h0M283 156h0M290 156h0M297 156h0M24 163h0M31 163h0M38 163h0M45 163h0M52 163h0M59 163h0M66 163h0M73 163h0M80 163h0M87 163h0M94 163h0M101 163h0M108 163h0M115 163h0M122 163h0M129 163h0M136 163h0M143 163h0M150 163h0M157 163h0M164 163h0M171 163h0M178 163h0M185 163h0M192 163h0M199 163h0M206 163h0M213 163h0M220 163h0M227 163h0M234 163h0M241 163h0M248 163h0M255 163h0M262 163h0M269 163h0M276 163h0M283 163h0M290 163h0M297 163h0M24 170h0M31 170h0M38 170h0M45 170h0M52 170h0M59 170h0M66 170h0M73 170h0M80 170h0M87 170h0M94 170h0M101 170h0M108 170h0M115 170h0M122 170h0M129 170h0M136 170h0M143 170h0M150 170h0M157 170h0M164 170h0M171 170h0M178 170h0M185 170h0M192 170h0M199 170h0M206 170h0M213 170h0M220 170h0M227 170h0M234 170h0M241 170h0M248 170h0M255 170h0M262 170h0M269 170h0M276 170h0M283 170h0M290 170h0M297 170h0M24 177h0M31 177h0M38 177h0M45 177h0M52 177h0M59 177h0M66 177h0M73 177h0M80 177h0M87 177h0M94 177h0M101 177h0M108 177h0M115 177h0M122 177h0M129 177h0M136 177h0M143 177h0M150 177h0M157 177h0M164 177h0M171 177h0M178 177h0M185 177h0M192 177h0M199 177h0M206 177h0M213 177h0M220 177h0M227 177h0M234 177h0M241 177h0M248 177h0M255 177h0M262 177h0M269 177h0M276 177h0M283 177h0M290 177h0M297 177h0M24 184h0M31 184h0M38 184h0M45 184h0M52 184h0M59 184h0M66 184h0M73 184h0M80 184h0M87 184h0M94 184h0M101 184h0M108 184h0M115 184h0M122 184h0M129 184h0M136 184h0M143 184h0M150 184h0M157 184h0M164 184h0M171 184h0M178 184h0M185 184h0M192 184h0M199 184h0M206 184h0M213 184h0M220 184h0M227 184h0M234 184h0M241 184h0M248 184h0M255 184h0M262 184h0M269 184h0M276 184h0M283 184h0M290 184h0M297 184h0M24 191h0M31 191h0M38 191h0M45 191h0M52 191h0M59 191h0M66 191h0M73 191h0M80 191h0M87 191h0M94 191h0M101 191h0M108 191h0M115 191h0M122 191h0M129 191h0M136 191h0M143 191h0M150 191h0M157 191h0M164 191h0M171 191h0M178 191h0M185 191h0M192 191h0M199 191h0M206 191h0M213 191h0M220 191h0M227 191h0M234 191h0M241 191h0M248 191h0M255 191h0M262 191h0M269 191h0M276 191h0M283 191h0M290 191h0M297 191h0M24 198h0M31 198h0M38 198h0M45 198h0M52 198h0M59 198h0M66 198h0M73 198h0M80 198h0M87 198h0M94 198h0M101 198h0M108 198h0M115 198h0M122 198h0M129 198h0M136 198h0M143 198h0M150 198h0M157 198h0M164 198h0M171 198h0M178 198h0M185 198h0M192 198h0M199 198h0M206 198h0M213 198h0M220 198h0M227 198h0M234 198h0M241 198h0M248 198h0M255 198h0M262 198h0M269 198h0M276 198h0M283 198h0M290 198h0M297 198h0M24 205h0M31 205h0M38 205h0M45 205h0M52 205h0M59 205h0M66 205h0M73 205h0M80 205h0M87 205h0M94 205h0M101 205h0M108 205h0M115 205h0M122 205h0M129 205h0M136 205h0M143 205h0M150 205h0M157 205h0M164 205h0M171 205h0M178 205h0M185 205h0M192 205h0M199 205h0M206 205h0M213 205h0M220 205h0M227 205h0M234 205h0M241 205h0M248 205h0M255 205h0M262 205h0M269 205h0M276 205h0M283 205h0M290 205h0M297 205h0M24 212h0M31 212h0M38 212h0M45 212h0M52 212h0M59 212h0M66 212h0M73 212h0M80 212h0M87 212h0M94 212h0M101 212h0M108 212h0M115 212h0M122 212h0M129 212h0M136 212h0M143 212h0M150 212h0M157 212h0M164 212h0M171 212h0M178 212h0M185 212h0M192 212h0M199 212h0M206 212h0M213 212h0M220 212h0M227 212h0M234 212h0M241 212h0M248 212h0M255 212h0M262 212h0M269 212h0M276 212h0M283 212h0M290 212h0M297 212h0" style="animation-delay:.2s"/><text class="lbl " x="20" y="26" text-anchor="start" style="animation-delay:0.00s">Google Brain: 1,000 machines</text><text class="lbl " x="160" y="234" text-anchor="middle" style="animation-delay:1.20s">16,000 CPU cores</text><circle class="node lit" cx="470.0" cy="70.0" r="8" style="animation-delay:1.20s"/><circle class="node lit" cx="504.0" cy="70.0" r="8" style="animation-delay:1.26s"/><circle class="node lit" cx="538.0" cy="70.0" r="8" style="animation-delay:1.32s"/><circle class="node lit" cx="572.0" cy="70.0" r="8" style="animation-delay:1.38s"/><circle class="node lit" cx="470.0" cy="104.0" r="8" style="animation-delay:1.44s"/><circle class="node lit" cx="504.0" cy="104.0" r="8" style="animation-delay:1.50s"/><circle class="node lit" cx="538.0" cy="104.0" r="8" style="animation-delay:1.56s"/><circle class="node lit" cx="572.0" cy="104.0" r="8" style="animation-delay:1.62s"/><circle class="node lit" cx="470.0" cy="138.0" r="8" style="animation-delay:1.68s"/><circle class="node lit" cx="504.0" cy="138.0" r="8" style="animation-delay:1.74s"/><circle class="node lit" cx="538.0" cy="138.0" r="8" style="animation-delay:1.80s"/><circle class="node lit" cx="572.0" cy="138.0" r="8" style="animation-delay:1.86s"/><circle class="node lit" cx="470.0" cy="172.0" r="8" style="animation-delay:1.92s"/><circle class="node lit" cx="504.0" cy="172.0" r="8" style="animation-delay:1.98s"/><circle class="node lit" cx="538.0" cy="172.0" r="8" style="animation-delay:2.04s"/><circle class="node lit" cx="572.0" cy="172.0" r="8" style="animation-delay:2.10s"/><text class="lbl " x="521" y="26" text-anchor="middle" style="animation-delay:1.00s">Stanford: 16 GPU machines</text><text class="lbl acc" x="521" y="234" text-anchor="middle" style="animation-delay:2.40s">10 billion nodes</text></svg><figcaption>fig. — “a much bigger neural network—10 billion nodes, with 16 machines instead of 1,000”</figcaption></figure>
-<p>Facebook is another company that has its own AI project called DeepFace. They were able to create a facial processing software that can detect human faces almost at human standard. If you show a human two pictures of the same person, the human will know that they are the same person 97.53 percent of the time. When the same test was done using DeepFace the result was 97.25 percent.</p>
-<figure class="plate fig"><svg viewBox="0 0 680 160" role="img" aria-label="Two nearly identical bars: humans verify faces correctly 97.53 percent of the time, DeepFace 97.25 percent"><text class="lbl " x="20" y="36" text-anchor="start" style="animation-delay:0.00s">Humans</text><text class="lbl " x="620" y="36" text-anchor="end" style="animation-delay:1.80s">97.53%</text><path class="thread ink" d="M28 60 L603.4 60" style="animation-delay:0.20s;animation-duration:1.8s;stroke-width:16"/><text class="lbl acc" x="20" y="112" text-anchor="start" style="animation-delay:0.10s">DeepFace</text><text class="lbl acc" x="620" y="112" text-anchor="end" style="animation-delay:2.00s">97.25%</text><path class="thread main" d="M28 136 L601.8 136" style="animation-delay:0.40s;animation-duration:1.8s;stroke-width:16"/></svg><figcaption>fig. — are these two photos the same person? Almost human</figcaption></figure>
-<p>DeepFace is a facial verification software which means it recognizes that two images show the same face and not a facial recognition software which is linking a face to a name. However the same techniques can be applied to create facial recognition, which would seem more useful for Facebook as they could use that for tagging photos automatically for example.</p>
-<p>DeepFace uses 3D modeling to rotate the face to make it face the camera. Which means that the person in the picture may be facing the camera in one picture and not facing the camera in another and DeepFace will still guess the person correctly.</p>
-<p>Stanford is another institution involved in the race to create the artificial brain. Recently a group of bioengineers created a circuit board that is set up like the human brain. It works 9000 times faster than a normal PC and uses significantly less power.</p>
-<p>However the human brain has 80,000 times more neurons than the circuit board created but uses only 3 times the power. Which means that ’neurogrid’ the name of the circuit board has a long way to go in terms of efficiency.</p>
-<p>The Stanford bioengineers believe that there are a lot of positive implications to what they have created. They believe both a better understanding of the human brain and huge advancements in robotics can be achieved from their progress in Artificial Intelligence and Deep Learning.</p>
-<blockquote><p><em>“a chip as fast and efficient as the human brain could drive prosthetic limbs with the speed and complexity of our own actions.”</em></p>
-</blockquote>
-<p>These are just a couple of implementation of Deep Learning however as companies and institutions such as Google, Facebook, Baidu and Stanford make progress in deep learning and Artificial Intelligence it will be interesting to see how they will implement these experiments and efforts in commercial products and services.</p>
-    </article>
-    <div class="fleuron">• • •</div>
-    <div class="end">
-      <span>Originally published on <a href="https://www.linkedin.com/pulse/deep-learning-race-build-artificial-human-brain-hashem-aly/" target="_blank" rel="noopener">LinkedIn</a>, August 19, 2015.</span>
-      <a href="../../">← All writing</a>
+    <figure class="rv" data-fig>
+      <svg class="dg" viewBox="0 0 520 420" role="img" aria-label="Above, a biological neuron with dendrites, a cell body and an axon. Below, an artificial neuron: inputs, weighted connections, a node that sums them, and an output">
+        <g id="bio"></g>
+        <g id="art"></g>
+      </svg>
+      <figcaption>A neuron passes a message on when enough of its inputs fire. An artificial one does the same with numbers.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================== GOOGLE X ============================== -->
+<section id="googlex" class="tone-night" style="background: linear-gradient(#0b1120, #0f1530)">
+  <div class="inner grid flip">
+    <div class="text">
+      <div class="head rv"><span class="num">layer 2</span><div><span class="label">Google X</span><h2>Science fiction <em>sounding</em> solutions.</h2></div></div>
+      <p class="rv">Andrew Ng is a former Stanford professor hired by Google in 2010 to lead their deep learning efforts. Andrew was placed within Google X which is a secret division within Google, lead by Google cofounder Sergey Brin, that creates ’Science Fiction sounding solutions’.</p>
+      <p class="rv">Projects within Google X include self-driving cars, augmented reality glasses, contact lenses that monitor glucose levels in tears, internet service via Balloons in the stratosphere and Google Brain formerly known as the Google Deep Learning Project.</p>
     </div>
+    <figure class="rv" data-fig>
+      <svg class="dg" viewBox="-340 -220 680 440" role="img" aria-label="Google X at the centre with five projects orbiting it: self-driving cars, augmented reality glasses, glucose-monitoring contact lenses, internet balloons, and Google Brain">
+        <g id="orbit"></g>
+      </svg>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================== CATS ============================== -->
+<section id="cats" class="tone-night" style="background: linear-gradient(#0f1530, #131a3a)">
+  <div class="inner grid">
+    <div class="text">
+      <div class="head rv"><span class="num">layer 3</span><div><span class="label">Google Brain</span><h2>Ten million <em>cats</em>.</h2></div></div>
+      <p class="rv">Google Brain was set up in a way very much similar to the human brain. It is a neural network that uses unsupervised learning. In other words a machine that can understand images and voices without human input. The Google Brain was set up in a way to let the machines learn on their own.</p>
+      <p class="rv">Recently 10 million images of cats were displayed to the machine by watching Youtube videos and the result was that the machine can now detect a cat when it sees one. However according to Andrew Ng the project lead the accuracy is currently at 70%.</p>
+      <div class="big-stat rv">10,000,000<small>images from YouTube videos</small></div>
+    </div>
+    <div class="widget rv" id="detector">
+      <div class="k"><span>The cat detector</span><span class="muted" id="det-n">100 frames</span></div>
+      <div class="frames" id="frames" role="img" aria-label="One hundred video frames with a cat in each; the detector finds seventy of them"></div>
+      <div class="readout">
+        <div><div class="v" id="det-v">0%</div><div class="d" id="det-d">of cats detected</div></div>
+        <button class="btn" type="button" id="det-run">Show it the frames</button>
+      </div>
+      <p class="note">Every frame holds a cat. At 70% accuracy, the machine sees about seven in ten.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== BAIDU ============================== -->
+<section id="baidu" class="tone-night" style="background: linear-gradient(#131a3a, #16183a)">
+  <div class="inner">
+    <div class="text" style="margin:0 auto">
+      <div class="head rv"><span class="num">layer 4</span><div><span class="label">Baidu &amp; Andrew Ng</span><h2>Will bigger brains be <em>smarter</em>?</h2></div></div>
+      <p class="rv">Baidu which is the ’Google of China’ as many call them have recently hired Andrew Ng from Google to lead their own AI Project. The objective is to create machines that can learn about the world around them on their own. Ng recently sat with MIT Tech and this is what he had to say about the subject.</p>
+    </div>
+    <div class="interview rv">
+      <div class="src">Andrew Ng · in conversation with MIT Technology Review</div>
+      <p class="q">At Stanford—inspired by the Google Brain experiment—you developed an even larger neural network. Will bigger “brains” automatically be smarter?</p>
+      <div class="a">
+        <p>For the scale of the challenge we’re looking at—human level performance—it’s very clear that for a small neural network there’s no hope. State-of-the-art ones have hundreds of millions of connections. You can do a lot with that; recognize a lot of objects, for example.</p>
+        <p>[But] <span class="hl">it does not seem to be as simple as just making the neural network much bigger.</span> The Google Brain result was built on a huge distributed system with a lot of CPU cores [16,000]. We found that if you put a lot of GPUs [specialized graphics processors] together we could make a much bigger neural network—10 billion nodes, with 16 machines instead of 1,000.</p>
+        <p>We used that same benchmark [images from YouTube videos] that the Google team did. But even though we could train a much larger neural net, we didn’t necessarily get a better cat detector. <span class="hl">Right now we can run neural networks that are larger than we know what to do with.</span></p>
+        <p>[At the Baidu lab] we want to build a framework to run big enough experiments to test out all variations in algorithms that might universally improve performance.</p>
+      </div>
+    </div>
+    <div class="scale" data-fig>
+      <div class="col"><div class="k">Google Brain</div><h3><span>1,000</span> machines, 16,000 CPU cores</h3><div class="dots" id="d-cpu" role="img" aria-label="One thousand small squares, one per machine"></div></div>
+      <div class="col"><div class="k">Stanford</div><h3><span>16</span> machines with GPUs, a much bigger network</h3><div class="dots gpu" id="d-gpu" role="img" aria-label="Sixteen larger blocks, one per GPU machine"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== DEEPFACE ============================== -->
+<section id="deepface" class="tone-night" style="background: linear-gradient(#16183a, #1b1a3d)">
+  <div class="inner grid">
+    <div class="text">
+      <div class="head rv"><span class="num">layer 5</span><div><span class="label">Facebook</span><h2>DeepFace, <em>almost human</em>.</h2></div></div>
+      <p class="rv">Facebook is another company that has its own AI project called DeepFace. They were able to create a facial processing software that can detect human faces almost at human standard. If you show a human two pictures of the same person, the human will know that they are the same person 97.53 percent of the time. When the same test was done using DeepFace the result was 97.25 percent.</p>
+      <p class="rv">DeepFace is a facial verification software which means it recognizes that two images show the same face and not a facial recognition software which is linking a face to a name. However the same techniques can be applied to create facial recognition, which would seem more useful for Facebook as they could use that for tagging photos automatically for example.</p>
+      <p class="rv">DeepFace uses 3D modeling to rotate the face to make it face the camera. Which means that the person in the picture may be facing the camera in one picture and not facing the camera in another and DeepFace will still guess the person correctly.</p>
+    </div>
+    <div class="faces rv" data-fig>
+      <div class="widget">
+        <div class="k"><span>Turn to the camera</span><span class="muted" id="pose">side view</span></div>
+        <canvas id="head" aria-label="A 3D wireframe face turning from profile to face the camera" role="img"></canvas>
+      </div>
+      <div class="versus">
+        <div class="vs-row h"><div class="nm"><span>A human</span><b>97.53%</b></div><div class="vs-bar"><i data-w="97.53"></i></div></div>
+        <div class="vs-row m"><div class="nm"><span>DeepFace</span><b>97.25%</b></div><div class="vs-bar"><i data-w="97.25"></i></div></div>
+        <div class="zoomed"><span>same person or not, two photos at a time</span><span>a gap of 0.28 points</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== NEUROGRID ============================== -->
+<section id="neurogrid" class="tone-night" style="background: linear-gradient(#1b1a3d, #2a2344)">
+  <div class="inner grid flip">
+    <div class="text">
+      <div class="head rv"><span class="num">layer 6</span><div><span class="label">Stanford</span><h2>A circuit board <em>set up like a brain</em>.</h2></div></div>
+      <p class="rv">Stanford is another institution involved in the race to create the artificial brain. Recently a group of bioengineers created a circuit board that is set up like the human brain. It works 9000 times faster than a normal PC and uses significantly less power.</p>
+      <p class="rv">However the human brain has 80,000 times more neurons than the circuit board created but uses only 3 times the power. Which means that ’neurogrid’ the name of the circuit board has a long way to go in terms of efficiency.</p>
+      <p class="rv">The Stanford bioengineers believe that there are a lot of positive implications to what they have created. They believe both a better understanding of the human brain and huge advancements in robotics can be achieved from their progress in Artificial Intelligence and Deep Learning.</p>
+    </div>
+    <figure class="rv" data-fig>
+      <canvas id="brain" role="img" aria-label="Eighty thousand tiny dots for the human brain's neurons, and a single bright dot for Neurogrid's"></canvas>
+      <figcaption id="brain-cap">Every dot here is one Neurogrid’s worth of neurons. The human brain is all of them: 80,000.</figcaption>
+      <div class="stats">
+        <div><div class="v" data-count="9000">0</div><div class="t">times faster than a normal PC</div></div>
+        <div><div class="v" data-count="80000">0</div><div class="t">times more neurons in the human brain</div></div>
+        <div><div class="v" data-count="3">0</div><div class="t">times the power, for the brain</div></div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================== CODA ============================== -->
+<section class="coda tone-day" id="coda" style="background: linear-gradient(#2a2344, #d9d6e4 22%, #f3f1ec 48%, #f6f4ef)">
+  <div class="inner">
+    <blockquote id="cq">“a chip as fast and efficient as the human brain could drive prosthetic limbs with the speed and complexity of our own actions.”<cite>Stanford bioengineers, on Neurogrid</cite></blockquote>
+    <div class="text rv">
+      <p>These are just a couple of implementation of Deep Learning however as companies and institutions such as Google, Facebook, Baidu and Stanford make progress in deep learning and Artificial Intelligence it will be interesting to see how they will implement these experiments and efforts in commercial products and services.</p>
+    </div>
+    <div class="sig">Hashem Aly · August 19, 2015 · Originally published on <a href="https://www.linkedin.com/pulse/deep-learning-race-build-artificial-human-brain-hashem-aly/" target="_blank" rel="noopener">LinkedIn</a></div>
     <nav class="next" aria-label="More essays">
-      <span class="empty"></span>
       <a class="r" href="../do-innovators-see-the-world-differently/"><div class="k">Later</div><div class="t">Do Innovators See the World Differently?</div></a>
     </nav>
-  </main>
+    <footer>
+      <span>© <span id="yr"></span> Hashem Aly</span>
+      <nav>
+        <a href="../../">All writing</a>
+        <a href="https://medium.com/@shoomi" target="_blank" rel="noopener">Medium</a>
+        <a href="https://x.com/shooommi" target="_blank" rel="noopener">X</a>
+      </nav>
+    </footer>
+  </div>
+</section>
 
-  <footer>
-    <span>© <span id="yr"></span> Hashem Aly</span>
-    <nav>
-      <a href="../../">All writing</a>
-      <a href="https://medium.com/@shoomi" target="_blank" rel="noopener">Medium</a>
-      <a href="https://x.com/shooommi" target="_blank" rel="noopener">X</a>
-    </nav>
-  </footer>
-</div>
+</main>
+
 <script>
 (() => {
-  document.querySelectorAll(".thread").forEach(p => p.style.setProperty("--len", Math.ceil(p.getTotalLength())));
-  const bar = document.getElementById("progress"), body = document.querySelector(".prose");
+  const NS = "http://www.w3.org/2000/svg";
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const el = (tag, attrs, parent) => {
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(n);
+    return n;
+  };
+  const txt = (parent, x, y, s, cls = "", anchor = "middle", style = "") => {
+    const t = el("text", { x, y, "text-anchor": anchor, class: cls, style }, parent);
+    t.textContent = s; return t;
+  };
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  // small seeded random so every visit draws the same network
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+  /* =================== HERO: a network that sees a cat =================== */
+  const CAT = [
+    "................",
+    "..#..........#..",
+    "..##........##..",
+    "..###......###..",
+    "..############..",
+    ".##############.",
+    ".##############.",
+    ".###oo####oo###.",
+    ".###oo####oo###.",
+    ".##############.",
+    ".######oo######.",
+    "#######oo#######",
+    "..############..",
+    "...##########...",
+    ".....######.....",
+    "................"
+  ].join("").split("").map(c => c === "#" ? 1 : c === "o" ? .25 : 0);
+  const cv = document.getElementById("net"), ctx = cv.getContext("2d"), cap = document.getElementById("cap");
+  let W, H, dpr, layers, edges, t0, raf, visible = true, px = [];
+  function layout() {
+    dpr = Math.min(2, devicePixelRatio || 1);
+    W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    seed = 7;
+    const mob = W < 700;
+    const top = mob ? H * .5 : H * .5, bot = H - (mob ? 90 : 80);
+    const cy = (top + bot) / 2, span = bot - top;
+    // the input picture
+    const gs = Math.min(span / 16, mob ? 7 : 11), gx = mob ? 16 : W * .1, gy = cy - gs * 8;
+    px = CAT.map((v, k) => ({ x: gx + (k % 16) * gs + gs / 2, y: gy + Math.floor(k / 16) * gs + gs / 2, v, s: gs }));
+    const x0 = gx + gs * 16 + (mob ? 26 : 70), x1 = W - (mob ? 60 : W * .16);
+    const sizes = mob ? [7, 6, 4] : [11, 9, 7, 4];
+    layers = sizes.map((n, li) => Array.from({ length: n }, (_, i) => ({ x: x0 + (x1 - x0) * li / sizes.length, y: cy + (i - (n - 1) / 2) * Math.min(span / n, 40), a: 0 })));
+    layers.push([{ x: x1, y: cy, a: 0, out: true }]);
+    // input picture feeds the first layer from a few pixels each
+    edges = [];
+    layers[0].forEach(n => { for (let k = 0; k < 5; k++) { const p = px[Math.floor(rnd() * 256)]; edges.push({ a: p, b: n, l: -1, w: rnd() }); } });
+    for (let li = 0; li < layers.length - 1; li++)
+      layers[li].forEach(a => layers[li + 1].forEach(b => { if (rnd() < (li === layers.length - 2 ? 1 : .6)) edges.push({ a, b, l: li, w: rnd() }); }));
+  }
+  const PER = 4.2; // seconds per look
+  function frame(now) {
+    const t = (now - t0) / 1000, cyc = t % PER, look = Math.floor(t / PER);
+    const intro = clamp((t - .6) / 1.4, 0, 1);
+    ctx.clearRect(0, 0, W, H);
+    const L = layers.length;
+    // front of the wave: -1 (pixels) .. L-1 (output), over the first 2.6s of each look
+    const front = -1 + (cyc / 2.6) * L;
+    // edges
+    for (const e of edges) {
+      const on = front > e.l && front < e.l + 1.6;
+      ctx.strokeStyle = on ? `rgba(111,227,212,${(.12 + .35 * e.w) * intro})` : `rgba(143,152,173,${.07 * intro})`;
+      ctx.lineWidth = on ? 1 : .6;
+      ctx.beginPath(); ctx.moveTo(e.a.x, e.a.y); ctx.lineTo(e.b.x, e.b.y); ctx.stroke();
+      if (on && e.w > .45) {
+        const k = clamp(front - e.l, 0, 1);
+        ctx.fillStyle = `rgba(111,227,212,${.9 * intro})`;
+        ctx.beginPath(); ctx.arc(e.a.x + (e.b.x - e.a.x) * k, e.a.y + (e.b.y - e.a.y) * k, 1.8, 0, 7); ctx.fill();
+      }
+    }
+    // pixels of the picture
+    const reveal = clamp((t - .3) / 1.6, 0, 1);
+    for (const p of px) {
+      const lit = p.v * reveal;
+      ctx.fillStyle = lit > .5 ? `rgba(231,235,243,${.25 + .6 * lit})` : `rgba(143,152,173,${.12 + .2 * lit})`;
+      ctx.fillRect(p.x - p.s * .36, p.y - p.s * .36, p.s * .72, p.s * .72);
+    }
+    // neurons
+    layers.forEach((ly, li) => ly.forEach((n, i) => {
+      const hit = front >= li && front < li + 1.4;
+      n.a += ((hit ? 1 : 0) - n.a) * .12;
+      const r = n.out ? 11 : 5;
+      if (n.a > .05) { ctx.fillStyle = `rgba(111,227,212,${.18 * n.a})`; ctx.beginPath(); ctx.arc(n.x, n.y, r * 3, 0, 7); ctx.fill(); }
+      ctx.fillStyle = n.out ? (cyc > 2.3 ? "#f2b84b" : "#0e1628") : `rgba(111,227,212,${(.25 + .75 * n.a) * intro})`;
+      ctx.strokeStyle = n.out ? "#f2b84b" : "rgba(111,227,212,.6)";
+      ctx.lineWidth = 1.2;
+      ctx.globalAlpha = intro;
+      ctx.beginPath(); ctx.arc(n.x, n.y, r, 0, 7); ctx.fill(); ctx.stroke();
+      ctx.globalAlpha = 1;
+    }));
+    // the verdict
+    const out = layers[L - 1][0];
+    if (cyc > 2.3 && intro >= 1) {
+      const k = clamp((cyc - 2.3) / .4, 0, 1) * clamp((PER - cyc) / .4, 0, 1);
+      ctx.globalAlpha = k;
+      ctx.fillStyle = "#f2b84b"; ctx.font = `600 ${W < 700 ? 11 : 12}px Inter, sans-serif`; ctx.textAlign = W < 700 ? "right" : "left"; ctx.textBaseline = "middle";
+      ctx.fillText("CAT", W < 700 ? out.x + 11 : out.x + 22, W < 700 ? out.y - 26 : out.y);
+      ctx.globalAlpha = 1;
+      if (look >= 1) cap.classList.add("show");
+    }
+    if (visible && !reduce) raf = requestAnimationFrame(frame);
+  }
+  function start() { layout(); t0 = performance.now() - (reduce ? 9000 + 2.8 * 1000 : 0); cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); if (reduce) cap.classList.add("show"); }
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(start);
+  let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { layout(); if (reduce) frame(performance.now()); }, 150); });
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; cancelAnimationFrame(raf); if (visible && t0 && !reduce) raf = requestAnimationFrame(frame); }).observe(cv);
+
+  /* =================== neuron: biological and artificial =================== */
+  const bio = document.getElementById("bio"), art = document.getElementById("art");
+  txt(bio, 0, 22, "a neuron", "sc", "start");
+  // dendrites
+  [[-60, -52], [-72, -10], [-64, 36], [-30, -64], [-24, 58]].forEach(([dx, dy], i) => {
+    const d = `M${120 + dx} ${110 + dy} Q ${120 + dx * .4} ${110 + dy * .5}, 120 110`;
+    el("path", { d, class: "fg-s draw", style: `transition-delay:${i * .1}s` }, bio);
+    el("path", { d: `M${120 + dx} ${110 + dy} l${dx * .25} ${dy * .1 - 8} M${120 + dx} ${110 + dy} l${dx * .2} ${dy * .3 + 8}`, class: "fg-s draw", style: `transition-delay:${.4 + i * .1}s` }, bio);
+  });
+  el("circle", { cx: 120, cy: 110, r: 20, class: "fg-s draw" }, bio);
+  el("circle", { cx: 120, cy: 110, r: 7, class: "fa pop", style: "transition-delay:.8s" }, bio);
+  const axon = "M140 110 C 220 110, 260 90, 340 110 S 430 130, 460 110";
+  el("path", { d: axon, class: "fg-s draw", style: "transition-delay:.6s" }, bio);
+  [300, 350, 400].forEach((x, i) => el("ellipse", { cx: x, cy: 108 + (i === 1 ? 4 : -1), rx: 18, ry: 7, class: "fg-s pop", style: `transition-delay:${1 + i * .1}s` }, bio));
+  el("path", { d: "M460 110 l18 -14 M460 110 l20 0 M460 110 l18 14", class: "fg-s draw", style: "transition-delay:1.4s" }, bio);
+  txt(bio, 60, 186, "dendrites", "pop", "middle");
+  txt(bio, 150, 146, "cell body", "pop", "start");
+  txt(bio, 340, 146, "axon", "pop", "middle");
+  const bp = el("circle", { r: 4, class: "fs pulse" }, bio); bp.style.offsetPath = `path("${axon}")`;
+  el("path", { d: "M0 226 H520", class: "ln" }, art);
+  txt(art, 0, 262, "an artificial neuron", "sc ac", "start");
+  const ins = [292, 330, 368, 406];
+  ins.forEach((y, i) => {
+    el("circle", { cx: 60, cy: y, r: 9, class: "al pop", style: `transition-delay:${1.2 + i * .1}s` }, art);
+    const d = `M69 ${y} L 232 350`;
+    el("path", { d, class: "ln draw", style: `stroke-width:${1 + i * .8};transition-delay:${1.3 + i * .1}s` }, art);
+    txt(art, 150, (y + 350) / 2 - 6 + (i < 2 ? -4 : 8), "w" + (i + 1), "ac pop", "middle", `font-size:13px;transition-delay:${1.6 + i * .1}s`);
+    const p = el("circle", { r: 3, class: "fa pulse" }, art); p.style.offsetPath = `path("${d}")`; p.style.animationDelay = i * .2 + "s";
+  });
+  el("circle", { cx: 250, cy: 350, r: 24, class: "al draw", style: "transition-delay:1.6s" }, art);
+  txt(art, 250, 357, "Σ", "fg pop", "middle", "font-style:normal;font-size:22px;transition-delay:1.8s");
+  el("path", { d: "M274 350 H 420", class: "al draw", style: "transition-delay:2s" }, art);
+  el("circle", { cx: 440, cy: 350, r: 12, class: "fs glow pop", style: "transition-delay:2.2s" }, art);
+  txt(art, 60, 432, "inputs", "pop", "middle", "transition-delay:1.4s");
+  txt(art, 250, 400, "sum", "pop", "middle", "transition-delay:1.8s");
+  txt(art, 440, 386, "fires", "sp pop", "middle", "transition-delay:2.2s");
+  const op = el("circle", { r: 3.5, class: "fs pulse" }, art); op.style.offsetPath = `path("M274 350 H 428")`; op.style.animationDelay = ".9s";
+
+  /* =================== Google X orbit =================== */
+  const orb = document.getElementById("orbit");
+  el("circle", { r: 130, class: "ln draw" }, orb);
+  el("circle", { r: 48, fill: "rgba(111,227,212,.08)", stroke: "#6fe3d4", "stroke-width": 1.2 }, orb);
+  txt(orb, 0, 6, "Google X", "fg", "middle", "font-size:19px;font-style:normal");
+  const projects = [["self-driving cars"], ["augmented reality", "glasses"], ["glucose-reading", "contact lenses"], ["internet via", "stratosphere balloons"], ["Google Brain", "", true]];
+  const moons = projects.map(([a, b, main], i) => {
+    const g = el("g", { class: "pop", style: `transition-delay:${.6 + i * .2}s` }, orb);
+    const dot = el("circle", { r: main ? 10 : 6, class: main ? "fs" : "fa" }, g);
+    const t1 = txt(g, 0, 0, a, main ? "sp" : "fg", "middle", main ? "font-size:18px;font-style:normal" : "");
+    const t2 = txt(g, 0, 0, b, "", "middle");
+    return { dot, t1, t2, a0: -Math.PI / 2 + i * 2 * Math.PI / projects.length, main };
+  });
+  let ot0 = performance.now();
+  function orbitFrame(now) {
+    const a = reduce ? 0 : (now - ot0) / 1000 * .08;
+    moons.forEach(m => {
+      const ang = m.a0 + a, x = Math.cos(ang) * 130, y = Math.sin(ang) * 130;
+      m.dot.setAttribute("cx", x.toFixed(1)); m.dot.setAttribute("cy", y.toFixed(1));
+      const lx = Math.cos(ang) * 164, ly = Math.sin(ang) * 156 + 5;
+      const anchor = Math.abs(Math.cos(ang)) < .3 ? "middle" : Math.cos(ang) > 0 ? "start" : "end";
+      [m.t1, m.t2].forEach((t, k) => { t.setAttribute("x", (lx + (anchor === "start" ? -14 : anchor === "end" ? 14 : 0)).toFixed(1)); t.setAttribute("y", (ly + k * 18 - (m.t2.textContent ? 9 : 0)).toFixed(1)); t.setAttribute("text-anchor", anchor); });
+    });
+    if (!reduce && orbOn) requestAnimationFrame(orbitFrame);
+  }
+  let orbOn = false;
+  orbitFrame(performance.now());
+  new IntersectionObserver(([e]) => { const was = orbOn; orbOn = e.isIntersecting; if (orbOn && !was) requestAnimationFrame(orbitFrame); }).observe(orb);
+
+  /* =================== cat detector =================== */
+  const fr = document.getElementById("frames"), dv = document.getElementById("det-v"), dd = document.getElementById("det-d"), run = document.getElementById("det-run");
+  const cells = Array.from({ length: 100 }, () => fr.appendChild(document.createElement("i")));
+  seed = 42;
+  const order = cells.map((_, i) => [rnd(), i]).sort((a, b) => a[0] - b[0]).map(x => x[1]);
+  const misses = new Set(order.slice(0, 30));
+  let dt;
+  function detect() {
+    clearTimeout(dt); cells.forEach(c => c.className = ""); dv.textContent = "0%";
+    let i = 0, hits = 0;
+    const step = () => {
+      if (i > 0) cells[i - 1].classList.remove("scan");
+      if (i >= 100) { dd.textContent = "of cats detected · 70 of 100"; run.textContent = "Show it again"; return; }
+      const c = cells[i]; c.classList.add("scan", misses.has(i) ? "miss" : "hit");
+      if (!misses.has(i)) hits++;
+      dv.textContent = Math.round(hits / (i + 1) * 100) + "%"; dd.textContent = `of cats detected · ${hits} of ${i + 1}`;
+      i++; dt = setTimeout(step, reduce ? 0 : 28);
+    };
+    step();
+  }
+  run.addEventListener("click", detect);
+
+  /* =================== scale: 1,000 vs 16 =================== */
+  const dc = document.getElementById("d-cpu"), dg = document.getElementById("d-gpu");
+  for (let i = 0; i < 1000; i++) { const d = document.createElement("i"); d.style.transitionDelay = (reduce ? 0 : i * 1.2) + "ms"; dc.appendChild(d); }
+  for (let i = 0; i < 16; i++) { const d = document.createElement("i"); d.style.transitionDelay = (reduce ? 0 : 200 + i * 60) + "ms"; dg.appendChild(d); }
+
+  /* =================== DeepFace: a head that turns to the camera =================== */
+  const hc = document.getElementById("head"), hx = hc.getContext("2d"), poseEl = document.getElementById("pose");
+  const PTS = [];
+  // a head as rings of points on an ellipsoid, with a nose, brow and chin pushed forward
+  for (let a = 0; a <= 16; a++) {
+    const v = -1 + a / 8;
+    for (let b = 0; b < 28; b++) {
+      const u = b / 28 * Math.PI * 2, r = Math.sqrt(Math.max(0, 1 - v * v * .92));
+      let x = Math.cos(u) * r * .78, z = Math.sin(u) * r * .9, y = v * 1.12;
+      const front = Math.max(0, Math.sin(u));
+      const cx = Math.cos(u);
+      if (Math.abs(cx) < .22 && y > -.2 && y < .4) z += front * (.34 - Math.abs(y - .15) * .9) * (1 - Math.abs(cx) / .22);
+      if (y < -.28 && y > -.5) z += front * .05;
+      if (y > .72) { x *= 1 - (y - .72) * .9; z *= 1 - (y - .72) * .6; }
+      if (Math.abs(Math.abs(cx) - .36) < .12 && y > -.3 && y < -.12) z -= front * .07;
+      PTS.push([x, y, z, a, b]);
+    }
+  }
+  let HW, HH, ht0 = performance.now(), headOn = false;
+  function headLayout() { const d = Math.min(2, devicePixelRatio || 1); HW = hc.clientWidth; HH = hc.clientHeight; hc.width = HW * d; hc.height = HH * d; hx.setTransform(d, 0, 0, d, 0, 0); }
+  function headFrame(now) {
+    const t = (now - ht0) / 1000;
+    const k = reduce ? 1 : (1 - Math.cos(clamp(((t % 6) - .6) / 2.4, 0, 1) * Math.PI)) / 2 * (t % 6 < 4.2 ? 1 : 1 - clamp((t % 6 - 4.2) / 1.6, 0, 1));
+    const yaw = (1 - k) * 1.25 + .0, pitch = -.08;
+    poseEl.textContent = k > .95 ? "facing the camera" : k < .05 ? "side view" : "turning…";
+    hx.clearRect(0, 0, HW, HH);
+    const s = Math.min(HW, HH) * .36, cx = HW / 2, cy = HH / 2 + 4;
+    const P = PTS.map(([x, y, z, a, b]) => {
+      const X = x * Math.cos(yaw) + z * Math.sin(yaw), Z = -x * Math.sin(yaw) + z * Math.cos(yaw);
+      const Y = y * Math.cos(pitch) - Z * Math.sin(pitch), Z2 = y * Math.sin(pitch) + Z * Math.cos(pitch);
+      return [cx + X * s, cy + Y * s, Z2, a, b];
+    });
+    // rings and meridians
+    for (let i = 0; i < P.length; i++) {
+      const p = P[i];
+      const right = p[4] < 27 ? P[i + 1] : P[i - 27];
+      const down = P[i + 28];
+      [right, down].forEach(q => {
+        if (!q) return;
+        const z = (p[2] + q[2]) / 2;
+        if (z < -.15) return;
+        hx.strokeStyle = `rgba(111,227,212,${clamp(.12 + z * .55, .06, .75)})`; hx.lineWidth = .8;
+        hx.beginPath(); hx.moveTo(p[0], p[1]); hx.lineTo(q[0], q[1]); hx.stroke();
+      });
+    }
+    // eyes, brows, nose and mouth, so the mesh reads as a face
+    const surf = (x, y) => { const r2 = 1 - (y / 1.12) * (y / 1.12) * .92 - (x / .78) * (x / .78); return .9 * Math.sqrt(Math.max(0, r2)); };
+    const proj = (x, y, z) => { const X = x * Math.cos(yaw) + z * Math.sin(yaw), Z = -x * Math.sin(yaw) + z * Math.cos(yaw); const Y = y * Math.cos(pitch) - Z * Math.sin(pitch), Z2 = y * Math.sin(pitch) + Z * Math.cos(pitch); return [cx + X * s, cy + Y * s, Z2]; };
+    const feat = pts => { const q = pts.map(([x, y, dz]) => proj(x, y, surf(x, y) + (dz || .02))); if (q.some(p => p[2] < -.05)) return; hx.beginPath(); q.forEach((p, i) => i ? hx.lineTo(p[0], p[1]) : hx.moveTo(p[0], p[1])); hx.stroke(); };
+    hx.strokeStyle = "#f2b84b"; hx.lineWidth = 1.6; hx.lineCap = "round";
+    [-1, 1].forEach(sd => {
+      feat([[sd * .4, -.2], [sd * .3, -.25], [sd * .18, -.21], [sd * .3, -.16], [sd * .4, -.2]]);
+      feat([[sd * .44, -.36], [sd * .3, -.42], [sd * .14, -.38]]);
+    });
+    feat([[0, -.12, .06], [0, .1, .26], [.08, .16, .12], [0, .19, .06]]);
+    feat([[-.22, .42], [-.08, .47], [.08, .47], [.22, .42]]);
+    // the camera
+    hx.strokeStyle = "rgba(231,235,243,.4)"; hx.lineWidth = 1;
+    hx.strokeRect(cx - 12, HH - 22, 24, 14); hx.beginPath(); hx.arc(cx, HH - 15, 3.5, 0, 7); hx.stroke();
+    if (k > .95) { hx.fillStyle = "#f2b84b"; hx.font = "600 11px Inter, sans-serif"; hx.textAlign = "left"; hx.fillText("SAME PERSON ✓", 12, 20); }
+    if (headOn && !reduce) requestAnimationFrame(headFrame);
+  }
+  headLayout(); headFrame(performance.now());
+  addEventListener("resize", () => { headLayout(); headFrame(performance.now()); });
+  new IntersectionObserver(([e]) => { const was = headOn; headOn = e.isIntersecting; if (headOn && !was && !reduce) requestAnimationFrame(headFrame); }).observe(hc);
+
+  /* =================== Neurogrid: 80,000 dots =================== */
+  const bc = document.getElementById("brain"), bx = bc.getContext("2d");
+  let brainDrawn = 0, braf;
+  const BW = 400, BH = 200; // 80,000 cells
+  function brainLayout() {
+    const d = Math.min(2, devicePixelRatio || 1), w = bc.clientWidth || 500, h = Math.round(w * BH / BW);
+    bc.style.height = h + "px"; bc.width = w * d; bc.height = h * d; bx.setTransform(d * w / BW, 0, 0, d * h / BH, 0, 0);
+  }
+  function brainPaint(from, to) {
+    if (from === 0) { bx.fillStyle = "#0e0f22"; bx.fillRect(0, 0, BW, BH); }
+    for (let r = from; r < Math.min(BH, to); r++) for (let c = 0; c < BW; c++) {
+      bx.fillStyle = (r + c) % 2 ? "rgba(143,152,173,.32)" : "rgba(143,152,173,.6)";
+      bx.fillRect(c + .1, r + .1, .8, .8);
+    }
+    // Neurogrid: one cell
+    bx.fillStyle = "#f2b84b"; bx.fillRect(40, 30, 1.6, 1.6);
+    bx.strokeStyle = "#f2b84b"; bx.lineWidth = .6; bx.beginPath(); bx.arc(40.8, 30.8, 7, 0, 7); bx.stroke();
+  }
+  function brainAnim() {
+    brainPaint(brainDrawn, brainDrawn + 5); brainDrawn += 5;
+    if (brainDrawn < BH) braf = requestAnimationFrame(brainAnim);
+  }
+  brainLayout(); brainPaint(0, 0);
+  addEventListener("resize", () => { brainLayout(); brainPaint(0, brainDrawn); });
+
+  /* =================== count-ups =================== */
+  const countUp = n => {
+    const to = +n.dataset.count, s = performance.now(), d = reduce ? 1 : 1800;
+    const f = now => { const k = clamp((now - s) / d, 0, 1), e = 1 - Math.pow(1 - k, 3); n.textContent = Math.round(to * e).toLocaleString("en-US") + "×"; if (k < 1) requestAnimationFrame(f); };
+    requestAnimationFrame(f);
+  };
+
+  /* =================== coda words =================== */
+  const cq = document.getElementById("cq"); let wi = 0;
+  [...cq.childNodes].forEach(ch => {
+    if (ch.nodeType !== 3) return;
+    const frag = document.createDocumentFragment();
+    ch.textContent.split(/(\s+)/).forEach(w => {
+      if (!w.trim()) { frag.appendChild(document.createTextNode(w)); return; }
+      const s = document.createElement("span"); s.className = "w"; s.textContent = w; s.style.transitionDelay = (wi++ * .06) + "s"; frag.appendChild(s);
+    });
+    ch.replaceWith(frag);
+  });
+
+  /* =================== reveal =================== */
+  document.querySelectorAll(".draw").forEach(p => { if (p.getTotalLength) p.style.setProperty("--len", Math.ceil(p.getTotalLength()) + 2); });
+  const targets = document.querySelectorAll(".rv, [data-fig], .coda");
+  const show = e => {
+    e.classList.add("in");
+    if (e.id === "detector") setTimeout(detect, reduce ? 0 : 500);
+    if (e.contains(bc)) { if (reduce) { brainDrawn = BH; brainPaint(0, BH); } else braf = requestAnimationFrame(brainAnim); e.querySelectorAll("[data-count]").forEach(countUp); }
+    e.querySelectorAll(".vs-bar i").forEach(i => i.style.width = i.dataset.w + "%");
+  };
+  if ("IntersectionObserver" in window && !reduce) {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } }), { threshold: .25, rootMargin: "0px 0px -8% 0px" });
+    targets.forEach(t => io.observe(t));
+  } else targets.forEach(show);
+
+  /* =================== margin nav =================== */
+  const margin = document.getElementById("margin"), links = [...margin.querySelectorAll("a")];
+  const secs = links.map(a => document.querySelector(a.getAttribute("href")));
   const onScroll = () => {
-    const r = body.getBoundingClientRect(), total = r.height - innerHeight * .6;
-    bar.style.transform = `scaleX(${Math.min(1, Math.max(0, -r.top / total))})`;
+    const y = innerHeight * .45;
+    margin.classList.toggle("show", scrollY > innerHeight * .6 && document.getElementById("coda").getBoundingClientRect().top > y);
+    let cur = -1; secs.forEach((s, i) => { if (s.getBoundingClientRect().top < y) cur = i; });
+    links.forEach((a, i) => a.classList.toggle("on", i === cur));
   };
   addEventListener("scroll", onScroll, { passive: true }); onScroll();
-  const figs = document.querySelectorAll(".fig");
-  if ("IntersectionObserver" in window) {
-    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .45 });
-    figs.forEach(f => io.observe(f));
-  } else figs.forEach(f => f.classList.add("in"));
-  const root = document.documentElement;
-  document.getElementById("themeBtn").addEventListener("click", () => {
-    const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
-    root.dataset.theme = dark ? "light" : "dark";
-    try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
-  });
   document.getElementById("yr").textContent = new Date().getFullYear();
 })();
 </script>

@@ -4,86 +4,809 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How My Startup Failed — Hashem Aly</title>
-<meta name="description" content="Going into a new tech venture you know there’s a slim chance it’ll succeed, but do it anyway because you believe in something, in an idea and a problem that needs to be solved. Eve">
+<meta name="description" content="Tandeefa set out to solve home cleaning in Egypt. Eighteen months later we shut our doors. The team, the timing, and the black swan that ended it.">
 <meta property="og:title" content="How My Startup Failed">
-<meta property="og:description" content="Going into a new tech venture you know there’s a slim chance it’ll succeed, but do it anyway because you believe in something, in an idea and a problem that needs to be solved. Eve">
+<meta property="og:description" content="Tandeefa set out to solve home cleaning in Egypt. Eighteen months later we shut our doors. The team, the timing, and the black swan that ended it.">
 <meta property="og:type" content="article">
 <link rel="canonical" href="https://shoommii.github.io/thoughts/how-my-startup-failed/">
-<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23c2562f'/%3E%3Ctext x='16' y='22' font-family='Georgia' font-size='17' text-anchor='middle' fill='%23fbf7f0'%3EH%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="../../assets/article.css">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%231f7a72'/%3E%3Ccircle cx='12' cy='13' r='4' fill='none' stroke='%23f5f8f4' stroke-width='1.6'/%3E%3Ccircle cx='20' cy='18' r='5' fill='none' stroke='%23f5f8f4' stroke-width='1.6'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --day-fg: #1c2521;
+    --day-muted: #5a6962;
+    --day-acc: #1f7a72;
+    --day-line: rgba(28, 37, 33, .2);
+    --night-fg: #ece8df;
+    --night-muted: #a39d91;
+    --night-acc: #86cbbf;
+    --night-line: rgba(236, 232, 223, .2);
+    --beak: #c8372d;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    margin: 0; background: #f5f8f4; color: var(--day-fg);
+    font-family: "Newsreader", Georgia, serif; font-size: 20px; line-height: 1.65;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  a { color: inherit; }
+  .tone-day { --fg: var(--day-fg); --muted: var(--day-muted); --acc: var(--day-acc); --line: var(--day-line); color: var(--fg); }
+  .tone-night { --fg: var(--night-fg); --muted: var(--night-muted); --acc: var(--night-acc); --line: var(--night-line); color: var(--fg); }
+
+  section { position: relative; padding: 120px 24px; }
+  .inner { max-width: 1080px; margin: 0 auto; position: relative; z-index: 1; }
+  .text { max-width: 640px; }
+  .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 64px; align-items: center; }
+  .grid.flip > :first-child { order: 2; }
+
+  /* ---------- top bar ---------- */
+  .bar {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 5;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 26px 28px; font-family: "Inter", system-ui, sans-serif; font-size: 14px; color: var(--day-muted);
+  }
+  .bar a { text-decoration: none; display: inline-flex; align-items: center; gap: 10px; color: var(--day-fg); font-family: "Fraunces", Georgia, serif; font-size: 19px; font-weight: 500; letter-spacing: -.005em; font-variation-settings: "opsz" 36; }
+  .bar .arrow { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--day-line); transition: all .25s; }
+  .bar a:hover .arrow { background: var(--day-acc); border-color: var(--day-acc); color: #fff; transform: translateX(-3px); }
+
+  /* ---------- margin nav ---------- */
+  .margin {
+    position: fixed; left: 22px; top: 50%; transform: translateY(-50%); z-index: 6;
+    display: flex; flex-direction: column; gap: 14px; font-family: "Fraunces", serif; font-style: italic; font-size: 16px;
+    opacity: 0; transition: opacity .6s;
+  }
+  .margin.show { opacity: 1; }
+  .margin a { text-decoration: none; color: var(--mcolor, #5a6962); opacity: .45; transition: opacity .3s, transform .3s, color .6s; line-height: 1; }
+  .margin a.on { opacity: 1; transform: scale(1.3); color: var(--macc, #1f7a72); }
+
+  /* ---------- hero ---------- */
+  .hero { height: 100vh; min-height: 640px; padding: 0; background: linear-gradient(#f6f8f4, #e7eee9); overflow: hidden; }
+  #chart { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .hero .title { position: absolute; left: 0; right: 0; top: 15vh; text-align: center; z-index: 2; pointer-events: none; padding: 0 16px; }
+  .kick { font-family: "Inter", system-ui, sans-serif; font-size: 13px; letter-spacing: .32em; text-transform: uppercase; font-weight: 600; color: var(--day-acc); opacity: 0; animation: rise 1.6s ease-out .3s forwards; }
+  .hero h1 {
+    font-family: "Fraunces", Georgia, serif; font-weight: 300; font-style: italic;
+    font-size: clamp(54px, 9.4vw, 128px); line-height: .95; letter-spacing: -.03em; margin: 14px 0 14px;
+    font-variation-settings: "opsz" 144; opacity: 0; animation: rise 1.8s ease-out .6s forwards;
+  }
+  .hero .sub { font-family: "Inter", system-ui, sans-serif; font-size: 13px; letter-spacing: .26em; text-transform: uppercase; color: var(--day-muted); opacity: 0; animation: rise 1.6s ease-out 1.1s forwards; }
+  .hero .cap { position: absolute; left: 0; right: 0; bottom: 24px; text-align: center; z-index: 2; padding: 0 20px; font-style: italic; font-size: 15px; color: var(--day-muted); opacity: 0; transition: opacity 1.2s; }
+  .hero .cap.show { opacity: 1; }
+  @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+  /* ---------- section heads ---------- */
+  .head { display: flex; align-items: baseline; gap: 18px; margin-bottom: 26px; }
+  .num { font-family: "Fraunces", serif; font-style: italic; font-weight: 300; font-size: 60px; line-height: .8; color: var(--acc); }
+  .label { font-family: "Inter", system-ui, sans-serif; font-size: 12px; letter-spacing: .26em; text-transform: uppercase; color: var(--muted); }
+  h2 { font-family: "Fraunces", Georgia, serif; font-weight: 300; font-size: clamp(38px, 5.2vw, 64px); line-height: 1.02; letter-spacing: -.02em; margin: 6px 0 0; font-variation-settings: "opsz" 144; }
+  h2 em { color: var(--acc); }
+  p { margin: 0 0 1.1em; }
+  .lead { font-size: 23px; }
+  .muted { color: var(--muted); }
+  .dropcap::first-letter { float: left; font-family: "Fraunces", serif; font-size: 4.3em; line-height: .8; padding: .06em .1em 0 0; color: var(--acc); }
+
+  /* ---------- prologue ---------- */
+  .namesake { display: flex; align-items: center; gap: 18px; margin: 0 0 28px; padding: 14px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .namesake .ar-name { font-family: "Amiri", serif; font-size: 44px; line-height: 1; color: var(--acc); }
+  .namesake .who { font-family: "Fraunces", serif; font-size: 20px; line-height: 1.3; }
+  .namesake .who .muted { font-style: italic; font-size: 15px; }
+
+  /* ---------- diagrams ---------- */
+  svg.dg { width: 100%; height: auto; display: block; overflow: visible; }
+  .dg text { font-family: "Fraunces", Georgia, serif; font-style: italic; font-size: 15px; fill: var(--muted); }
+  .dg text.fg { fill: var(--fg); }
+  .dg text.ac { fill: var(--acc); }
+  .dg text.sc { font-family: "Inter", sans-serif; font-style: normal; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; }
+  .dg .ln { fill: none; stroke: var(--line); stroke-width: 1.2; }
+  .dg .al { fill: none; stroke: var(--acc); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .dg .fg-s { fill: none; stroke: var(--fg); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+  .dg .fa { fill: var(--acc); }
+  .draw { stroke-dasharray: var(--len, 2000); stroke-dashoffset: var(--len, 2000); transition: stroke-dashoffset 2.2s cubic-bezier(.6, .1, .2, 1); }
+  .in .draw { stroke-dashoffset: 0; }
+  .pop { opacity: 0; transition: opacity .9s ease; }
+  .in .pop { opacity: 1; }
+  figure { margin: 0; }
+  figcaption { font-style: italic; font-size: 15px; color: var(--muted); margin-top: 14px; }
+
+  /* marketplace */
+  .trip { animation: trip 4.8s cubic-bezier(.5, .05, .4, 1) infinite; animation-play-state: paused; opacity: 0; }
+  .in .trip { animation-play-state: running; }
+  @keyframes trip { 0% { offset-distance: 0%; opacity: 0; } 10% { opacity: 1; } 60% { offset-distance: 100%; opacity: 1; } 70%, 100% { offset-distance: 100%; opacity: 0; } }
+
+  /* ---------- widgets ---------- */
+  .widget { border: 1px solid var(--line); border-radius: 14px; padding: 22px; background: rgba(255, 255, 255, .45); }
+  .tone-night .widget { background: rgba(255, 255, 255, .03); }
+  .widget .k { font-family: "Inter", sans-serif; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--acc); margin-bottom: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; gap: 2px; flex-wrap: wrap; }
+  .seg button {
+    appearance: none; border: 0; background: transparent; color: var(--muted); font: 500 13px "Inter", sans-serif;
+    padding: 7px 14px; border-radius: 999px; cursor: pointer; transition: background .25s, color .25s;
+  }
+  .seg button[aria-pressed="true"] { background: var(--acc); color: #fff; }
+  .tone-night .seg button[aria-pressed="true"] { color: #10201d; }
+  .seg button:focus-visible, .play:focus-visible, input[type=range]:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
+
+  .founders { display: grid; gap: 16px; margin: 20px 0 8px; }
+  .fd .nm { display: flex; justify-content: space-between; gap: 10px; font-family: "Fraunces", serif; font-size: 18px; line-height: 1.25; }
+  .fd .nm .muted { font-style: italic; font-size: 14px; }
+  .track { position: relative; height: 14px; border-radius: 7px; background: rgba(28, 37, 33, .07); margin-top: 7px; overflow: visible; }
+  .track .eq { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 7px; background: var(--acc); opacity: .85; transition: width .25s; }
+  .track .gap { position: absolute; top: -3px; bottom: -3px; background: repeating-linear-gradient(-45deg, rgba(200, 55, 45, .55) 0 3px, transparent 3px 6px); border-radius: 3px; transition: left .25s, width .25s; }
+  .track .work { position: absolute; top: -6px; bottom: -6px; width: 2px; background: var(--fg); transition: left .25s; }
+  .track .work::after { content: ""; position: absolute; top: -4px; left: -3px; width: 8px; height: 8px; border-radius: 50%; background: var(--fg); }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: "Inter", sans-serif; font-size: 12px; color: var(--muted); margin-top: 16px; }
+  .legend i { display: inline-block; width: 18px; height: 8px; border-radius: 4px; vertical-align: middle; margin-right: 6px; }
+  .scrub { display: flex; align-items: center; gap: 14px; margin-top: 18px; font-family: "Inter", sans-serif; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .scrub input { flex: 1; accent-color: var(--acc); }
+  .play { appearance: none; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: transparent; color: var(--fg); display: grid; place-items: center; cursor: pointer; flex: none; }
+  .play:hover { border-color: var(--acc); color: var(--acc); }
+  .tension { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: center; margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--line); }
+  .tension .v { font-family: "Fraunces", serif; font-size: 44px; line-height: 1; color: var(--beak); font-variant-numeric: tabular-nums; min-width: 2.6em; transition: color .3s; }
+  .tension .v.calm { color: var(--acc); }
+  .tension p { margin: 0; font-size: 15px; line-height: 1.45; color: var(--muted); }
+  .note { font-size: 14px; color: var(--muted); font-style: italic; margin: 14px 0 0; }
+
+  .branches .wall { fill: none; stroke: var(--fg); stroke-width: 2; stroke-linecap: round; transition: opacity .6s; }
+  .branches .br { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .branches .br.piv { stroke: var(--acc); stroke-width: 2.4; }
+  .branches .hit { fill: none; stroke: var(--beak); stroke-width: 2; stroke-linecap: round; transition: opacity .4s; }
+  .branches .fade { transition: opacity .6s; }
+
+  /* ---------- lake band ---------- */
+  .lake { padding: 0; height: 72vh; min-height: 440px; overflow: hidden; background: linear-gradient(#b9c0bd 0%, #9aa4a3 52%, #6e7979 52.2%, #3a4244 100%); }
+  #lake { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .lake .line {
+    position: absolute; left: 0; right: 0; top: 16%; text-align: center; z-index: 2; padding: 0 20px;
+    font-family: "Fraunces", serif; font-style: italic; font-weight: 300; font-size: clamp(26px, 3.6vw, 44px); color: #1b1e22;
+  }
+
+  /* ---------- hundred years ---------- */
+  .years { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; }
+  .years svg { width: 100%; height: auto; display: block; opacity: 0; transform: scale(.6); transition: opacity .5s, transform .5s; }
+  .in .years svg { opacity: 1; transform: none; }
+  .years .sw { fill: none; stroke: var(--night-muted); stroke-width: 1.1; stroke-linejoin: round; }
+  .years .bk .sw { fill: #050607; stroke: var(--night-fg); stroke-width: 1.3; }
+  .years .bk .bk-beak { fill: var(--beak); }
+  .years .bk { position: relative; }
+  .years .ring { fill: none; stroke: var(--beak); stroke-width: 1.2; transform-box: fill-box; transform-origin: center; animation: ring 2.6s ease-out infinite; }
+  @keyframes ring { 0% { transform: scale(.5); opacity: .9; } 100% { transform: scale(1.6); opacity: 0; } }
+  .years-cap { display: flex; justify-content: space-between; gap: 12px; margin-top: 12px; font-family: "Inter", sans-serif; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .years-cap b { color: var(--night-fg); font-weight: 600; }
+
+  /* ---------- dawn band ---------- */
+  .dawn { padding: 0; height: 64vh; min-height: 400px; overflow: hidden; background: linear-gradient(#2b2523 0%, #6b4a3e 38%, #c98a62 70%, #efd3aa 100%); }
+  .dawn svg { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; }
+  .dawn .sun { transform: translateY(120px); transition: transform 3.5s cubic-bezier(.2, .8, .2, 1); }
+  .dawn.in .sun { transform: none; }
+  .dawn .horse { opacity: 0; transition: opacity 1.4s 1.2s; }
+  .dawn.in .horse { opacity: 1; }
+  .dawn .line {
+    position: absolute; left: 0; right: 0; top: 17%; text-align: center; z-index: 2; padding: 0 20px;
+    font-family: "Fraunces", serif; font-style: italic; font-weight: 300; font-size: clamp(28px, 4vw, 50px); line-height: 1.15; color: #fff3e2;
+    text-shadow: 0 2px 30px rgba(60, 20, 10, .45);
+  }
+
+  /* ---------- lessons + coda ---------- */
+  .trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 10px; }
+  .trio > div { border-top: 1px solid var(--line); padding-top: 14px; }
+  .trio .k { font-family: "Inter", sans-serif; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--acc); }
+  .trio h3 { font-family: "Fraunces", serif; font-weight: 400; font-size: 25px; line-height: 1.2; margin: 6px 0 0; }
+  .coda { text-align: center; padding-top: 90px; padding-bottom: 60px; }
+  .coda .big { font-family: "Fraunces", Georgia, serif; font-style: italic; font-weight: 300; font-size: clamp(64px, 12vw, 150px); line-height: 1; letter-spacing: -.03em; color: var(--acc); font-variation-settings: "opsz" 144; margin-bottom: 26px; }
+  .coda .big span { display: inline-block; opacity: 0; transform: translateY(20px); transition: opacity 1.4s, transform 1.4s; }
+  .coda.in .big span { opacity: 1; transform: none; }
+  .coda .trio { text-align: left; }
+  .sig { font-family: "Inter", sans-serif; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-top: 48px; }
+  .sig a { color: var(--acc); text-underline-offset: 3px; }
+  .next { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 48px 0 0; text-align: left; }
+  .next a { display: block; text-decoration: none; border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; transition: border-color .25s, transform .25s; }
+  .next a:hover { border-color: var(--acc); transform: translateY(-2px); }
+  .next .k { font-family: "Inter", sans-serif; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .next .t { font-family: "Fraunces", Georgia, serif; font-size: 21px; line-height: 1.25; margin-top: 6px; }
+  .next .r { text-align: right; }
+  footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; max-width: 1080px; margin: 60px auto 0; padding: 22px 0 10px; border-top: 1px solid var(--line); font-family: "Inter", sans-serif; font-size: 13px; color: var(--muted); }
+  footer nav { display: flex; gap: 18px; }
+  footer a { text-decoration: none; }
+  footer a:hover { color: var(--fg); }
+
+  .rv { opacity: 0; transform: translateY(18px); transition: opacity 1s ease, transform 1s ease; }
+  .rv.in { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) {
+    .grid, .grid.flip { grid-template-columns: 1fr; gap: 36px; }
+    .grid.flip > :first-child { order: 0; }
+    .margin { display: none; }
+    .trio { grid-template-columns: 1fr; gap: 18px; }
+  }
+  @media (max-width: 640px) {
+    body { font-size: 18px; }
+    section { padding: 84px 16px; }
+    .bar { padding: 20px 16px; }
+    .lead { font-size: 20px; }
+    .num { font-size: 48px; }
+    .dg text { font-size: 19px; }
+    .dg text.sc { font-size: 13px; }
+    .widget { padding: 18px 16px; }
+    .years { gap: 3px; }
+    .seg { display: grid; border-radius: 18px; }
+    .seg button { border-radius: 14px; }
+    .next { grid-template-columns: 1fr; }
+    .next .r { text-align: left; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    .trip { display: none; }
+  }
+</style>
 </head>
 <body>
-<div class="progress" id="progress"></div>
-<div class="wrap">
-  <header class="bar">
-    <a class="back" href="../../"><span class="arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></span>Hashem Aly</a>
-    <button class="theme-btn" id="themeBtn" aria-label="Toggle dark mode"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
-  </header>
 
-  <main class="col">
-    <div class="head">
-      <div class="eyebrow"><span>#startups</span><span>#lessons</span></div>
-      <h1>How My Startup Failed</h1>
-      <div class="byline"><span>Hashem Aly</span><span class="sep"></span><time datetime="2020-05-23">May 23, 2020</time><span class="sep"></span><span>3 min read</span></div>
+<nav class="margin" id="margin" aria-label="Sections">
+  <a href="#tandeefa" title="Tandeefa">·</a>
+  <a href="#team" title="Pick the right team">i</a>
+  <a href="#company" title="Don’t commit to creating a company too soon">ii</a>
+  <a href="#swans" title="Black swans">iii</a>
+  <a href="#conclusion" title="Conclusion">iv</a>
+</nav>
+
+<!-- ============================== HERO ============================== -->
+<section class="hero tone-day" aria-label="How My Startup Failed">
+  <div class="bar">
+    <a href="../../"><span class="arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></span>Hashem Aly</a>
+    <span><time datetime="2020-05-23">May 23, 2020</time></span>
+  </div>
+  <canvas id="chart" aria-hidden="true"></canvas>
+  <div class="title">
+    <div class="kick">#startups · #lessons</div>
+    <h1>How My Startup Failed</h1>
+    <div class="sub">Tandeefa, eighteen months, and what I learnt</div>
+  </div>
+  <p class="cap" id="cap">Eighteen months of building, and in March 2020, one black swan.</p>
+</section>
+
+<main id="doc">
+
+<!-- ============================== TANDEEFA ============================== -->
+<section id="tandeefa" class="tone-day" style="background: linear-gradient(#e7eee9, #e2e9e4)">
+  <div class="inner grid">
+    <div class="text">
+      <div class="namesake rv"><span class="ar-name" lang="ar">تنظيفة</span><span class="who">Tandeefa<br><span class="muted">a home cleaning app that connects cleaners with households</span></span></div>
+      <p class="dropcap lead rv">Going into a new tech venture you know there’s a slim chance it’ll succeed, but do it anyway because you believe in something, in an idea and a problem that needs to be solved. Ever since I can remember I’ve always wanted to solve the cleaning issue in Egypt.</p>
+      <p class="rv">Those who live here know the inefficiency and lack of professionalism that comes along with trying to clean your home. So identifying the problem was not difficult when I began Tandeefa, a home cleaning app that connects cleaners with households. However, 18 months and many decisions later we are forced to shut our doors. I will try to shed light on some of the issues I faced and what I’ve learnt.</p>
     </div>
-    <figure class="plate"><svg viewBox="0 0 680 240" role="img" aria-label="A hand-drawn growth line that rises for eighteen months and then drops sharply, with a small black swan above the fall"><path class="thread ink" d="M39.9 200.1 Q345.3 200.4 650.5 200.0" style="animation-delay:0.00s"/><path class="thread ink" d="M39.6 200.0 Q38.3 114.4 40.2 30.4" style="animation-delay:0.00s"/><path class="thread " d="M38.8 190.9 Q69.2 183.6 100.6 180.6 Q131.0 184.0 151.4 177.4 Q179.4 170.9 200.5 160.3 Q222.9 160.7 249.0 166.5 Q272.4 151.3 300.1 144.7 Q327.2 140.0 349.1 137.2 Q377.3 142.4 398.6 149.9 Q428.8 140.9 449.8 125.0 Q469.9 115.8 500.1 112.4 Q524.1 108.2 540.0 104.5" style="animation-delay:0.40s"/><path class="thread main" d="M540.9 103.8 Q547.6 126.0 559.2 150.2 Q570.2 174.5 575.5 195.6" style="animation-delay:1.90s"/><circle class="node lit" cx="540.0" cy="104.0" r="6" style="animation-delay:1.80s"/><circle class="node" cx="575.0" cy="196.0" r="4" style="animation-delay:2.50s"/><path class="thread ink" d="M600 70 q10 -16 22 -6 q-8 4 -6 14 q16 -2 26 8 q-20 10 -40 -2 q-6 -6 -2 -14" style="animation-delay:2.30s"/><text class="lbl acc" x="612" y="50" text-anchor="middle" style="animation-delay:2.60s">March 2020</text><text class="lbl " x="50" y="224" text-anchor="start" style="animation-delay:1.20s">launch</text><text class="lbl " x="575" y="224" text-anchor="middle" style="animation-delay:2.80s">18 months</text></svg><figcaption>fig. — eighteen months, and one black swan</figcaption></figure>
-    <article class="prose">
-<p>Going into a new tech venture you know there’s a slim chance it’ll succeed, but do it anyway because you believe in something, in an idea and a problem that needs to be solved. Ever since I can remember I’ve always wanted to solve the cleaning issue in Egypt. Those who live here know the inefficiency and lack of professionalism that comes along with trying to clean your home. So identifying the problem was not difficult when I began Tandeefa, a home cleaning app that connects cleaners with households. However, 18 months and many decisions later we are forced to shut our doors. I will try to shed light on some of the issues I faced and what I’ve learnt.</p>
-<h2>Pick the Right Team</h2>
-<p>Once you have an idea, the next crucial step would be picking the right team. We all know that trying to do everything yourself will lead you nowhere. If you pick the right team, you’ll come up with the right strategies, do the right marketing, pick the right products to sell and features to build. This part is crucial and any shortcuts here may lead to issues going forward, even if these problems aren’t clear in the beginning.</p>
-<p>Once you have the right team, be sure to really think through the equity this team gets. Most startups are strapped on cash and attracting talent as co-founders and early employees with huge salaries is usually out of the question, which means you’ll have to give away equity. It’s also very crucial to really think about how much equity you’re giving a person and in return for what. Something like a quick 50/50 split or an equal three way split usually means you haven’t really thought things through. It may seem all good and dandy at first, but this will only create tension going forward and is a disaster waiting to happen.</p>
-<h2>Don’t Commit to Creating a Company Too Soon</h2>
-<p>Entrepreneurship is a lot of trial and error and it will take many iterations to get things right. Not only that, but you may be building something that people don’t really need. You will need to be 100% dedicated with your time and effort to make sure your idea comes to reality but that doesn’t mean committing by creating a company. One of the traps I fell into really early on was creating a company before validating the idea, which was problematic because it boxed us in, not giving room for flexibility, or to pivot in other directions. Not only that, but there will be the constant pressure of the taxation, employee legalities, and so on. If you have that pressure on your shoulders without clearly seeing the momentum and growth that validates the idea, it can take a toll on you and limit your ability to pursue other ideas and opportunities. So don’t commit to starting a company until you’re as sure as you can be that your idea is going to be successful. Be as flexible and nimble as possible early on.</p>
-<figure class="plate fig"><svg viewBox="0 0 680 240" role="img" aria-label="Left: an idea with open paths, one of which becomes a pivot. Right: the same idea boxed in by a company, its paths hitting walls labelled taxes, legal and payroll"><text class="lbl " x="170" y="20" text-anchor="middle" style="animation-delay:0.00s">validate first</text><circle class="node" cx="60.0" cy="130.0" r="6" style="animation-delay:0.10s"/><path class="thread " d="M57.7 128.1 Q102.9 123.4 159.5 110.9 Q206.5 78.7 248.3 58.1 Q274.1 52.9 298.7 49.2" style="animation-delay:0.30s;animation-duration:1.4s"/><path class="thread " d="M59.6 132.4 Q109.0 130.3 168.0 133.7 Q232.9 138.9 302.1 129.5" style="animation-delay:0.50s;animation-duration:1.4s"/><path class="thread " d="M58.6 128.6 Q109.9 157.3 150.4 170.2 Q188.8 192.2 242.2 206.6 Q276.6 211.0 299.3 210.6" style="animation-delay:0.70s;animation-duration:1.4s"/><path class="thread main" d="M59.5 130.5 Q109.0 119.4 160.4 109.4 Q196.2 101.5 230.3 89.5 Q267.5 71.5 299.2 47.7" style="animation-delay:1.60s;animation-duration:1.2s"/><circle class="node lit" cx="300.0" cy="48.0" r="7" style="animation-delay:2.70s"/><text class="lbl acc" x="316" y="53" text-anchor="start" style="animation-delay:2.80s">pivot</text><circle class="node" cx="300.0" cy="130.0" r="4" style="animation-delay:1.80s"/><circle class="node" cx="300.0" cy="212.0" r="4" style="animation-delay:2.00s"/><text class="lbl " x="520" y="20" text-anchor="middle" style="animation-delay:0.20s">company too soon</text><path class="thread ink" d="M400.9 40.5 Q520.9 41.1 639.7 39.4 Q637.5 130.1 640.2 222.1 Q522.7 222.6 400.3 221.3 Q402.8 129.2 399.4 40.8" style="animation-delay:0.30s;animation-duration:1.6s"/><circle class="node" cx="450.0" cy="130.0" r="6" style="animation-delay:0.40s"/><path class="thread " d="M449.9 130.7 Q501.7 117.6 559.9 96.7 Q597.0 81.4 640.1 71.1" style="animation-delay:1.40s;animation-duration:0.9s"/><path class="thread " d="M449.6 130.5 Q503.5 144.2 560.8 159.9 Q591.3 192.4 620.0 222.7" style="animation-delay:1.60s;animation-duration:0.9s"/><path class="thread " d="M448.9 129.1 Q486.2 97.8 519.1 70.5 Q541.9 59.7 560.5 41.1" style="animation-delay:1.80s;animation-duration:0.9s"/><text class="lbl " x="630" y="110" text-anchor="end" style="animation-delay:2.60s">taxes</text><text class="lbl " x="596" y="205" text-anchor="end" style="animation-delay:2.60s">legal</text><text class="lbl " x="468" y="205" text-anchor="middle" style="animation-delay:2.60s">payroll</text></svg><figcaption>fig. — commit too early and the company boxes the idea in</figcaption></figure>
-<h2>Black Swans</h2>
-<p>Black Swans are unpredictable events that cannot be foreseen and have severe consequences. In our case, it was the COVID-19 outbreak, and it was the nail in our coffin. We had our regular issues of funding, unit economics, bootstrapping, and product-market fit before COVID-19, but starting March 2020, as the virus began to spread, demand decreased dramatically, people weren’t willing to bring cleaners into their homes. Such events occur every 100 years but, unfortunately, if you don’t already have a profitable business or are heavily funded these types of events will have very negative consequences on your business.</p>
-<h2>Conclusion</h2>
-<p>Startups are extremely challenging and at times it can feel unbearable. Do what you can to minimize your chances of failure; your mindset for the first few months, year, or two should be survival mode. Make sure you have the right idea, team, and strategies before committing too much effort or money. One of the most crucial things I learnt is to know when to quit. Your energy can be better spent elsewhere doing incredible things that are waiting for your input and disruption. Choose the right horses and ride them well.</p>
-    </article>
-    <div class="fleuron">• • •</div>
-    <div class="end">
-      <span>Originally published on <a href="https://medium.com/@shoomi/how-my-startup-failed-82c84f445f4c" target="_blank" rel="noopener">Medium</a>, May 23, 2020.</span>
-      <a href="../../">← All writing</a>
+    <figure class="rv" data-fig>
+      <svg class="dg" viewBox="0 0 520 400" role="img" aria-label="Cleaners on the left and households on the right, matched one by one through the app in the middle">
+        <g id="market"></g>
+      </svg>
+      <figcaption>Cleaners on one side, households on the other. Identifying the problem was not the difficult part.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================== TEAM ============================== -->
+<section id="team" class="tone-day" style="background: linear-gradient(#e2e9e4, #dde2dc)">
+  <div class="inner grid">
+    <div class="text">
+      <div class="head rv"><span class="num">i</span><div><span class="label">Lesson one</span><h2>Pick the <em>right team</em>.</h2></div></div>
+      <p class="rv">Once you have an idea, the next crucial step would be picking the right team. We all know that trying to do everything yourself will lead you nowhere. If you pick the right team, you’ll come up with the right strategies, do the right marketing, pick the right products to sell and features to build. This part is crucial and any shortcuts here may lead to issues going forward, even if these problems aren’t clear in the beginning.</p>
+      <p class="rv">Once you have the right team, be sure to really think through the equity this team gets. Most startups are strapped on cash and attracting talent as co-founders and early employees with huge salaries is usually out of the question, which means you’ll have to give away equity. It’s also very crucial to really think about how much equity you’re giving a person and in return for what. Something like a quick 50/50 split or an equal three way split usually means you haven’t really thought things through. It may seem all good and dandy at first, but this will only create tension going forward and is a disaster waiting to happen.</p>
     </div>
+    <div class="widget rv" id="equity" aria-label="Equity split demonstration">
+      <div class="k"><span>Split the company</span><span class="muted" id="eq-month">Month 0</span></div>
+      <div class="seg" role="group" aria-label="How equity is split">
+        <button type="button" data-mode="equal" aria-pressed="true">Equal thirds, on day one</button>
+        <button type="button" data-mode="earned" aria-pressed="false">Earned as the work is done</button>
+      </div>
+      <div class="founders" id="founders"></div>
+      <div class="legend"><span><i style="background:var(--acc)"></i>share of the company</span><span><i style="background:var(--fg);width:3px;height:12px;border-radius:2px"></i>share of the work so far</span><span><i style="background:repeating-linear-gradient(-45deg,rgba(200,55,45,.6) 0 3px,transparent 3px 6px)"></i>the gap</span></div>
+      <div class="scrub">
+        <button class="play" type="button" id="eq-play" aria-label="Play eighteen months"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></button>
+        <input type="range" id="eq-t" min="0" max="18" step="0.1" value="0" aria-label="Month">
+      </div>
+      <div class="tension">
+        <div class="v" id="eq-v">0%</div>
+        <p id="eq-p">of the company is held by someone who is not doing that share of the work.</p>
+      </div>
+      <p class="note">An illustration of the tension, not Tandeefa’s actual cap table.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== COMPANY TOO SOON ============================== -->
+<section id="company" class="tone-day" style="background: linear-gradient(#dde2dc, #c9cdc7)">
+  <div class="inner grid flip">
+    <div class="text">
+      <div class="head rv"><span class="num">ii</span><div><span class="label">Lesson two</span><h2>Don’t commit to creating a company <em>too soon</em>.</h2></div></div>
+      <p class="rv">Entrepreneurship is a lot of trial and error and it will take many iterations to get things right. Not only that, but you may be building something that people don’t really need. You will need to be 100% dedicated with your time and effort to make sure your idea comes to reality but that doesn’t mean committing by creating a company.</p>
+      <p class="rv">One of the traps I fell into really early on was creating a company before validating the idea, which was problematic because it boxed us in, not giving room for flexibility, or to pivot in other directions. Not only that, but there will be the constant pressure of the taxation, employee legalities, and so on. If you have that pressure on your shoulders without clearly seeing the momentum and growth that validates the idea, it can take a toll on you and limit your ability to pursue other ideas and opportunities.</p>
+      <p class="rv lead">So don’t commit to starting a company until you’re as sure as you can be that your idea is going to be successful. Be as flexible and nimble as possible early on.</p>
+    </div>
+    <div class="widget rv" data-fig>
+      <div class="k"><span>One idea, two starts</span></div>
+      <div class="seg" role="group" aria-label="How the idea starts">
+        <button type="button" data-box="0" aria-pressed="true">Validate first</button>
+        <button type="button" data-box="1" aria-pressed="false">Incorporate first</button>
+      </div>
+      <svg class="dg branches" id="branches" viewBox="0 0 520 380" role="img" aria-label="An idea sends out paths in every direction. Validated first, one path becomes a pivot. Incorporated first, a box of taxation and employee legalities stops every path at its walls" style="margin-top:14px"></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== LAKE ============================== -->
+<section class="lake" id="lakeband" aria-hidden="true">
+  <canvas id="lake"></canvas>
+  <div class="line">Every swan is white, until one is not.</div>
+</section>
+
+<!-- ============================== BLACK SWANS ============================== -->
+<section id="swans" class="tone-night" style="background: linear-gradient(#1b1e21, #131517)">
+  <div class="inner grid">
+    <div class="text">
+      <div class="head rv"><span class="num">iii</span><div><span class="label">The ending</span><h2>Black <em>swans</em>.</h2></div></div>
+      <p class="rv lead">Black Swans are unpredictable events that cannot be foreseen and have severe consequences. In our case, it was the COVID-19 outbreak, and it was the nail in our coffin.</p>
+      <p class="rv">We had our regular issues of funding, unit economics, bootstrapping, and product-market fit before COVID-19, but starting March 2020, as the virus began to spread, demand decreased dramatically, people weren’t willing to bring cleaners into their homes.</p>
+      <p class="rv">Such events occur every 100 years but, unfortunately, if you don’t already have a profitable business or are heavily funded these types of events will have very negative consequences on your business.</p>
+    </div>
+    <figure class="rv" data-fig>
+      <div class="years" id="years" role="img" aria-label="One hundred swans for one hundred years: ninety-nine white, one black"></div>
+      <div class="years-cap"><span>A hundred years</span><span><b>One</b> black swan</span></div>
+      <figcaption>Such events occur every hundred years. Survival depends on being profitable or well funded when yours arrives.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================== CONCLUSION ============================== -->
+<section id="conclusion" class="tone-night" style="background: linear-gradient(#131517, #2b2523)">
+  <div class="inner">
+    <div class="text rv" style="margin:0 auto">
+      <div class="head"><span class="num">iv</span><div><span class="label">Conclusion</span><h2>Know <em>when to quit</em>.</h2></div></div>
+      <p>Startups are extremely challenging and at times it can feel unbearable. Do what you can to minimize your chances of failure; your mindset for the first few months, year, or two should be survival mode. Make sure you have the right idea, team, and strategies before committing too much effort or money.</p>
+      <p>One of the most crucial things I learnt is to know when to quit. Your energy can be better spent elsewhere doing incredible things that are waiting for your input and disruption.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== DAWN ============================== -->
+<section class="dawn" id="dawn">
+  <div class="line">Choose the right horses and ride them well.</div>
+  <svg viewBox="0 0 1200 500" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs>
+      <radialGradient id="sunG" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff4dc"/><stop offset=".55" stop-color="#ffd79a"/><stop offset="1" stop-color="#ffb877" stop-opacity="0"/></radialGradient>
+    </defs>
+    <g class="sun"><circle cx="600" cy="400" r="200" fill="url(#sunG)" opacity=".7"/><circle cx="600" cy="400" r="84" fill="#fff1d4"/></g>
+    <rect x="0" y="400" width="1200" height="100" fill="#efd3aa"/>
+    <path d="M0 400 H1200" stroke="#fff4e2" stroke-width="1.5" opacity=".8"/>
+    <g class="horse" id="horse" transform="translate(790 336)"></g>
+  </svg>
+</section>
+
+<!-- ============================== CODA ============================== -->
+<section class="coda tone-day" id="coda" style="background: linear-gradient(#efd3aa, #f5ede0 30%, #f7f2e9)">
+  <div class="inner">
+    <div class="big"><span>What I learnt</span></div>
+    <div class="trio">
+      <div class="rv"><div class="k">The team</div><h3>Pick the right people, and think through what each of them owns.</h3></div>
+      <div class="rv" style="transition-delay:.15s"><div class="k">The company</div><h3>Validate the idea before the paperwork boxes it in.</h3></div>
+      <div class="rv" style="transition-delay:.3s"><div class="k">The ending</div><h3>Survive first, and know when to quit.</h3></div>
+    </div>
+    <div class="sig">Hashem Aly · May 23, 2020 · Originally published on <a href="https://medium.com/@shoomi/how-my-startup-failed-82c84f445f4c" target="_blank" rel="noopener">Medium</a></div>
     <nav class="next" aria-label="More essays">
-      <a class="" href="../do-innovators-see-the-world-differently/"><div class="k">Earlier</div><div class="t">Do Innovators See the World Differently?</div></a>
+      <a href="../do-innovators-see-the-world-differently/"><div class="k">Earlier</div><div class="t">Do Innovators See the World Differently?</div></a>
       <a class="r" href="../why-we-built-ivoiceup-ventures/"><div class="k">Later</div><div class="t">Why We Built iVoiceUp Ventures</div></a>
     </nav>
-  </main>
+    <footer>
+      <span>© <span id="yr"></span> Hashem Aly</span>
+      <nav>
+        <a href="../../">All writing</a>
+        <a href="https://medium.com/@shoomi" target="_blank" rel="noopener">Medium</a>
+        <a href="https://x.com/shooommi" target="_blank" rel="noopener">X</a>
+      </nav>
+    </footer>
+  </div>
+</section>
 
-  <footer>
-    <span>© <span id="yr"></span> Hashem Aly</span>
-    <nav>
-      <a href="../../">All writing</a>
-      <a href="https://medium.com/@shoomi" target="_blank" rel="noopener">Medium</a>
-      <a href="https://x.com/shooommi" target="_blank" rel="noopener">X</a>
-    </nav>
-  </footer>
-</div>
+</main>
+
 <script>
 (() => {
-  document.querySelectorAll(".thread").forEach(p => p.style.setProperty("--len", Math.ceil(p.getTotalLength())));
-  const bar = document.getElementById("progress"), body = document.querySelector(".prose");
+  const NS = "http://www.w3.org/2000/svg";
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const el = (tag, attrs, parent) => {
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(n);
+    return n;
+  };
+  const txt = (parent, x, y, s, cls = "", anchor = "middle", style = "") => {
+    const t = el("text", { x, y, "text-anchor": anchor, class: cls, style }, parent);
+    t.textContent = s; return t;
+  };
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+  /* a swan drawn on canvas, facing left; flap is -1..1 when flying, null when swimming */
+  function swan(ctx, x, y, s, color, flap) {
+    ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
+    ctx.fillStyle = color; ctx.strokeStyle = color; ctx.lineCap = "round"; ctx.lineJoin = "round";
+    if (flap == null) {
+      // swimming: body, S-curved neck, head
+      ctx.beginPath();
+      ctx.moveTo(28, -4);
+      ctx.quadraticCurveTo(22, 10, 0, 10);
+      ctx.quadraticCurveTo(-20, 10, -24, -2);
+      ctx.quadraticCurveTo(-10, -6, 4, -10);
+      ctx.quadraticCurveTo(18, -14, 28, -4);
+      ctx.fill();
+      ctx.lineWidth = 4.2;
+      ctx.beginPath(); ctx.moveTo(-18, -2); ctx.bezierCurveTo(-30, -14, -12, -24, -18, -36); ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(-21, -37, 4.4, 3.2, -.3, 0, 7); ctx.fill();
+      ctx.fillStyle = color === "#0b0c0e" ? "#c8372d" : "#d88a3a";
+      ctx.beginPath(); ctx.moveTo(-24, -38); ctx.lineTo(-31, -35.5); ctx.lineTo(-24, -35); ctx.fill();
+    } else {
+      // flying: long neck forward, wings beating
+      ctx.beginPath(); ctx.ellipse(0, 0, 24, 7.5, 0, 0, 7); ctx.fill();
+      ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.moveTo(-18, -1); ctx.quadraticCurveTo(-38, -3, -52, -4); ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(-54, -4.5, 4.6, 3.4, 0, 0, 7); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(22, -2); ctx.lineTo(34, -6); ctx.lineTo(32, 3); ctx.fill();
+      const wy = -46 * flap;
+      ctx.beginPath(); ctx.moveTo(-10, -3); ctx.quadraticCurveTo(-2, wy * .6, 10, wy); ctx.quadraticCurveTo(12, wy * .45, 14, -2); ctx.closePath(); ctx.fill();
+      ctx.globalAlpha *= .75;
+      ctx.beginPath(); ctx.moveTo(-6, -2); ctx.quadraticCurveTo(4, wy * .45, 18, wy * .78); ctx.quadraticCurveTo(18, wy * .3, 16, -1); ctx.closePath(); ctx.fill();
+      ctx.globalAlpha /= .75;
+      ctx.fillStyle = "#c8372d";
+      ctx.beginPath(); ctx.moveTo(-58, -5.5); ctx.lineTo(-66, -3.6); ctx.lineTo(-58, -2.6); ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  /* =================== HERO: eighteen months =================== */
+  const cv = document.getElementById("chart"), ctx = cv.getContext("2d"), cap = document.getElementById("cap");
+  // growth as it felt, month by month, peaking at March 2020 (month 16), then gone by month 18
+  const vals = [.06, .1, .12, .16, .2, .19, .26, .31, .29, .36, .42, .4, .48, .55, .6, .64, .72];
+  let W, H, dpr, pts = [], crash = [], bubbles = [], t0, raf, X, Y, gx0, gx1, top, base;
+  function layout() {
+    dpr = Math.min(2, devicePixelRatio || 1);
+    W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    gx0 = Math.max(28, W * .1); gx1 = W - gx0;
+    base = H - (W < 640 ? 150 : 96); top = Math.max(H * .5, base - 300);
+    X = m => gx0 + (gx1 - gx0) * m / 18;
+    Y = v => base - (base - top) * v;
+    // dense Catmull-Rom through the monthly values
+    pts = [];
+    const P = vals.map((v, m) => [X(m), Y(v)]);
+    for (let i = 0; i < P.length - 1; i++) {
+      const p0 = P[Math.max(0, i - 1)], p1 = P[i], p2 = P[i + 1], p3 = P[Math.min(P.length - 1, i + 2)];
+      for (let k = 0; k < 16; k++) {
+        const t = k / 16, t2 = t * t, t3 = t2 * t;
+        const f = (a, b, c, d) => .5 * (2 * b + (-a + c) * t + (2 * a - 5 * b + 4 * c - d) * t2 + (-a + 3 * b - 3 * c + d) * t3);
+        pts.push([f(p0[0], p1[0], p2[0], p3[0]), f(p0[1], p1[1], p2[1], p3[1])]);
+      }
+    }
+    pts.push(P[P.length - 1]);
+    crash = [];
+    const [px, py] = P[P.length - 1];
+    for (let k = 0; k <= 40; k++) {
+      const t = k / 40;
+      crash.push([px + (X(18) - px) * t, py + (Y(.02) - py) * (1 - Math.pow(1 - t, 2.6)) + Math.sin(t * 20) * 3 * (1 - t)]);
+    }
+  }
+  function strokeTo(list, n, color, width) {
+    if (n < 1) return;
+    ctx.beginPath(); ctx.moveTo(list[0][0], list[0][1]);
+    const whole = Math.floor(n);
+    for (let i = 1; i <= Math.min(whole, list.length - 1); i++) ctx.lineTo(list[i][0], list[i][1]);
+    if (whole < list.length - 1) {
+      const a = list[whole], b = list[whole + 1], f = n - whole;
+      ctx.lineTo(a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f);
+    }
+    ctx.strokeStyle = color; ctx.lineWidth = width; ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.stroke();
+  }
+  const at = (list, n) => { const i = clamp(Math.floor(n), 0, list.length - 1), j = Math.min(list.length - 1, i + 1), f = n - i; return [list[i][0] + (list[j][0] - list[i][0]) * f, list[i][1] + (list[j][1] - list[i][1]) * f]; };
+  const T_GROW = [1.2, 6.4], T_SWAN = [5, 10.5];
+  let last = 0;
+  function frame(now) {
+    const t = (now - t0) / 1000, dt = Math.min(.05, t - last); last = t;
+    ctx.clearRect(0, 0, W, H);
+    const g = clamp((t - T_GROW[0]) / (T_GROW[1] - T_GROW[0]), 0, 1);
+    const sp = clamp((t - T_SWAN[0]) / (T_SWAN[1] - T_SWAN[0]), 0, 1);
+    const sx = W + 120 - (W + 300) * sp, sy = top - 40 - Math.sin(sp * Math.PI) * 30;
+    const peakX = X(16);
+    const c = clamp((t - (T_SWAN[0] + (W + 120 - peakX) / (W + 300) * (T_SWAN[1] - T_SWAN[0]))) / 1.3, 0, 1);
+    // dim the morning as the crash lands
+    if (c > 0) { ctx.fillStyle = `rgba(40,46,44,${.1 * ease(c)})`; ctx.fillRect(0, 0, W, H); }
+    // axis + month ticks
+    const fa = clamp(t / 1.2, 0, 1);
+    ctx.globalAlpha = fa;
+    ctx.strokeStyle = "rgba(28,37,33,.25)"; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(gx0 - 10, base + .5); ctx.lineTo(gx1 + 10, base + .5); ctx.stroke();
+    ctx.fillStyle = "rgba(28,37,33,.35)";
+    for (let m = 0; m <= 18; m++) ctx.fillRect(X(m) - .5, base + 4, 1, m % 6 ? 4 : 8);
+    ctx.font = `italic ${W < 640 ? 13 : 15}px Fraunces, Georgia, serif`; ctx.fillStyle = "#5a6962"; ctx.textBaseline = "top";
+    ctx.textAlign = "left"; ctx.fillText("launch", X(0) - 4, base + 16);
+    ctx.textAlign = "right"; ctx.fillText("month 18", X(18) + 4, base + 16);
+    ctx.globalAlpha = 1;
+    // the line
+    const n = g * (pts.length - 1);
+    strokeTo(pts, n, "#1f7a72", 2.4);
+    const head = at(pts, n);
+    // suds rising from the line while it grows
+    if (g > 0 && c === 0 && !reduce) {
+      const rate = g < 1 ? 26 : 9;
+      if (Math.random() < rate * dt) bubbles.push({ x: head[0] - Math.random() * 80 * g, y: head[1] - 4, r: 2 + Math.random() * 7, vy: 14 + Math.random() * 22, ph: Math.random() * 6, pop: 0 });
+    }
+    if (c > 0) bubbles.forEach(b => { if (!b.pop) b.pop = t + Math.random() * .5; });
+    bubbles = bubbles.filter(b => b.y > top - 120 && (!b.pop || t - b.pop < .35));
+    for (const b of bubbles) {
+      b.y -= b.vy * dt; b.x += Math.sin(t * 2 + b.ph) * .3;
+      const life = clamp((base - b.y) / (base - top + 120), 0, 1);
+      if (b.pop && t >= b.pop) {
+        const k = (t - b.pop) / .35;
+        ctx.strokeStyle = `rgba(31,122,114,${.5 * (1 - k)})`; ctx.lineWidth = 1;
+        for (let a = 0; a < 6; a++) { const ang = a / 6 * 6.283; ctx.beginPath(); ctx.moveTo(b.x + Math.cos(ang) * b.r * (1 + k), b.y + Math.sin(ang) * b.r * (1 + k)); ctx.lineTo(b.x + Math.cos(ang) * b.r * (1.4 + 1.4 * k), b.y + Math.sin(ang) * b.r * (1.4 + 1.4 * k)); ctx.stroke(); }
+        continue;
+      }
+      ctx.globalAlpha = .55 * (1 - life * .6);
+      ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, 7);
+      ctx.fillStyle = "rgba(255,255,255,.55)"; ctx.fill();
+      ctx.strokeStyle = "rgba(31,122,114,.55)"; ctx.lineWidth = 1; ctx.stroke();
+      ctx.beginPath(); ctx.arc(b.x - b.r * .35, b.y - b.r * .35, b.r * .25, 0, 7); ctx.fillStyle = "#fff"; ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+    // month marker riding the head of the line
+    if (g > 0 && c === 0) {
+      ctx.beginPath(); ctx.arc(head[0], head[1], 5, 0, 7); ctx.fillStyle = "#1f7a72"; ctx.fill();
+      const m = Math.round(g * 16);
+      ctx.font = "600 11px Inter, sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "bottom"; ctx.fillStyle = "#1f7a72";
+      ctx.fillText(g >= 1 ? "MARCH 2020" : "MONTH " + m, head[0], head[1] - 12);
+    }
+    // the crash
+    if (c > 0) {
+      strokeTo(crash, ease(c) * (crash.length - 1), "#c8372d", 2.6);
+      ctx.beginPath(); ctx.arc(peakX, Y(vals[16]), 5, 0, 7); ctx.fillStyle = "#1c2521"; ctx.fill();
+      ctx.globalAlpha = clamp(c * 2, 0, 1);
+      ctx.font = "600 11px Inter, sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "bottom"; ctx.fillStyle = "#1c2521";
+      ctx.fillText("MARCH 2020", peakX, Y(vals[16]) - 12);
+      ctx.globalAlpha = 1;
+      if (c >= 1) cap.classList.add("show");
+    }
+    // the swan
+    if (sp > 0 && sp < 1) swan(ctx, sx, sy, W < 640 ? .7 : 1, "#0b0c0e", Math.sin(t * 5.2));
+    if (t < T_SWAN[1] + 1.5) raf = requestAnimationFrame(frame);
+  }
+  function start() {
+    cancelAnimationFrame(raf); layout(); bubbles = [];
+    t0 = performance.now() - (reduce ? 30000 : 0); last = 0;
+    raf = requestAnimationFrame(frame);
+  }
+  let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { const e = performance.now() - t0; layout(); t0 = performance.now() - e; cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); }, 150); });
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(start);
+
+  /* =================== marketplace =================== */
+  const mk = document.getElementById("market");
+  const cleaners = [70, 150, 230, 310], homes = [58, 130, 202, 274, 346];
+  el("rect", { x: 222, y: 150, width: 76, height: 110, rx: 14, class: "fg-s pop" }, mk);
+  txt(mk, 260, 212, "app", "fg pop", "middle", "font-size:17px");
+  txt(mk, 70, 24, "cleaners", "sc", "middle");
+  txt(mk, 452, 24, "households", "sc", "middle");
+  cleaners.forEach((y, i) => {
+    const g = el("g", { class: "pop", style: `transition-delay:${.2 + i * .12}s` }, mk);
+    el("circle", { cx: 70, cy: y - 8, r: 8, class: "fa" }, g);
+    el("path", { d: `M56 ${y + 18} q14 -22 28 0`, class: "al" }, g);
+  });
+  homes.forEach((y, i) => {
+    const g = el("g", { class: "pop", style: `transition-delay:${.4 + i * .12}s` }, mk);
+    el("path", { d: `M436 ${y + 14} v-16 l16 -13 l16 13 v16 z`, class: "fg-s" }, g);
+    el("rect", { x: 448, y: y + 4, width: 8, height: 10, class: "fg-s" }, g);
+  });
+  const pairs = [[0, 1], [1, 3], [2, 0], [3, 4], [1, 2]];
+  pairs.forEach(([a, b], i) => {
+    const y1 = cleaners[a] + 2, y2 = homes[b] + 4;
+    const d = `M96 ${y1} C 170 ${y1}, 190 205, 222 205 M298 205 C 330 205, 350 ${y2}, 424 ${y2}`;
+    const p = el("path", { d, class: "ln draw", "stroke-dasharray": "3 5" }, mk);
+    p.style.transitionDelay = .8 + i * .2 + "s";
+    const full = `M96 ${y1} C 170 ${y1}, 190 205, 222 205 L298 205 C 330 205, 350 ${y2}, 424 ${y2}`;
+    const dot = el("circle", { r: 4.5, class: "fa trip" }, mk);
+    dot.style.offsetPath = `path("${full}")`; dot.style.animationDelay = 1.2 + i * .95 + "s";
+  });
+
+  /* =================== equity =================== */
+  const founders = [
+    { n: "Founder A", d: "full time, all eighteen months", w: m => 1 },
+    { n: "Founder B", d: "full time, all eighteen months", w: m => 1 },
+    { n: "Founder C", d: "part time, then gone by month nine", w: m => m < 4 ? 1 : m < 9 ? .35 : 0 }
+  ];
+  const fwrap = document.getElementById("founders");
+  founders.forEach(f => {
+    const d = document.createElement("div"); d.className = "fd";
+    d.innerHTML = `<div class="nm"><span>${f.n}</span><span class="muted">${f.d}</span></div><div class="track"><div class="eq"></div><div class="gap"></div><div class="work"></div></div>`;
+    fwrap.appendChild(d); f.node = d;
+  });
+  const work = M => founders.map(f => { let s = 0; for (let m = 0; m < M; m += .05) s += f.w(m) * .05; return s; });
+  let mode = "equal";
+  const range = document.getElementById("eq-t"), vEl = document.getElementById("eq-v"), pEl = document.getElementById("eq-p"), mEl = document.getElementById("eq-month");
+  function renderEquity() {
+    const M = +range.value, w = work(Math.max(M, .3)), tot = w.reduce((a, b) => a + b, 0);
+    const share = w.map(x => x / tot);
+    const eq = mode === "equal" ? [1 / 3, 1 / 3, 1 / 3] : share;
+    let mis = 0;
+    founders.forEach((f, i) => {
+      const e = eq[i] * 100, s = share[i] * 100;
+      f.node.querySelector(".eq").style.width = e + "%";
+      f.node.querySelector(".work").style.left = `calc(${s}% - 1px)`;
+      const g = f.node.querySelector(".gap");
+      g.style.left = Math.min(e, s) + "%"; g.style.width = Math.abs(e - s) + "%";
+      mis += Math.abs(eq[i] - share[i]);
+    });
+    mis = mis / 2 * 100;
+    vEl.textContent = Math.round(mis) + "%";
+    vEl.classList.toggle("calm", mis < 1);
+    mEl.textContent = M < .05 ? "Day one" : "Month " + Math.round(M);
+    pEl.textContent = mode === "equal"
+      ? (mis < 3 ? "of the company is held by someone not doing that share of the work. All good and dandy, at first." : "of the company is held by someone who is not doing that share of the work. The tension grows every month.")
+      : "of the company is mismatched. Ownership is earned as the work is done, so it follows the people who stay.";
+  }
+  document.querySelectorAll("#equity [data-mode]").forEach(b => b.addEventListener("click", () => {
+    mode = b.dataset.mode;
+    document.querySelectorAll("#equity [data-mode]").forEach(x => x.setAttribute("aria-pressed", x === b));
+    renderEquity();
+  }));
+  range.addEventListener("input", () => { stopPlay(); renderEquity(); });
+  let pr, playing = false;
+  function play() {
+    if (+range.value >= 18) range.value = 0;
+    playing = true; const s = performance.now(), v0 = +range.value;
+    const step = now => { const v = Math.min(18, v0 + (now - s) / 1000 * 3); range.value = v; renderEquity(); if (v < 18 && playing) pr = requestAnimationFrame(step); else playing = false; };
+    pr = requestAnimationFrame(step);
+  }
+  function stopPlay() { playing = false; cancelAnimationFrame(pr); }
+  document.getElementById("eq-play").addEventListener("click", () => playing ? stopPlay() : play());
+  renderEquity();
+
+  /* =================== company too soon: branches =================== */
+  const bs = document.getElementById("branches");
+  const seed = [70, 200], box = { x0: 30, y0: 92, x1: 300, y1: 308 };
+  const angles = [-.95, -.5, -.12, .28, .7, 1.05];
+  const branchPts = angles.map((a, i) => {
+    const P = [];
+    for (let s = 0; s <= 460; s += 6) {
+      const wob = Math.sin(s / 38 + i * 1.7) * 14 * (s / 460);
+      const ang = a * (0.55 + .45 * Math.min(1, s / 180));
+      P.push([seed[0] + Math.cos(ang) * s - Math.sin(ang) * wob, seed[1] + Math.sin(ang) * s + Math.cos(ang) * wob]);
+    }
+    return P.filter(([x, y]) => x < 510 && y > 20 && y < 372);
+  });
+  const PIVOT = 1;
+  const wallG = el("g", {}, bs), brG = el("g", {}, bs), markG = el("g", {}, bs);
+  const walls = [
+    el("path", { d: `M${box.x0} ${box.y0} H${box.x1}`, class: "wall" }, wallG),
+    el("path", { d: `M${box.x1} ${box.y0} V${box.y1}`, class: "wall" }, wallG),
+    el("path", { d: `M${box.x0} ${box.y1} H${box.x1}`, class: "wall" }, wallG),
+    el("path", { d: `M${box.x0} ${box.y0} V${box.y1}`, class: "wall" }, wallG)
+  ];
+  const wl = [txt(wallG, (box.x0 + box.x1) / 2, box.y0 - 12, "taxation", "fg"), txt(wallG, box.x1 + 12, (box.y0 + box.y1) / 2 + 5, "employee legalities", "fg", "start"), txt(wallG, (box.x0 + box.x1) / 2, box.y1 + 26, "and so on", "fg")];
+  el("circle", { cx: seed[0], cy: seed[1], r: 8, class: "fa" }, bs);
+  txt(bs, seed[0] - 2, seed[1] + 30, "idea", "fg", "middle");
+  const brPaths = branchPts.map((P, i) => el("path", { class: "br" + (i === PIVOT ? " piv" : "") }, brG));
+  const pivotNode = el("circle", { r: 7, class: "fa fade" }, markG), pivotLbl = txt(markG, 0, 0, "pivot", "ac fade", "start", "font-size:17px");
+  const hits = [];
+  function grow(boxed) {
+    [...walls, ...wl].forEach(w => w.style.opacity = boxed ? 1 : 0);
+    hits.forEach(h => h.remove()); hits.length = 0;
+    branchPts.forEach((P, i) => {
+      let Q = P;
+      if (boxed) { const k = P.findIndex(([x, y]) => x > box.x1 - 4 || y < box.y0 + 4 || y > box.y1 - 4); if (k > 0) Q = P.slice(0, k); }
+      const d = "M" + Q.map(p => p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" L");
+      const p = brPaths[i]; p.setAttribute("d", d);
+      const L = p.getTotalLength();
+      p.style.transition = "none"; p.style.strokeDasharray = L; p.style.strokeDashoffset = L;
+      p.getBoundingClientRect();
+      p.style.transition = `stroke-dashoffset ${reduce ? .01 : 1.6}s cubic-bezier(.4,.1,.2,1) ${reduce ? 0 : i * .08}s`;
+      p.style.strokeDashoffset = 0;
+      const end = Q[Q.length - 1];
+      if (boxed) {
+        const h = el("path", { d: `M${end[0] - 6} ${end[1] - 6} l12 12 M${end[0] + 6} ${end[1] - 6} l-12 12`, class: "hit" }, markG);
+        h.style.opacity = 0; setTimeout(() => h.style.opacity = 1, reduce ? 0 : 1500 + i * 80); hits.push(h);
+      }
+      if (i === PIVOT) {
+        pivotNode.setAttribute("cx", end[0]); pivotNode.setAttribute("cy", end[1]);
+        pivotLbl.setAttribute("x", end[0] + 14); pivotLbl.setAttribute("y", end[1] + 5);
+      }
+    });
+    pivotNode.style.opacity = pivotLbl.style.opacity = 0;
+    if (!boxed) setTimeout(() => { pivotNode.style.opacity = pivotLbl.style.opacity = 1; }, reduce ? 0 : 1700);
+  }
+  let grown = false;
+  document.querySelectorAll("[data-box]").forEach(b => b.addEventListener("click", () => {
+    document.querySelectorAll("[data-box]").forEach(x => x.setAttribute("aria-pressed", x === b));
+    grow(b.dataset.box === "1");
+  }));
+
+  /* =================== lake =================== */
+  const lk = document.getElementById("lake"), lx = lk.getContext("2d");
+  let LW, LH, lraf, lt0, lakeOn = false;
+  const flock = Array.from({ length: 11 }, (_, i) => ({ u: (i + .5) / 11 + (Math.random() - .5) * .05, v: .58 + ((i * 37) % 11) / 11 * .32, sp: (Math.random() * .6 + .3) * (i % 2 ? 1 : -1), ph: Math.random() * 6, black: i === 6 }));
+  function lakeLayout() { const d = Math.min(2, devicePixelRatio || 1); LW = lk.clientWidth; LH = lk.clientHeight; lk.width = LW * d; lk.height = LH * d; lx.setTransform(d, 0, 0, d, 0, 0); }
+  function lakeFrame(now) {
+    const t = (now - lt0) / 1000;
+    lx.clearRect(0, 0, LW, LH);
+    // ripples on the water
+    lx.strokeStyle = "rgba(255,255,255,.08)"; lx.lineWidth = 1;
+    for (let i = 0; i < 26; i++) {
+      const y = LH * (.54 + i / 26 * .46), x = ((i * 211 + t * (8 + i % 5)) % (LW + 200)) - 100;
+      lx.beginPath(); lx.moveTo(x, y); lx.lineTo(x + 40 + (i % 4) * 16, y); lx.stroke();
+    }
+    const sorted = flock.slice().sort((a, b) => a.v - b.v);
+    for (const s of sorted) {
+      const x = ((s.u * LW + s.sp * t * 12) % (LW + 120) + LW + 120) % (LW + 120) - 60;
+      const y = LH * s.v + Math.sin(t * 1.2 + s.ph) * 1.5;
+      const sc = (.55 + (s.v - .55) * 1.6) * (LW < 640 ? .8 : 1);
+      const col = s.black ? "#0b0c0e" : "#f6f3ec";
+      // reflection
+      lx.save(); lx.globalAlpha = .18; lx.translate(0, 2 * y + 10 * sc); lx.scale(1, -1); swan(lx, x, y, sc * (s.sp > 0 ? -1 : 1) || sc, col, null); lx.restore();
+      lx.save(); lx.translate(x, y); lx.scale(s.sp > 0 ? -1 : 1, 1); swan(lx, 0, 0, sc, col, null); lx.restore();
+    }
+    if (lakeOn && !reduce) lraf = requestAnimationFrame(lakeFrame);
+  }
+  lakeLayout(); lt0 = performance.now(); lakeFrame(lt0);
+  addEventListener("resize", () => { lakeLayout(); lakeFrame(performance.now()); });
+  new IntersectionObserver(([e]) => { lakeOn = e.isIntersecting; cancelAnimationFrame(lraf); if (lakeOn && !reduce) lraf = requestAnimationFrame(lakeFrame); }).observe(lk);
+
+  /* =================== hundred years =================== */
+  const yg = document.getElementById("years");
+  const SW = "M3 17.5 C 3 14, 8 12.6, 12.4 14.2 C 13.6 10.6, 11.4 7.4, 13.2 5.2 C 14.6 3.6, 17.2 4, 17.6 5.8 L 20.6 7 L 17.2 7.4 C 15.8 8.6, 15.6 10.6, 17.2 13.2 C 18.8 16.6, 15.6 19.4, 10.6 19.4 C 6.4 19.4, 3 18.8, 3 17.5 Z";
+  for (let i = 0; i < 100; i++) {
+    const s = el("svg", { viewBox: "0 0 24 24", "aria-hidden": "true" });
+    const black = i === 87;
+    if (black) { s.setAttribute("class", "bk"); el("circle", { cx: 12, cy: 12, r: 11, class: "ring" }, s); }
+    el("path", { d: SW, class: "sw" }, s);
+    if (black) el("path", { d: "M17.6 5.8 L 20.6 7 L 17.2 7.4 Z", class: "bk-beak" }, s);
+    s.style.transitionDelay = (reduce ? 0 : (i % 10) * .03 + Math.floor(i / 10) * .06 + (black ? .8 : 0)) + "s";
+    yg.appendChild(s);
+  }
+
+  /* =================== dawn: a horse on the horizon =================== */
+  const hz = document.getElementById("horse");
+  const HC = "#3b2a24";
+  el("path", { d: "M-44 -8 C -60 0, -62 22, -56 40", stroke: HC, "stroke-width": 7, fill: "none", "stroke-linecap": "round" }, hz);
+  el("ellipse", { cx: 0, cy: 0, rx: 48, ry: 18, fill: HC }, hz);
+  el("path", { d: "M26 -10 L50 -54 L66 -48 L50 8 Z", fill: HC }, hz);
+  el("path", { d: "M50 -56 C 58 -64, 66 -62, 72 -54 L90 -32 C 93 -27, 89 -22, 84 -24 L64 -36 Z", fill: HC }, hz);
+  el("path", { d: "M55 -58 L57 -70 L63 -59 Z", fill: HC }, hz);
+  el("path", { d: "M50 -54 C 42 -44, 36 -30, 30 -16", stroke: HC, "stroke-width": 6, fill: "none", "stroke-linecap": "round" }, hz);
+  [[-36, -4], [-24, 5], [28, 3], [40, -5]].forEach(([x, tilt]) => el("path", { d: `M${x} 8 L${x + tilt * .4} 38 L${x + tilt} 64`, stroke: HC, "stroke-width": 6, fill: "none", "stroke-linecap": "round", "stroke-linejoin": "round" }, hz));
+
+  /* =================== reveal =================== */
+  document.querySelectorAll(".draw").forEach(p => { if (p.getTotalLength) p.style.setProperty("--len", Math.ceil(p.getTotalLength()) + 2); });
+  const targets = document.querySelectorAll(".rv, [data-fig], .coda, .dawn");
+  const show = e => {
+    e.classList.add("in");
+    if (e.id === "equity" || e.contains(document.getElementById("equity"))) { if (!reduce) setTimeout(play, 500); else { range.value = 18; renderEquity(); } }
+    if (e.contains(bs) && !grown) { grown = true; grow(false); }
+  };
+  if ("IntersectionObserver" in window && !reduce) {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } }), { threshold: .25, rootMargin: "0px 0px -8% 0px" });
+    targets.forEach(t => io.observe(t));
+  } else targets.forEach(show);
+
+  /* =================== margin nav =================== */
+  const margin = document.getElementById("margin"), links = [...margin.querySelectorAll("a")];
+  const secs = links.map(a => document.querySelector(a.getAttribute("href")));
   const onScroll = () => {
-    const r = body.getBoundingClientRect(), total = r.height - innerHeight * .6;
-    bar.style.transform = `scaleX(${Math.min(1, Math.max(0, -r.top / total))})`;
+    const y = innerHeight * .45;
+    margin.classList.toggle("show", scrollY > innerHeight * .6);
+    let cur = -1; secs.forEach((s, i) => { if (s.getBoundingClientRect().top < y) cur = i; });
+    links.forEach((a, i) => a.classList.toggle("on", i === cur));
+    const lakeTop = document.getElementById("lakeband").getBoundingClientRect().top, codaTop = document.getElementById("dawn").getBoundingClientRect().top;
+    const night = lakeTop < y && codaTop > y;
+    margin.style.setProperty("--mcolor", night ? "#a39d91" : "#5a6962");
+    margin.style.setProperty("--macc", night ? "#86cbbf" : "#1f7a72");
   };
   addEventListener("scroll", onScroll, { passive: true }); onScroll();
-  const figs = document.querySelectorAll(".fig");
-  if ("IntersectionObserver" in window) {
-    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .45 });
-    figs.forEach(f => io.observe(f));
-  } else figs.forEach(f => f.classList.add("in"));
-  const root = document.documentElement;
-  document.getElementById("themeBtn").addEventListener("click", () => {
-    const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
-    root.dataset.theme = dark ? "light" : "dark";
-    try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
-  });
   document.getElementById("yr").textContent = new Date().getFullYear();
 })();
 </script>
