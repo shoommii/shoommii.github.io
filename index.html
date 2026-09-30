@@ -129,7 +129,7 @@
 
   /* card looks: each essay keeps the colours of its own page */
   .look-kindi { --bg: linear-gradient(135deg, #060b16, #112446 55%, #2d2c5c); --fg: #f1e7d3; --muted: #b3a88f; --acc: #dcb96a; --line: rgba(241, 231, 211, .2); background: linear-gradient(135deg, #060b16, #112446 55%, #2d2c5c); }
-  .look-ivoiceup { --fg: #edf3f1; --muted: #98aba7; --acc: #f3b35b; --line: rgba(237, 243, 241, .18); background: radial-gradient(ellipse at 30% 110%, #1d403b, #0b1716 70%); }
+  .look-ivoiceup { --fg: #f6ecea; --muted: #b8a09d; --acc: #f2555a; --line: rgba(246, 236, 234, .18); background: radial-gradient(ellipse at 30% 110%, #4a1820, #170a0d 70%); }
   .look-innovators { --fg: #18181b; --muted: #67666d; --acc: #d44a1a; --line: rgba(24, 24, 27, .16); background: #fbfaf7; box-shadow: 0 50px 90px -60px rgba(30, 20, 10, .45), inset 0 0 0 1px rgba(24, 24, 27, .08); }
   .look-startup { --fg: #1c2521; --muted: #5a6962; --acc: #1f7a72; --line: rgba(28, 37, 33, .18); background: linear-gradient(160deg, #f1f5f1, #dfe7e2 60%, #c9cdc7); }
   .look-brain { --fg: #e7ebf3; --muted: #8f98ad; --acc: #6fe3d4; --line: rgba(231, 235, 243, .16); background: radial-gradient(ellipse at 70% 80%, #16204a, #070a12 70%); }
@@ -297,7 +297,7 @@ const THOUGHTS = [
     tags: ["startups", "building"],
     short: "iVoiceUp Ventures",
     look: "ivoiceup",
-    star: "#f3b35b"
+    star: "#f2555a"
   },
   {
     title: "Do Innovators See the World Differently?",
@@ -474,17 +474,17 @@ const THOUGHTS = [
       });
     },
     ivoiceup(g) {
-      el("circle", { cx: 200, cy: 212, r: 32, fill: "#f3b35b", opacity: .25, class: "shieldglow" }, g);
-      el("path", { d: "M200 180 L226 190 V212 C226 230 214 240 200 246 C186 240 174 230 174 212 V190 Z", fill: "#0b1716", stroke: "#f3b35b", "stroke-width": 2, "stroke-linejoin": "round" }, g);
-      el("circle", { cx: 200, cy: 208, r: 4.5, fill: "#f3b35b" }, g);
-      el("rect", { x: 198, y: 210, width: 4, height: 12, fill: "#f3b35b" }, g);
+      el("circle", { cx: 200, cy: 212, r: 32, fill: "#f2555a", opacity: .25, class: "shieldglow" }, g);
+      el("path", { d: "M200 180 L226 190 V212 C226 230 214 240 200 246 C186 240 174 230 174 212 V190 Z", fill: "#170a0d", stroke: "#f2555a", "stroke-width": 2, "stroke-linejoin": "round" }, g);
+      el("circle", { cx: 200, cy: 208, r: 4.5, fill: "#f2555a" }, g);
+      el("rect", { x: 198, y: 210, width: 4, height: 12, fill: "#f2555a" }, g);
       // spread the voices on an arc above the shield, each drifting into it
       const words = ["صوت", "voice", "voix", "Stimme", "голос", "φωνή", "voz", "ses", "suara", "آواز"].map((w, i, a) => {
         const ang = Math.PI * (1.02 + .96 * i / (a.length - 1)), r = i % 2 ? 175 : 140;
         return [w, 200 + Math.cos(ang) * r, 212 + Math.sin(ang) * r * .95];
       });
       words.forEach(([w, x, y], i) => {
-        const t = el("text", { x, y, "text-anchor": "middle", class: "fly", style: `font:italic ${15 + (i % 3) * 3}px Fraunces,Amiri,serif;fill:${i % 4 ? "#edf3f1" : "#f3b35b"};--dx:${200 - x}px;--dy:${212 - y}px;--dur:8s;animation-delay:${i * .8 - 8}s` }, g);
+        const t = el("text", { x, y, "text-anchor": "middle", class: "fly", style: `font:italic ${15 + (i % 3) * 3}px Fraunces,Amiri,serif;fill:${i % 4 ? "#f6ecea" : "#f2555a"};--dx:${200 - x}px;--dy:${212 - y}px;--dur:8s;animation-delay:${i * .8 - 8}s` }, g);
         t.textContent = w;
       });
     },
