@@ -624,8 +624,13 @@
   /* =================== films: load the player only when asked =================== */
   document.querySelectorAll(".screen[data-yt]").forEach(a => {
     const img = a.querySelector("img");
-    // not every video has a high-resolution still; fall back, then to the plain screen
-    img.addEventListener("error", () => { if (!img.dataset.lo) { img.dataset.lo = 1; img.src = `https://i.ytimg.com/vi/${a.dataset.yt}/hqdefault.jpg`; } else img.remove(); });
+    // not every video has a high-resolution still. YouTube answers a missing one with a
+    // grey 120×90 placeholder rather than an error, so step down through the sizes until
+    // a real still arrives, and fall back to the plain screen if none does
+    const sizes = ["sddefault", "hqdefault"];
+    const next = () => { const s = sizes.shift(); if (s) img.src = `https://i.ytimg.com/vi/${a.dataset.yt}/${s}.jpg`; else img.remove(); };
+    img.addEventListener("load", () => { if (img.naturalWidth <= 120) next(); });
+    img.addEventListener("error", next);
     a.addEventListener("click", e => {
       if (a.classList.contains("on")) return;
       e.preventDefault();
