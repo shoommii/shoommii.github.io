@@ -159,10 +159,40 @@
   .open .notes { animation-play-state: running; }
   @keyframes notes { 0% { opacity: 0; transform: translate(0, 0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translate(10px, -26px); } }
 
-  .video { position: relative; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; background: #111; box-shadow: 0 20px 60px -30px rgba(0, 0, 0, .5); }
-  .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-  .vid { max-width: 860px; margin: 64px auto 0; }
-  .vid figcaption { text-align: center; }
+  /* ---------- films: a matted screen ruled with habit lines, one line breaking away ---------- */
+  .film { max-width: 880px; margin: 72px auto 0; --mat: #fff; --hatch: rgba(24, 24, 27, .055); --shadow: rgba(40, 30, 20, .35); }
+  .tone-night .film { --mat: rgba(255, 255, 255, .035); --hatch: rgba(236, 234, 242, .05); --shadow: rgba(0, 0, 0, .7); }
+  .film .mat {
+    position: relative; padding: 16px 16px 18px; border-radius: 22px; border: 1px solid var(--line);
+    background: repeating-linear-gradient(180deg, transparent 0 11px, var(--hatch) 11px 12px), var(--mat);
+    box-shadow: 0 50px 90px -60px var(--shadow);
+  }
+  .film .mat::before { content: ""; position: absolute; left: -1px; top: 22%; width: 2px; height: 34%; border-radius: 2px; background: var(--acc); }
+  .film .mat::after { content: ""; position: absolute; left: -1px; top: 56%; width: 26px; height: 2px; border-radius: 2px; background: var(--acc); transform-origin: 0 50%; transform: rotate(38deg); }
+  .film .fh { display: flex; align-items: baseline; gap: 14px; padding: 2px 6px 14px; }
+  .film .fn { font-family: "Fraunces", serif; font-weight: 300; font-size: 30px; line-height: 1; color: var(--acc); font-variant-numeric: lining-nums; }
+  .film .ft { font-family: "Fraunces", serif; font-size: 21px; line-height: 1.2; flex: 1; min-width: 0; }
+  .film .fw { font-family: "Inter", sans-serif; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+  .screen {
+    position: relative; display: block; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; cursor: pointer; color: #fff; text-decoration: none;
+    background: radial-gradient(ellipse at 50% 120%, #3b1f1a, #0b0d18 70%); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06);
+  }
+  .screen img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s cubic-bezier(.2, .7, .2, 1), filter .6s; filter: saturate(.85) contrast(1.02); }
+  .screen::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11, 13, 24, .05) 40%, rgba(11, 13, 24, .72)); transition: opacity .6s; }
+  .screen:hover img { transform: scale(1.035); filter: saturate(1) contrast(1.05); }
+  .screen .play {
+    position: absolute; left: 50%; top: 50%; z-index: 2; width: 78px; height: 78px; margin: -39px 0 0 -39px; border-radius: 50%;
+    display: grid; place-items: center; background: var(--acc); box-shadow: 0 12px 40px -8px rgba(212, 74, 26, .7); transition: transform .35s cubic-bezier(.3, 1.5, .5, 1);
+  }
+  .screen .play::before { content: ""; position: absolute; inset: -10px; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, .55); animation: ring 2.6s ease-out infinite; }
+  .screen .play svg { margin-left: 5px; }
+  .screen:hover .play, .screen:focus-visible .play { transform: scale(1.1); }
+  .screen:focus-visible { outline: 2px solid var(--acc); outline-offset: 4px; }
+  .screen .cue { position: absolute; left: 20px; bottom: 16px; z-index: 2; font-family: "Inter", sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: rgba(255, 255, 255, .85); }
+  .screen .cue::before { content: ""; display: inline-block; width: 18px; height: 1px; background: currentColor; vertical-align: middle; margin-right: 10px; }
+  .screen.on { cursor: default; }
+  .screen iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 3; }
+  @keyframes ring { 0% { transform: scale(.85); opacity: .9; } 100% { transform: scale(1.45); opacity: 0; } }
 
   /* ---------- band: to Mars ---------- */
   .band { padding: 0; height: 76vh; min-height: 460px; overflow: hidden; background: linear-gradient(#f2eee8 0%, #8f93b3 30%, #262a4a 62%, #0b0d18 100%); }
@@ -243,6 +273,11 @@
     .card p { font-size: 15px; }
     .next { grid-template-columns: 1fr; }
     .next .r { text-align: left; }
+    .film .mat { padding: 10px 10px 12px; border-radius: 16px; }
+    .film .fh { flex-wrap: wrap; gap: 4px 12px; }
+    .film .fw { width: 100%; order: 3; }
+    .film .ft { font-size: 18px; }
+    .screen .play { width: 60px; height: 60px; margin: -30px 0 0 -30px; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
@@ -338,7 +373,7 @@
       <p class="note">After the iPod, almost every electronic device shipped with a charged battery.</p>
     </div>
   </div>
-  <figure class="vid rv"><div class="video"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/9uOMectkCCs" title="The First Secret of Great Design | Tony Fadell | TED Talks" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><figcaption>The First Secret of Great Design · Tony Fadell · TED</figcaption></figure>
+  <figure class="film rv"><div class="mat"><div class="fh"><span class="fn">01</span><span class="ft">The First Secret of Great Design</span><span class="fw">Tony Fadell · TED</span></div><a class="screen" href="https://www.youtube.com/watch?v=9uOMectkCCs" data-yt="9uOMectkCCs" data-title="The First Secret of Great Design" target="_blank" rel="noopener" aria-label="Play video: The First Secret of Great Design"><img src="https://i.ytimg.com/vi/9uOMectkCCs/maxresdefault.jpg" alt="" loading="lazy"><span class="play"><svg width="22" height="24" viewBox="0 0 22 24" aria-hidden="true"><path d="M2 2 L20 12 L2 22 Z" fill="#fff"/></svg></span><span class="cue">Play here</span></a></div></figure>
 </section>
 
 <!-- ============================== BAND ============================== -->
@@ -397,7 +432,7 @@
       <p class="note">Rockets built for the launches, at the costs given above. Fuel and refurbishment are left out.</p>
     </div>
   </div>
-  <figure class="vid rv"><div class="video"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/NV3sBlRgzTI" title="The First Principles Method Explained by Elon Musk" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><figcaption>The First Principles Method Explained by Elon Musk</figcaption></figure>
+  <figure class="film rv"><div class="mat"><div class="fh"><span class="fn">02</span><span class="ft">The First Principles Method</span><span class="fw">Elon Musk</span></div><a class="screen" href="https://www.youtube.com/watch?v=NV3sBlRgzTI" data-yt="NV3sBlRgzTI" data-title="The First Principles Method" target="_blank" rel="noopener" aria-label="Play video: The First Principles Method"><img src="https://i.ytimg.com/vi/NV3sBlRgzTI/maxresdefault.jpg" alt="" loading="lazy"><span class="play"><svg width="22" height="24" viewBox="0 0 22 24" aria-hidden="true"><path d="M2 2 L20 12 L2 22 Z" fill="#fff"/></svg></span><span class="cue">Play here</span></a></div></figure>
 </section>
 
 <!-- ============================== CODA ============================== -->
@@ -408,7 +443,7 @@
     <div class="yes"><span>Yes they do,</span></div>
     <p class="last rv">or at least they approach problems and solve them in a different way.</p>
     <p class="rv muted" style="margin-top:56px">I’ll end with this video. It’s the world as Steve Jobs saw it.</p>
-    <figure class="vid rv" style="margin-top:24px"><div class="video"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/UvEiSa6_EPA" title="The world as Steve Jobs saw it" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></figure>
+    <figure class="film rv" style="margin-top:28px;text-align:left"><div class="mat"><div class="fh"><span class="fn">03</span><span class="ft">The world as Steve Jobs saw it</span><span class="fw">Steve Jobs</span></div><a class="screen" href="https://www.youtube.com/watch?v=kYfNvmF0Bqw" data-yt="kYfNvmF0Bqw" data-title="The world as Steve Jobs saw it" target="_blank" rel="noopener" aria-label="Play video: The world as Steve Jobs saw it"><img src="https://i.ytimg.com/vi/kYfNvmF0Bqw/maxresdefault.jpg" alt="" loading="lazy"><span class="play"><svg width="22" height="24" viewBox="0 0 22 24" aria-hidden="true"><path d="M2 2 L20 12 L2 22 Z" fill="#fff"/></svg></span><span class="cue">Play here</span></a></div></figure>
     <div class="sig">Hashem Aly · May 21, 2020 · Originally published on <a href="https://medium.com/@shoomi/do-innovators-see-the-world-differently-b20528ea9e50" target="_blank" rel="noopener">Medium</a></div>
     <nav class="next" aria-label="More essays">
       <a href="../deep-learning-and-the-race-to-build-the-artificial-human-brain/"><div class="k">Earlier</div><div class="t">Deep Learning and the Race to Build the Artificial Human Brain</div></a>
@@ -585,6 +620,21 @@
     const x = (i * 197.3) % 1200, y = 170 + ((i * 83.7) % 270);
     el("circle", { cx: x.toFixed(1), cy: y.toFixed(1), r: i % 7 ? .9 : 1.6, fill: "#fff", "fill-opacity": .3 + (i % 5) * .15, class: "star", style: `transition-delay:${(i % 10) * .15}s` }, st);
   }
+
+  /* =================== films: load the player only when asked =================== */
+  document.querySelectorAll(".screen[data-yt]").forEach(a => {
+    const img = a.querySelector("img");
+    // not every video has a high-resolution still; fall back, then to the plain screen
+    img.addEventListener("error", () => { if (!img.dataset.lo) { img.dataset.lo = 1; img.src = `https://i.ytimg.com/vi/${a.dataset.yt}/hqdefault.jpg`; } else img.remove(); });
+    a.addEventListener("click", e => {
+      if (a.classList.contains("on")) return;
+      e.preventDefault();
+      const f = document.createElement("iframe");
+      f.src = `https://www.youtube-nocookie.com/embed/${a.dataset.yt}?autoplay=1&rel=0&modestbranding=1`;
+      f.title = a.dataset.title; f.allow = "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"; f.allowFullscreen = true;
+      a.classList.add("on"); a.removeAttribute("href"); a.appendChild(f);
+    });
+  });
 
   /* =================== reveal =================== */
   document.querySelectorAll(".draw").forEach(p => { if (p.getTotalLength) p.style.setProperty("--len", Math.ceil(p.getTotalLength()) + 2); });
