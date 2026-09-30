@@ -175,13 +175,13 @@
   }
   .entry:hover .go { background: var(--accent); border-color: var(--accent); color: #fff; transform: rotate(-45deg); }
 
-  /* ---------- about + footer ---------- */
-  .about {
-    display: grid; grid-template-columns: 150px 1fr; gap: 28px; padding: 64px 0 24px;
+  /* ---------- closing line + footer ---------- */
+  .closing { padding: 88px 0 40px; text-align: center; }
+  .closing p {
+    font-family: "Fraunces", Georgia, serif; font-weight: 300; font-style: italic; margin: 0 auto;
+    font-size: clamp(34px, 5.4vw, 64px); line-height: 1.08; letter-spacing: -.02em; font-variation-settings: "opsz" 144;
   }
-  .about .k { font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 600; padding-top: 6px; }
-  .about p { font-family: "Fraunces", Georgia, serif; font-size: clamp(20px, 2.4vw, 26px); line-height: 1.4; margin: 0; font-weight: 300; max-width: 30em; }
-  .about p em { color: var(--accent); }
+  .closing p em { color: var(--accent); }
   footer {
     display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;
     border-top: 1px solid var(--rule); margin-top: 40px; padding: 22px 0 40px; font-size: 13px; color: var(--ink-faint);
@@ -201,7 +201,7 @@
     .when { grid-column: 1 / -1; padding-top: 0; display: flex; align-items: baseline; gap: 10px; }
     .when .yr { font-size: 22px; margin: 0; }
     .go { width: 40px; height: 40px; }
-    .about { grid-template-columns: 1fr; gap: 10px; padding-top: 48px; }
+    .closing { padding: 64px 0 28px; }
   }
 </style>
 </head>
@@ -231,9 +231,8 @@
   <div class="filters" id="filters" role="group" aria-label="Filter by topic"></div>
   <ol class="entries" id="entries"></ol>
 
-  <section class="about" id="about">
-    <div class="k">About</div>
-    <p>I'm Hashem — a builder who writes to think. I've started companies, watched one fail, and helped build <em>iVoiceUp</em>. This is where I keep the ideas that stuck with me.</p>
+  <section class="closing">
+    <p>Your potential knows <em>no limits</em>.</p>
   </section>
 
   <footer>
