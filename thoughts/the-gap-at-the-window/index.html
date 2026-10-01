@@ -1,0 +1,985 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Gap at the Window — Hashem Aly</title>
+<meta name="description" content="The official requirements aren’t secret. What’s missing is what the window actually asks for, and the only people who know it are the ones who just went.">
+<meta property="og:title" content="The Gap at the Window">
+<meta property="og:description" content="The official requirements aren’t secret. What’s missing is what the window actually asks for, and the only people who know it are the ones who just went.">
+<meta property="og:type" content="article">
+<link rel="canonical" href="https://shoommii.github.io/thoughts/the-gap-at-the-window/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%230c1611'/%3E%3Crect x='9' y='10' width='14' height='11' rx='1.5' fill='none' stroke='%23eef0e4' stroke-width='1.4'/%3E%3Cpath d='M13 21a3 2.4 0 0 1 6 0' fill='%23eef0e4'/%3E%3Crect x='11' y='13' width='10' height='4.6' rx='1' fill='none' stroke='%23c5a8ff' stroke-width='1.4' transform='rotate(-10 16 15.3)'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --night-fg: #eef0e4;
+    --night-muted: #a3b0a3;
+    --night-acc: #c5a8ff;
+    --night-line: rgba(238, 240, 228, .18);
+    --day-fg: #241f17;
+    --day-muted: #6c614c;
+    --day-acc: #5b2e91;
+    --day-line: rgba(36, 31, 23, .18);
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    margin: 0; background: #0c1611; color: var(--night-fg);
+    font-family: "Newsreader", Georgia, serif; font-size: 20px; line-height: 1.65;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  a { color: inherit; }
+  .tone-night { --fg: var(--night-fg); --muted: var(--night-muted); --acc: var(--night-acc); --line: var(--night-line); --card: rgba(255, 255, 255, .035); color: var(--fg); }
+  .tone-day { --fg: var(--day-fg); --muted: var(--day-muted); --acc: var(--day-acc); --line: var(--day-line); --card: rgba(255, 255, 255, .55); color: var(--fg); }
+
+  /* Arabic sits inside English sentences, so it is isolated and set in Amiri */
+  .ar { font-family: "Amiri", serif; font-style: normal; font-size: 1.12em; line-height: 1; unicode-bidi: isolate; }
+  .ar em { font-style: normal; }
+
+  section { position: relative; padding: 120px 24px; }
+  .inner { max-width: 1080px; margin: 0 auto; position: relative; z-index: 1; }
+  .inner + .inner { margin-top: 110px; }
+  .text { max-width: 640px; }
+  .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 64px; align-items: center; }
+  .grid.flip > :first-child { order: 2; }
+
+  .bar {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 5;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 26px 28px; font-family: "Inter", system-ui, sans-serif; font-size: 14px; color: var(--night-muted);
+  }
+  .bar a { text-decoration: none; display: inline-flex; align-items: center; gap: 10px; color: var(--night-fg); font-family: "Fraunces", Georgia, serif; font-size: 19px; font-weight: 500; letter-spacing: -.005em; font-variation-settings: "opsz" 36; }
+  .bar .arrow { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--night-line); transition: all .25s; }
+  .bar a:hover .arrow { background: var(--night-acc); border-color: var(--night-acc); color: #0c1611; transform: translateX(-3px); }
+
+  .margin {
+    position: fixed; left: 22px; top: 50%; transform: translateY(-50%); z-index: 6;
+    display: flex; flex-direction: column; gap: 12px; font-family: "Amiri", serif; font-size: 18px;
+    opacity: 0; transition: opacity .6s;
+  }
+  .margin.show { opacity: 1; }
+  .margin a { text-decoration: none; color: var(--mcolor, #a3b0a3); opacity: .45; transition: opacity .3s, transform .3s, color .6s; line-height: 1; text-align: center; }
+  .margin a.on { opacity: 1; transform: scale(1.3); color: var(--macc, #c5a8ff); }
+
+  /* ---------- hero ---------- */
+  .hero { height: 100vh; min-height: 660px; padding: 0; background: radial-gradient(ellipse at 30% 100%, #1d3428, #0c1611 65%); overflow: hidden; }
+  #scene { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .hero .title { position: absolute; left: 0; right: 0; top: 14vh; text-align: center; z-index: 2; pointer-events: none; padding: 0 16px; }
+  .kick { font-family: "Inter", system-ui, sans-serif; font-size: 13px; letter-spacing: .32em; text-transform: uppercase; font-weight: 600; color: var(--night-acc); opacity: 0; animation: rise 1.6s ease-out .3s forwards; }
+  .hero h1 {
+    font-family: "Fraunces", Georgia, serif; font-weight: 300;
+    font-size: clamp(48px, 8vw, 112px); line-height: .98; letter-spacing: -.03em; margin: 16px 0 16px;
+    font-variation-settings: "opsz" 144; opacity: 0; animation: rise 1.8s ease-out .6s forwards;
+    text-shadow: 0 0 40px #0c1611, 0 0 12px #0c1611;
+  }
+  .hero h1 em { color: var(--night-acc); }
+  .hero .sub { font-family: "Fraunces", serif; font-style: italic; font-size: 22px; color: var(--night-muted); opacity: 0; animation: rise 1.6s ease-out 1.1s forwards; text-shadow: 0 0 20px #0c1611; }
+  .hero .cap { position: absolute; left: 0; right: 0; bottom: 18px; text-align: center; z-index: 2; padding: 0 20px; font-style: italic; font-size: 15px; color: var(--night-muted); opacity: 0; transition: opacity 1.2s; }
+  .hero .cap.show { opacity: 1; }
+  @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+  .head { display: flex; align-items: baseline; gap: 18px; margin-bottom: 26px; }
+  .num { font-family: "Amiri", serif; font-size: 66px; line-height: .8; color: var(--acc); min-width: .7em; }
+  .label { font-family: "Inter", system-ui, sans-serif; font-size: 12px; letter-spacing: .26em; text-transform: uppercase; color: var(--muted); }
+  h2 { font-family: "Fraunces", Georgia, serif; font-weight: 300; font-size: clamp(36px, 5vw, 62px); line-height: 1.04; letter-spacing: -.02em; margin: 6px 0 0; font-variation-settings: "opsz" 144; }
+  h2 em { color: var(--acc); }
+  h2 .ar { font-size: 1.08em; line-height: 1.2; }
+  p { margin: 0 0 1.1em; }
+  .lead { font-size: 23px; }
+  .muted { color: var(--muted); }
+  .dropcap::first-letter { float: left; font-family: "Fraunces", serif; font-size: 4.3em; line-height: .8; padding: .06em .1em 0 0; color: var(--acc); }
+  .say-big { font-family: "Amiri", serif; font-size: clamp(54px, 7vw, 88px); line-height: 1.1; color: var(--acc); margin: 0 0 .35em; unicode-bidi: isolate; }
+
+  svg.dg { width: 100%; height: auto; display: block; overflow: visible; }
+  .dg text { font-family: "Fraunces", Georgia, serif; font-style: italic; font-size: 15px; fill: var(--muted); }
+  .dg text.fg { fill: var(--fg); }
+  .dg text.ac { fill: var(--acc); }
+  .dg text.sc { font-family: "Inter", sans-serif; font-style: normal; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; }
+  .dg .ln { fill: none; stroke: var(--line); stroke-width: 1.2; }
+  .dg .al { fill: none; stroke: var(--acc); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .dg .fg-s { fill: none; stroke: var(--fg); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+  .dg .fa { fill: var(--acc); }
+  .draw { stroke-dasharray: var(--len, 2000); stroke-dashoffset: var(--len, 2000); transition: stroke-dashoffset 2s cubic-bezier(.6, .1, .2, 1); }
+  .in .draw { stroke-dashoffset: 0; }
+  .pop { opacity: 0; transition: opacity .9s ease; }
+  .in .pop { opacity: 1; }
+  figure { margin: 0; }
+  figcaption { font-style: italic; font-size: 15px; color: var(--muted); margin-top: 14px; }
+
+  .widget { border: 1px solid var(--line); border-radius: 14px; padding: 22px; background: var(--card); }
+  .widget .k { font-family: "Inter", sans-serif; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--acc); margin-bottom: 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .widget .k .ar { font-size: 17px; letter-spacing: 0; }
+  .btn { appearance: none; border: 1px solid var(--line); background: transparent; color: var(--fg); font: 500 14px "Inter", sans-serif; padding: 10px 18px; border-radius: 999px; cursor: pointer; transition: border-color .25s, color .25s, background .25s; }
+  .btn:hover { border-color: var(--acc); color: var(--acc); }
+  .btn.solid { background: var(--acc); border-color: var(--acc); color: #0c1611; }
+  .btn.solid:hover { color: #0c1611; filter: brightness(1.08); }
+  .btn:focus-visible, input:focus-visible, .seg button:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
+  .note { font-size: 14px; color: var(--muted); font-style: italic; margin: 14px 0 0; }
+  .seg { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .seg button { appearance: none; font: 500 13px "Inter", sans-serif; cursor: pointer; border: 1px solid var(--line); background: transparent; color: var(--muted); padding: 7px 14px; border-radius: 999px; transition: all .2s; }
+  .seg button:hover { color: var(--fg); border-color: var(--muted); }
+  .seg button[aria-pressed="true"] { background: var(--fg); color: var(--bgc, #f3ebd7); border-color: var(--fg); }
+  .seg .ar { font-size: 16px; }
+
+  /* ---------- waiting ---------- */
+  .task { padding: 14px 0; border-top: 1px solid var(--line); }
+  .task:first-of-type { border-top: 0; padding-top: 4px; }
+  .task .tt { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-family: "Fraunces", serif; font-size: 19px; line-height: 1.3; }
+  .task .tt b { font-weight: 400; }
+  .task .tt .ar { color: var(--muted); font-size: 19px; }
+  .cells { display: grid; grid-template-columns: repeat(24, 1fr); gap: 3px; margin: 12px 0 8px; }
+  .cells i { height: 14px; border-radius: 3px; background: var(--line); transition: background .4s, transform .4s; }
+  .cells i.on { background: rgba(163, 176, 163, .55); }
+  .cells i.ask { background: var(--acc); transform: scaleY(1.25); }
+  .task .st { font-family: "Inter", sans-serif; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .task .st b { color: var(--fg); font-weight: 600; }
+
+  /* ---------- the window ---------- */
+  .folder { list-style: none; margin: 0 0 16px; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .folder li { font-family: "Inter", sans-serif; font-size: 13px; padding: 6px 12px 6px 30px; border-radius: 6px; background: rgba(227, 207, 156, .12); border: 1px solid rgba(227, 207, 156, .3); position: relative; }
+  .folder li::before { content: ""; position: absolute; left: 11px; top: 50%; width: 10px; height: 5px; margin-top: -4px; border-left: 1.6px solid #e3cf9c; border-bottom: 1.6px solid #e3cf9c; transform: rotate(-45deg); }
+  .folder li.late { border-color: var(--acc); color: var(--acc); background: rgba(197, 168, 255, .08); animation: rise .6s ease-out; }
+  .folder li.late::before { border-color: var(--acc); }
+  .glass {
+    position: relative; min-height: 150px; border: 2px solid rgba(238, 240, 228, .45); border-radius: 12px 12px 4px 4px; margin-bottom: 18px;
+    background: linear-gradient(rgba(190, 230, 205, .1), rgba(190, 230, 205, .02)); display: grid; place-items: center; text-align: center; padding: 18px 16px 30px; overflow: hidden;
+  }
+  .glass::after { content: ""; position: absolute; left: 50%; bottom: -2px; width: 64px; height: 22px; margin-left: -32px; border: 2px solid rgba(238, 240, 228, .45); border-bottom: 0; border-radius: 32px 32px 0 0; background: #0a130e; }
+  .glass .tube { position: absolute; left: 18%; right: 18%; top: 8px; height: 3px; border-radius: 3px; background: #e9fbe9; box-shadow: 0 0 14px 3px rgba(225, 255, 235, .55); }
+  .glass .idle { font-family: "Amiri", serif; font-size: 22px; color: var(--muted); }
+  .glass .idle b { color: #ff6a4d; text-shadow: 0 0 10px rgba(255, 106, 77, .6); font-weight: 700; }
+  .glass .say { font-family: "Amiri", serif; font-weight: 700; font-size: 38px; line-height: 1.25; color: var(--acc); border: 2.5px solid var(--acc); border-radius: 8px; padding: 0 16px; display: none; }
+  .glass .why { font-style: italic; font-size: 16px; color: var(--fg); margin-top: 12px; display: none; }
+  .glass.show .idle { display: none; }
+  .glass.show .say { display: inline-block; animation: stampit .55s cubic-bezier(.3, 1.6, .5, 1) both; }
+  .glass.show .why { display: block; animation: rise .8s ease-out .45s both; }
+  @keyframes stampit { from { opacity: 0; transform: rotate(-7deg) scale(1.9); } to { opacity: 1; transform: rotate(-7deg) scale(1); } }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
+  .row .trip { font-family: "Inter", sans-serif; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .row .trip b { color: var(--fg); font-weight: 600; }
+
+  /* ---------- the list ---------- */
+  .tog { display: flex; align-items: center; gap: 10px; font-family: "Inter", sans-serif; font-size: 13px; color: var(--muted); margin: -4px 0 16px; cursor: pointer; }
+  .tog input { accent-color: var(--acc); width: 16px; height: 16px; margin: 0; }
+  .paper { background: #fffdf6; border: 1px solid rgba(36, 31, 23, .12); border-radius: 6px; padding: 20px 20px 16px; box-shadow: 0 18px 36px -26px rgba(60, 40, 10, .45); position: relative; }
+  .paper .ph { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+  .paper .pt { font-family: "Fraunces", serif; font-size: 22px; line-height: 1.2; }
+  .paper .rev { flex: none; font-family: "Inter", sans-serif; font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--acc); border: 1.5px solid var(--acc); border-radius: 4px; padding: 3px 6px; transform: rotate(-4deg); animation: stampit .5s cubic-bezier(.3, 1.6, .5, 1) .5s both; }
+  .grp { margin-top: 12px; }
+  .gl { font-family: "Inter", sans-serif; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
+  .sk { height: 9px; border-radius: 5px; background: rgba(36, 31, 23, .1); margin: 0 0 8px; opacity: 0; animation: rise .5s ease-out forwards; display: flex; align-items: center; }
+  .sk.n { counter-increment: st; margin-left: 22px; position: relative; }
+  .sk.n::before { content: counter(st); position: absolute; left: -22px; font: 600 11px "Inter", sans-serif; color: var(--muted); }
+  .steps-sk { counter-reset: st; }
+  .sk.new { background: rgba(91, 46, 145, .2); }
+  .sk.new::after { content: "for what changed"; position: absolute; right: -2px; transform: translateX(100%); padding-left: 10px; font: italic 13px "Newsreader", serif; color: var(--acc); white-space: nowrap; }
+  .sk { position: relative; }
+  .notes ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .notes li { font-style: italic; font-size: 16px; line-height: 1.45; color: var(--acc); padding-left: 20px; position: relative; opacity: 0; animation: rise .6s ease-out forwards; }
+  .notes li::before { content: ""; position: absolute; left: 2px; top: .55em; width: 8px; height: 8px; border-radius: 50%; background: var(--acc); }
+  .notes li.fresh { background: rgba(91, 46, 145, .07); border-radius: 6px; padding: 4px 8px 4px 24px; margin-left: -4px; }
+  .notes li.fresh::before { left: 8px; top: .8em; }
+
+  .zones { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .zone { border: 1px dashed var(--line); border-radius: 12px; padding: 14px; min-height: 176px; position: relative; }
+  .zone .zl { font-family: "Inter", sans-serif; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .zone .zl svg { flex: none; }
+  .zone.home { background: rgba(91, 46, 145, .05); border-color: rgba(91, 46, 145, .35); border-style: solid; }
+  .chips { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+  .chips span { font-family: "Inter", sans-serif; font-size: 13px; border: 1px solid var(--line); background: #fffdf6; border-radius: 999px; padding: 6px 12px; opacity: 0; animation: slidein .6s cubic-bezier(.3, 1.3, .5, 1) forwards; }
+  .home .chips span { border-color: rgba(91, 46, 145, .4); color: var(--acc); }
+  .zone .none { font-style: italic; font-size: 16px; line-height: 1.45; color: var(--fg); opacity: 0; animation: rise .8s ease-out .5s forwards; }
+  .zone .none b { color: var(--acc); font-weight: 500; }
+  @keyframes slidein { from { opacity: 0; transform: translateX(-14px); } to { opacity: 1; transform: none; } }
+  .ok[hidden] { display: none; }
+  .ok { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; font-family: "Inter", sans-serif; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--acc); }
+
+  /* ---------- the hub ---------- */
+  .hubmode { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .shake { animation: shake .18s linear infinite; transform-box: fill-box; transform-origin: center; }
+  @keyframes shake { 0% { transform: translate(0, 0); } 25% { transform: translate(1.2px, -.8px); } 50% { transform: translate(-1px, .9px); } 75% { transform: translate(.8px, 1px); } 100% { transform: translate(0, 0); } }
+  .scrub { display: flex; align-items: center; gap: 14px; margin-top: 10px; font-family: "Inter", sans-serif; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .scrub input { flex: 1; accent-color: var(--acc); min-width: 0; }
+  .scrub b { color: var(--fg); font-weight: 600; min-width: 5.5em; text-align: right; }
+  .readout { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px; }
+  .readout > div { border-top: 1px solid var(--line); padding-top: 10px; }
+  .readout .v { font-family: "Fraunces", serif; font-size: 30px; line-height: 1.05; font-variant-numeric: tabular-nums; }
+  .readout .t { font-size: 14px; color: var(--muted); line-height: 1.4; margin-top: 4px; }
+
+  /* ---------- the agent ---------- */
+  .portal { background: #101b15; box-shadow: 0 40px 70px -40px rgba(10, 30, 20, .7); padding: 0; overflow: hidden; }
+  .portal .chrome { display: flex; align-items: center; gap: 7px; padding: 12px 16px; border-bottom: 1px solid var(--line); font-family: "Inter", sans-serif; font-size: 12px; color: var(--muted); }
+  .portal .chrome i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+  .portal .chrome .url { margin-left: 10px; flex: 1; border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .portal .chrome .url .ar { font-size: 15px; }
+  .portal .chrome .lock { color: var(--acc); }
+  .portal .pad { padding: 20px 22px 22px; }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .steps li { display: grid; grid-template-columns: 26px 1fr auto; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; font-size: 16px; line-height: 1.35; color: var(--muted); transition: background .4s, color .4s; }
+  .steps li .dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--line); justify-self: center; transition: all .4s; }
+  .steps li .who { font-family: "Inter", sans-serif; font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; padding: 3px 7px; border-radius: 4px; border: 1px solid var(--line); }
+  .steps li.stop { border: 1px dashed rgba(197, 168, 255, .35); margin: 4px 0; }
+  .steps li.stop .who { color: var(--acc); border-color: var(--acc); }
+  .steps li.stop code { display: block; font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--acc); opacity: .8; margin-top: 3px; }
+  .steps li.now { background: rgba(255, 255, 255, .06); color: var(--fg); }
+  .steps li.now .dot { border-color: var(--acc); box-shadow: 0 0 0 5px rgba(197, 168, 255, .18); }
+  .steps li.done { color: var(--fg); }
+  .steps li.done .dot { background: var(--acc); border-color: var(--acc); }
+  .steps li.stop.now { background: rgba(197, 168, 255, .1); }
+  .log { margin-top: 16px; min-height: 76px; border-left: 2px solid var(--acc); padding: 4px 0 4px 14px; font-style: italic; font-size: 17px; line-height: 1.5; }
+  .log .w { color: var(--muted); font-family: "Inter", sans-serif; font-style: normal; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; display: block; margin-bottom: 2px; }
+  .log .caret { display: inline-block; width: 2px; height: 1em; background: var(--acc); vertical-align: -2px; margin-left: 2px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .ctl { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+  .ctl [hidden] { display: none; }
+  .creds { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); font-family: "Inter", sans-serif; font-size: 12px; color: var(--muted); }
+  .creds b { color: var(--fg); font-weight: 600; }
+  .pull { max-width: 900px; margin: 90px auto 0; text-align: center; font-family: "Fraunces", Georgia, serif; font-weight: 300; font-size: clamp(30px, 4.2vw, 52px); line-height: 1.18; letter-spacing: -.01em; }
+  .pull em { color: var(--acc); }
+  .pull .w { display: inline-block; opacity: 0; transform: translateY(12px); filter: blur(5px); transition: opacity .9s, transform .9s, filter .9s; }
+  .pull.in .w { opacity: 1; transform: none; filter: none; }
+  .unknowns { display: flex; flex-wrap: wrap; gap: 10px; margin: 6px 0 24px; }
+  .unknowns span { font-family: "Inter", sans-serif; font-size: 13px; border: 1px dashed var(--line); border-radius: 999px; padding: 7px 14px; }
+  .unknowns span::after { content: "?"; display: inline-block; color: var(--acc); font-weight: 600; margin-left: 6px; animation: wonder 2.6s ease-in-out infinite; }
+  .unknowns span:nth-child(2)::after { animation-delay: .5s; }
+  .unknowns span:nth-child(3)::after { animation-delay: 1s; }
+  @keyframes wonder { 0%, 100% { transform: none; opacity: .5; } 40% { transform: translateY(-3px) rotate(10deg); opacity: 1; } }
+
+  /* ---------- the gap band ---------- */
+  .band { padding: 0; height: 62vh; min-height: 400px; overflow: hidden; background: linear-gradient(#efe3c4 0%, #e6d8e6 55%, #efe7f1 100%); }
+  .band svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .band .line { position: absolute; left: 0; right: 0; top: 11%; text-align: center; z-index: 2; padding: 0 20px; font-family: "Fraunces", serif; font-style: italic; font-weight: 300; font-size: clamp(30px, 4.6vw, 58px); line-height: 1.1; color: #2a1d3a; }
+  .band text { font-family: "Fraunces", serif; font-style: italic; font-size: 17px; }
+
+  /* ---------- coda ---------- */
+  .coda { text-align: center; padding-top: 100px; padding-bottom: 60px; }
+  .motto { font-family: "Amiri", serif; font-weight: 700; font-size: clamp(44px, 6.6vw, 92px); line-height: 1.35; color: var(--acc); }
+  .motto span { display: inline-block; opacity: 0; transform: translateY(24px); transition: opacity 1.2s, transform 1.2s; }
+  .coda.in .motto span { opacity: 1; transform: none; }
+  .gloss { font-family: "Fraunces", serif; font-style: italic; font-size: 22px; color: var(--muted); margin-top: 10px; opacity: 0; transition: opacity 1.2s 1.6s; }
+  .coda.in .gloss { opacity: 1; }
+  .sig { font-family: "Inter", sans-serif; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-top: 52px; }
+  .next { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 48px 0 0; text-align: left; }
+  .next a { display: block; text-decoration: none; border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; transition: border-color .25s, transform .25s; }
+  .next a:hover { border-color: var(--acc); transform: translateY(-2px); }
+  .next .k { font-family: "Inter", sans-serif; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .next .t { font-family: "Fraunces", Georgia, serif; font-size: 21px; line-height: 1.25; margin-top: 6px; }
+  footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; max-width: 1080px; margin: 60px auto 0; padding: 22px 0 10px; border-top: 1px solid var(--line); font-family: "Inter", sans-serif; font-size: 13px; color: var(--muted); }
+  footer nav { display: flex; gap: 18px; }
+  footer a { text-decoration: none; }
+  footer a:hover { color: var(--fg); }
+
+  .rv { opacity: 0; transform: translateY(18px); transition: opacity 1s ease, transform 1s ease; }
+  .rv.in { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) {
+    .grid, .grid.flip { grid-template-columns: 1fr; gap: 36px; }
+    .grid.flip > :first-child { order: 0; }
+    .margin { display: none; }
+  }
+  @media (max-width: 640px) {
+    body { font-size: 18px; }
+    section { padding: 84px 16px; }
+    .inner + .inner { margin-top: 72px; }
+    .bar { padding: 20px 16px; }
+    .lead { font-size: 20px; }
+    .num { font-size: 52px; }
+    .dg text { font-size: 19px; }
+    .dg text.sc { font-size: 13px; }
+    .widget { padding: 18px 16px; }
+    .portal { padding: 0; }
+    .portal .pad { padding: 16px; }
+    .hero .sub { font-size: 18px; }
+    .cells { gap: 2px; }
+    .cells i { height: 12px; }
+    .task .tt { flex-direction: column; gap: 2px; }
+    .zones { grid-template-columns: 1fr; }
+    .zone { min-height: 0; }
+    .sk.new::after { content: "changed"; }
+    .steps li { font-size: 15px; grid-template-columns: 20px 1fr auto; gap: 8px; padding: 8px 6px; }
+    .glass .say { font-size: 32px; }
+    .next { grid-template-columns: 1fr; }
+    .gloss { font-size: 18px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="margin" id="margin" aria-label="Sections">
+  <a href="#putting-off" title="Prologue">١</a>
+  <a href="#window" title="The window">٢</a>
+  <a href="#today" title="What it does today">٣</a>
+  <a href="#wrong" title="What I got wrong">٤</a>
+  <a href="#testing" title="What I’m testing">٥</a>
+  <a href="#compounds" title="What compounds">٦</a>
+  <a href="#closing" title="Closing">·</a>
+</nav>
+
+<!-- ============================== HERO ============================== -->
+<section class="hero tone-night" aria-label="The Gap at the Window">
+  <div class="bar">
+    <a href="../../"><span class="arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></span>Hashem Aly</a>
+    <span><time datetime="2026-10-01">October 1, 2026</time></span>
+  </div>
+  <canvas id="scene" aria-hidden="true"></canvas>
+  <div class="title">
+    <div class="kick">#startups · #building</div>
+    <h1>The Gap at <em>the Window</em></h1>
+    <div class="sub">Notes on building Masla7tak · <span class="ar" lang="ar">مصلحتك</span></div>
+  </div>
+  <p class="cap" id="cap">A folder you were sure was complete, and a window that says otherwise.</p>
+</section>
+
+<main id="doc">
+
+<!-- ============================== ١ PROLOGUE ============================== -->
+<section id="putting-off" class="tone-night" style="background: linear-gradient(#0c1611, #101d16)">
+  <div class="inner grid">
+    <div class="text">
+      <div class="head rv"><span class="num">١</span><div><span class="label">Prologue</span><h2><span class="ar" lang="ar">مصلحتك</span></h2></div></div>
+      <p class="rv lead dropcap">Most people in Egypt have a <span class="ar" lang="ar">مصلحة</span> they keep putting off. A licence renewal that’s been sitting for months, or a certificate a relative abroad keeps asking about. You know roughly what it involves, and you know it probably won’t be done in one trip, so it waits.</p>
+      <p class="rv">That’s the person Masla7tak is for.</p>
+    </div>
+    <div class="widget rv" id="waiting">
+      <div class="k"><span>Still waiting</span><span class="muted" id="wk">this week</span></div>
+      <div class="task">
+        <div class="tt"><b>A licence renewal</b><span class="ar" lang="ar">تجديد الرخصة</span></div>
+        <div class="cells" aria-hidden="true"></div>
+        <div class="st">sitting for <b class="n">a week</b></div>
+      </div>
+      <div class="task" data-asks="4,10,15,21">
+        <div class="tt"><b>A certificate for a relative abroad</b><span class="ar" lang="ar">شهادة</span></div>
+        <div class="cells" aria-hidden="true"></div>
+        <div class="st">they’ve asked about it <b class="n">not yet</b></div>
+      </div>
+      <p class="note">Probably not done in one trip, so it waits.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ٢ THE WINDOW ============================== -->
+<section id="window" class="tone-night" style="background: linear-gradient(#101d16, #15261d)">
+  <div class="inner grid flip">
+    <div class="text">
+      <div class="head rv"><span class="num">٢</span><div><span class="label">The window</span></div></div>
+      <p class="rv say-big" lang="ar" dir="rtl">ناقصك ورقة.</p>
+      <p class="rv">If you’ve lived in Egypt, you’ve heard it from behind a window after waiting your turn, holding a folder you were sure was complete. Sometimes it’s a copy you didn’t know you needed, sometimes a stamp from a building on the other side of town. Either way the day is gone and you’re coming back tomorrow.</p>
+    </div>
+    <div class="widget rv" id="counter">
+      <div class="k"><span>Your folder</span><span class="muted">complete, you thought</span></div>
+      <ul class="folder" id="folder">
+        <li>The form</li><li>Your ID</li><li>Photos</li><li>The receipt</li>
+      </ul>
+      <div class="glass" id="glass" aria-live="polite">
+        <span class="tube" aria-hidden="true"></span>
+        <div><div class="idle" lang="ar" dir="rtl">رقم <b id="qn">٤٧</b></div><div class="say" lang="ar" dir="rtl">ناقصك ورقة</div><div class="why" id="why"></div></div>
+      </div>
+      <div class="row"><button class="btn" type="button" id="handin">Hand it in</button><span class="trip" id="trip">Trip <b>1</b> · today</span></div>
+    </div>
+  </div>
+
+  <div class="inner grid">
+    <div class="text">
+      <p class="rv">When I started Masla7tak I thought the fix was better information. If people knew exactly what to bring, they wouldn’t waste the trip. That turned out to be only half right. The official requirements aren’t secret, and most of them are already on <span class="ar" lang="ar">مصر الرقمية</span>. What’s missing is what the window actually asks for, which can differ from the official list, from one office to another, and from what it was a few months ago. The only people who know it are the ones who just went.</p>
+    </div>
+    <figure class="rv" data-fig>
+      <svg class="dg" viewBox="0 0 520 290" role="img" aria-label="The official list beside what three windows asked for: one office wants an extra copy, another a stamp from across town, and the first office a few months later wants something new and has dropped something else">
+        <g id="gapfig"></g>
+      </svg>
+      <figcaption>The official list is the same everywhere. The window isn’t.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================== ٣ WHAT IT DOES TODAY ============================== -->
+<section id="today" class="tone-day" style="background: linear-gradient(#15261d 0px, #b9bfa3 150px, #e8dfc2 240px, #f3ebd7); padding-top: 260px">
+  <div class="inner grid">
+    <div class="text">
+      <div class="head rv"><span class="num">٣</span><div><span class="label">What it does today</span><h2><span class="ar" lang="ar">اعرف ورقك <em>قبل ما تروح</em></span></h2></div></div>
+      <p class="rv">Masla7tak today does one thing. You tell it what you need, whether that’s renewing your ID or passport, a driving licence or a <span class="ar" lang="ar">فيش</span>, and it gives you a list for your case: the papers, the fees and the steps in order, written the way you’d explain it to a friend. The list changes with your situation, so a renewal with the same details isn’t treated like one where something has changed.</p>
+      <p class="rv">The part I care about most is the small notes under each list. Take a copy of your ID even though it isn’t on the official list, because some offices ask for it. Bring your old passport even if it’s expired. If your marital status isn’t on your ID, bring proof of it from the start so the request doesn’t stall. Don’t get your <span class="ar" lang="ar">فيش</span> too early, because it’s only valid for three months. None of that is the official requirement, and any of it can cost you a second trip.</p>
+    </div>
+    <div class="widget rv" id="mylist">
+      <div class="k"><span>Your list</span><span class="muted">for your case</span></div>
+      <div class="seg" id="svc" role="group" aria-label="What you need">
+        <button type="button" data-s="id" aria-pressed="false">ID</button>
+        <button type="button" data-s="passport" aria-pressed="true">Passport</button>
+        <button type="button" data-s="licence" aria-pressed="false">Driving licence</button>
+        <button type="button" data-s="fish" aria-pressed="false"><span class="ar" lang="ar">فيش</span></button>
+      </div>
+      <label class="tog"><input type="checkbox" id="changed"> Something has changed since last time</label>
+      <div class="paper" id="paper" aria-live="polite"></div>
+      <p class="note">The papers, fees and steps are the official part. The notes are the part that saves the trip.</p>
+    </div>
+  </div>
+
+  <div class="inner grid flip">
+    <div class="text">
+      <p class="rv">Each list also says when it was last reviewed, and it tells you plainly what can be done online. For a passport, the form, payment and appointment can be done from home, but fingerprints, photos and pickup still need you at the office. For a <span class="ar" lang="ar">فيش</span>, if your fingerprints are already registered, you can order it online and have it delivered without going anywhere, and we’ve checked that this actually works. Sometimes the most useful answer is that you don’t need to go at all.</p>
+    </div>
+    <div class="widget rv" id="where">
+      <div class="k"><span>From home, or at the office?</span></div>
+      <div class="seg" id="where-svc" role="group" aria-label="Service">
+        <button type="button" data-s="passport" aria-pressed="true">Passport</button>
+        <button type="button" data-s="fish" aria-pressed="false"><span class="ar" lang="ar">فيش</span></button>
+      </div>
+      <div class="zones">
+        <div class="zone home"><div class="zl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9H3z"/></svg>From home</div><div class="chips" id="z-home"></div></div>
+        <div class="zone"><div class="zl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg>At the office</div><div class="chips" id="z-office"></div></div>
+      </div>
+      <div class="ok" id="where-ok" hidden><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Checked: this actually works</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ٤ WHAT I GOT WRONG ============================== -->
+<section id="wrong" class="tone-day" style="background: linear-gradient(#f3ebd7, #efe5cd)">
+  <div class="inner grid">
+    <div class="text">
+      <div class="head rv"><span class="num">٤</span><div><span class="label">What I got wrong</span><h2>Trying to do the errand <em>for you</em>.</h2></div></div>
+      <p class="rv lead">The lists were the part that worked. Where I went wrong was trying to go further too quickly.</p>
+      <p class="rv">First I tried adding people: runners and experts who would carry the errand for you. It worked for a handful of cases and turned into an operations mess as soon as there were more. Then I tried live sessions on WhatsApp, where someone would guide you through it. Same problem. Both needed someone like me involved in every errand, and that doesn’t grow. So the lists stayed at the centre, and anything new has to sit on top of them without needing a person in the middle.</p>
+    </div>
+    <div class="widget rv" id="hub">
+      <div class="k"><span>What sits in the middle</span></div>
+      <div class="seg hubmode" id="hubmode" role="group" aria-label="What sits in the middle">
+        <button type="button" data-m="person" aria-pressed="true">A person</button>
+        <button type="button" data-m="lists" aria-pressed="false">The lists</button>
+      </div>
+      <svg class="dg" viewBox="0 0 480 330" role="img" aria-label="Errands joined to whatever sits in the middle. With a person in the middle, every errand runs through them and it strains as errands grow. With the lists in the middle, it holds.">
+        <g id="hubg"></g>
+      </svg>
+      <div class="scrub"><span>Errands</span><input type="range" id="errands" min="3" max="60" step="1" value="3" aria-label="Errands"><b id="errands-v">3 errands</b></div>
+      <div class="readout">
+        <div><div class="v" id="hub-v">It works</div><div class="t" id="hub-t">a handful of cases</div></div>
+        <div><div class="v" id="hub-p">1 person</div><div class="t">needed in every errand</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ٥ WHAT I'M TESTING ============================== -->
+<section id="testing" class="tone-day" style="background: linear-gradient(#efe5cd, #f2e9d5)">
+  <div class="inner grid flip">
+    <div class="text">
+      <div class="head rv"><span class="num">٥</span><div><span class="label">What I’m testing</span><h2>An <em>agent</em>.</h2></div></div>
+      <p class="rv">The open question is whether Masla7tak can do some of these errands with you, not just tell you how. I’m testing that with an agent on one service, the <span class="ar" lang="ar">فيش وتشبيه</span> application on <span class="ar" lang="ar">مصر الرقمية</span>. I picked it because it can already be done fully online, so the hard part isn’t the office, it’s getting through the portal. The agent goes through it and fills in the forms while you watch, explaining what it’s doing as it goes.</p>
+      <p class="rv">I don’t know if this is the answer. I’m not sure people will want it, pay for it, or use it more than once. It’s an experiment and I’m treating it like one.</p>
+      <div class="unknowns rv"><span>Will people want it</span><span>Pay for it</span><span>Use it more than once</span></div>
+      <p class="rv">What I have decided is how it should behave. You log in yourself and enter your own OTP, so it never has your credentials. Before you pay, it shows you everything it filled in, and you can fix anything or cancel. It stops before payment and again before submitting, and those stops are hard-coded rather than left to the model. People are careful with anything involving their national ID, their money and their record, and they should be. I don’t think anyone should hand those over to a product just because it says it’s safe.</p>
+    </div>
+    <div class="widget portal tone-night rv" id="agent">
+      <div class="chrome" aria-hidden="true"><i></i><i></i><i></i><span class="url"><span class="lock">●</span> <span class="ar" lang="ar">فيش وتشبيه</span> · <span class="ar" lang="ar">مصر الرقمية</span></span></div>
+      <div class="pad">
+        <ol class="steps" id="steps"></ol>
+        <div class="log" id="log" aria-live="polite"><span class="w">The agent</span>Ready when you are. You’ll log in yourself.</div>
+        <div class="ctl">
+          <button class="btn solid" type="button" id="ag-go">Start</button>
+          <button class="btn" type="button" id="ag-fix" hidden>Fix something</button>
+          <button class="btn" type="button" id="ag-cancel" hidden>Cancel</button>
+        </div>
+        <div class="creds"><span>Your password: <b>never shared</b></span><span>Your OTP: <b>typed by you</b></span><span>Stops: <b>hard-coded</b></span></div>
+      </div>
+    </div>
+  </div>
+  <p class="pull" id="pull">It’s an experiment and I’m <em>treating it like one</em>.</p>
+</section>
+
+<!-- ============================== ٦ WHAT COMPOUNDS ============================== -->
+<section id="compounds" class="tone-day" style="background: linear-gradient(#f2e9d5, #efe3c4)">
+  <div class="inner grid">
+    <div class="text">
+      <div class="head rv"><span class="num">٦</span><div><span class="label">What compounds</span><h2>Learning from people who’ve <em>just been</em>.</h2></div></div>
+      <p class="rv">The notes under each list are the start of something bigger. What I want is for more of them to come straight from people after their errand. What were they asked for? Were they sent back? Had something changed since last month? If enough people answer, the next person gets a more accurate list than any official page can give them, and every wasted trip makes someone else’s shorter.</p>
+      <p class="rv">That’s still an idea. I haven’t measured it properly, and until I do I can’t say it works. I’ve been wrong about this problem a few times already, so I’d rather say that now than later.</p>
+    </div>
+    <figure class="rv" data-fig>
+      <svg class="dg" viewBox="0 0 520 330" role="img" aria-label="An illustration, not data: people go one after another; each leaves a note after their errand, and the hope is that the trips each person needs fall as the notes add up">
+        <g id="compound"></g>
+      </svg>
+      <figcaption>An illustration of the idea, not a measurement. Every wasted trip makes someone else’s shorter.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================== BAND ============================== -->
+<section class="band" id="band" aria-hidden="true">
+  <div class="line">Even online, there’s still a gap.</div>
+  <svg id="gapband" preserveAspectRatio="xMidYMid meet"></svg>
+</section>
+
+<!-- ============================== CLOSING ============================== -->
+<section id="closing" class="tone-day" style="background: linear-gradient(#efe7f1, #f6f0e4)">
+  <div class="inner">
+    <div class="text" style="margin:0 auto">
+      <div class="head rv"><span class="num">·</span><div><span class="label">Closing</span><h2>Why I keep <em>coming back to it</em>.</h2></div></div>
+      <p class="rv lead">A lot of work is going into putting government services online, and it’s helping. But even online, there’s still a gap between what a service says and what actually happens to you when you use it.</p>
+      <p class="rv">Masla7tak is my attempt to close it from the citizen’s side, one <span class="ar" lang="ar">مصلحة</span> at a time, starting with the simplest promise I could make:</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== CODA ============================== -->
+<section class="coda tone-day" id="coda" style="background: linear-gradient(#f6f0e4, #f8f4ec)">
+  <div class="inner">
+    <div class="motto" lang="ar" dir="rtl"><span>اعرف</span> <span style="transition-delay:.3s">ورقك</span> <span style="transition-delay:.6s">قبل</span> <span style="transition-delay:.8s">ما</span> <span style="transition-delay:1s">تروح</span></div>
+    <div class="gloss">Know your papers before you go.</div>
+    <div class="sig">Hashem Aly · October 1, 2026</div>
+    <nav class="next" aria-label="More essays">
+      <a href="../why-we-built-ivoiceup-ventures/"><div class="k">Earlier</div><div class="t">Why We Built iVoiceUp Ventures</div></a>
+    </nav>
+    <footer>
+      <span>© <span id="yr"></span> Hashem Aly</span>
+      <nav>
+        <a href="../../">All writing</a>
+        <a href="https://medium.com/@shoomi" target="_blank" rel="noopener">Medium</a>
+        <a href="https://x.com/shooommi" target="_blank" rel="noopener">X</a>
+      </nav>
+    </footer>
+  </div>
+</section>
+
+</main>
+
+<script>
+(() => {
+  const NS = "http://www.w3.org/2000/svg";
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const el = (tag, attrs, parent) => {
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(n);
+    return n;
+  };
+  const txt = (parent, x, y, s, cls = "", anchor = "middle", style = "") => {
+    const t = el("text", { x, y, "text-anchor": anchor, class: cls, style }, parent);
+    t.textContent = s; return t;
+  };
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const AR = n => String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const $ = id => document.getElementById(id);
+
+  /* =================== HERO: the queue at the window =================== */
+  const cv = $("scene"), ctx = cv.getContext("2d"), cap = $("cap");
+  let W, H, dpr, S, floor, wx, wy, ww, wh, front, gap, P = [], gone = [], t0, last, raf, visible = true;
+  let num = 47, phase = "walk", pt = 0, served = 0, flickAt = 5, flickTo = 0;
+  const rr = (x, y, w, h, r) => { ctx.beginPath(); if (ctx.roundRect) ctx.roundRect(x, y, w, h, r); else ctx.rect(x, y, w, h); };
+  const person = x => ({ x, h: (62 + rnd() * 16) * S, step: 0, a: 1 });
+  function layout() {
+    dpr = Math.min(2, devicePixelRatio || 1);
+    W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const mob = W < 640;
+    S = mob ? .74 : clamp(H / 740, .9, 1.25);
+    floor = H - (mob ? 54 : 66);
+    ww = 200 * S; wh = 118 * S;
+    wx = mob ? 20 : Math.max(40, W / 2 - 330 * S);
+    wy = floor - 168 * S;
+    front = wx + ww + 30 * S; gap = 46 * S;
+    const n = clamp(Math.floor((W - 30 - front) / gap) + 1, 3, 10);
+    seed = 7; P = []; gone = [];
+    for (let i = 0; i < n; i++) P.push(person(front + i * gap));
+    phase = reduce ? "stamp" : "walk"; pt = reduce ? .8 : 0;
+  }
+  // where a person holds their folder (they face the window, to the left)
+  const hand = p => [p.x - 12 * S - 18 * S, floor - p.h + 40 * S];
+  function drawPerson(p, a, lit, folder) {
+    const bob = Math.abs(Math.sin(p.step)) * 2.2 * S, top = floor - p.h - bob, bt = top + 22 * S, bw = 24 * S;
+    ctx.globalAlpha = a;
+    ctx.fillStyle = lit ? "#33503f" : "#22362a"; ctx.strokeStyle = "rgba(238,240,228,.28)"; ctx.lineWidth = 1;
+    rr(p.x - bw / 2, bt, bw, floor - bt, [10 * S, 10 * S, 3 * S, 3 * S]); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.arc(p.x, top + 9 * S, 9 * S, 0, 7); ctx.fill(); ctx.stroke();
+    if (folder) { const [fx, fy] = hand(p); ctx.fillStyle = "#e3cf9c"; ctx.fillRect(fx, fy - bob, 18 * S, 13 * S); }
+  }
+  function update(dt, t) {
+    if (t < 1.6) return; // let the title land first
+    let p0 = P[0];
+    P.forEach((p, i) => {
+      const d = front + i * gap - p.x;
+      if (Math.abs(d) > .5) { p.x += Math.sign(d) * Math.min(Math.abs(d), 58 * S * dt); p.step += dt * 9; } else p.step = 0;
+    });
+    gone.forEach(g => { g.x -= 62 * S * dt; g.step += dt * 9; g.a -= dt * .3; });
+    gone = gone.filter(g => g.a > 0 && g.x > -40);
+    pt += dt;
+    if (phase === "walk" && Math.abs(p0.x - front) < .6) { phase = "hand"; pt = 0; }
+    else if (phase === "hand" && pt > 1) { phase = "look"; pt = 0; }
+    else if (phase === "look" && pt > 1.1) { phase = "stamp"; pt = 0; }
+    else if (phase === "stamp" && pt > 2.1) {
+      gone.push(P.shift()); P.push(person(Math.max(W + 30, P[P.length - 1].x + gap)));
+      num++; served++; if (served >= 2) cap.classList.add("show");
+      phase = "walk"; pt = 0;
+    }
+    if (t > flickAt) { flickTo = t + .35; flickAt = t + 5 + Math.random() * 6; }
+  }
+  function draw(t, fade) {
+    const cx = wx + ww / 2, ty = wy - 16 * S;
+    const lit = t < flickTo ? (Math.sin(t * 70) > 0 ? .35 : 1) : 1;
+    ctx.globalAlpha = fade;
+    // the wall's painted dado and the floor
+    ctx.fillStyle = "rgba(60,110,80,.10)"; ctx.fillRect(0, floor - 70 * S, W, 70 * S);
+    ctx.strokeStyle = "rgba(238,240,228,.08)"; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(0, floor - 70 * S); ctx.lineTo(W, floor - 70 * S); ctx.stroke();
+    ctx.strokeStyle = "rgba(238,240,228,.18)"; ctx.beginPath(); ctx.moveTo(0, floor); ctx.lineTo(W, floor); ctx.stroke();
+    // light from the tube
+    const g = ctx.createLinearGradient(0, ty, 0, floor);
+    g.addColorStop(0, `rgba(215,250,225,${.13 * lit})`); g.addColorStop(1, "rgba(215,250,225,0)");
+    ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(cx - ww * .38, ty); ctx.lineTo(cx + ww * .38, ty); ctx.lineTo(cx + ww * 1.05, floor); ctx.lineTo(cx - ww * 1.05, floor); ctx.closePath(); ctx.fill();
+    ctx.shadowColor = "rgba(225,255,235,.9)"; ctx.shadowBlur = 18 * lit;
+    ctx.strokeStyle = `rgba(235,255,240,${.35 + .65 * lit})`; ctx.lineWidth = 4 * S; ctx.lineCap = "round";
+    ctx.beginPath(); ctx.moveTo(cx - ww * .38, ty); ctx.lineTo(cx + ww * .38, ty); ctx.stroke();
+    ctx.shadowBlur = 0;
+    // the queue number
+    const dw = 92 * S, dh = 34 * S, dy = wy - 66 * S;
+    ctx.fillStyle = "#060b08"; rr(cx - dw / 2, dy, dw, dh, 4 * S); ctx.fill();
+    ctx.strokeStyle = "rgba(238,240,228,.22)"; ctx.lineWidth = 1; ctx.stroke();
+    ctx.save(); ctx.direction = "rtl"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.font = `700 ${21 * S}px Amiri, serif`; ctx.fillStyle = "#ff6a4d"; ctx.shadowColor = "rgba(255,106,77,.8)"; ctx.shadowBlur = 10;
+    ctx.fillText("رقم " + AR(num), cx, dy + dh / 2 + 2 * S); ctx.restore();
+    ctx.globalAlpha = fade;
+    // the window, and the clerk behind it
+    const gg = ctx.createLinearGradient(0, wy, 0, wy + wh);
+    gg.addColorStop(0, `rgba(190,230,205,${.08 + .08 * lit})`); gg.addColorStop(1, "rgba(190,230,205,.04)");
+    ctx.fillStyle = gg; ctx.fillRect(wx, wy, ww, wh);
+    ctx.fillStyle = "rgba(4,9,6,.6)";
+    const kx = cx - ww * .2, look = phase === "look" ? Math.sin(Math.min(1, pt) * Math.PI) * 4 * S : 0;
+    ctx.beginPath(); ctx.arc(kx + look, wy + wh * .4 + look, 13 * S, 0, 7); ctx.fill();
+    rr(kx - 28 * S, wy + wh * .4 + 17 * S, 56 * S, wh * .6 - 17 * S, [14 * S, 14 * S, 0, 0]); ctx.fill();
+    ctx.strokeStyle = "rgba(238,240,228,.55)"; ctx.lineWidth = 2 * S; ctx.strokeRect(wx, wy, ww, wh);
+    ctx.beginPath(); ctx.ellipse(cx, wy + wh, 24 * S, 14 * S, 0, Math.PI, 0); ctx.fillStyle = "#050a07"; ctx.fill(); ctx.stroke();
+    ctx.strokeStyle = "rgba(238,240,228,.42)"; ctx.lineWidth = 5 * S; ctx.lineCap = "butt";
+    ctx.beginPath(); ctx.moveTo(wx - 14 * S, wy + wh + 3 * S); ctx.lineTo(wx + ww + 14 * S, wy + wh + 3 * S); ctx.stroke();
+    // the stamp on the glass
+    if (phase === "stamp") {
+      const k = pt, a = k < .15 ? k / .15 : k > 1.8 ? Math.max(0, (2.1 - k) / .3) : 1, s = k < .15 ? 1.8 - k / .15 * .8 : 1;
+      ctx.save(); ctx.globalAlpha = a * fade; ctx.translate(cx + ww * .1, wy + wh * .42); ctx.rotate(-.13); ctx.scale(s, s);
+      ctx.strokeStyle = "#c5a8ff"; ctx.lineWidth = 2.2 * S; rr(-70 * S, -22 * S, 140 * S, 42 * S, 6 * S); ctx.stroke();
+      ctx.direction = "rtl"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillStyle = "#c5a8ff";
+      ctx.font = `700 ${23 * S}px Amiri, serif`; ctx.fillText("ناقصك ورقة", 0, 2 * S); ctx.restore();
+    }
+    // the people
+    for (const g of gone) drawPerson(g, g.a * fade * .8, false, true);
+    P.forEach((p, i) => drawPerson(p, fade, i === 0 && phase !== "walk", i > 0 || phase === "walk" || (phase === "stamp" && pt > 1.75)));
+    // the folder, through the slot and back
+    const p0 = P[0], [hx, hy] = hand(p0), sx = cx - 9 * S, sy = wy + wh - 10 * S;
+    let f = null;
+    if (phase === "hand") f = clamp(pt / .9, 0, 1);
+    else if (phase === "stamp" && pt > 1.1 && pt <= 1.75) f = 1 - (pt - 1.1) / .65;
+    if (f !== null) {
+      const e = f < .5 ? 2 * f * f : 1 - Math.pow(-2 * f + 2, 2) / 2;
+      ctx.globalAlpha = fade * (e > .92 ? (1 - e) / .08 : 1);
+      ctx.fillStyle = "#e3cf9c"; ctx.fillRect(hx + (sx - hx) * e, hy + (sy - hy) * e - Math.sin(e * Math.PI) * 26 * S, 18 * S, 13 * S);
+    }
+    ctx.globalAlpha = 1;
+  }
+  function frame(now) {
+    const dt = Math.min(.05, (now - last) / 1000); last = now;
+    const t = (now - t0) / 1000;
+    ctx.clearRect(0, 0, W, H);
+    if (!reduce) update(dt, t);
+    draw(t, clamp((t - .6) / 1.4, 0, 1));
+    if (visible && !reduce) raf = requestAnimationFrame(frame);
+  }
+  function start() {
+    layout(); t0 = last = performance.now(); cancelAnimationFrame(raf);
+    if (reduce) { t0 -= 5000; cap.classList.add("show"); }
+    raf = requestAnimationFrame(frame);
+  }
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(start);
+  let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { layout(); if (reduce) frame(performance.now()); }, 150); });
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; cancelAnimationFrame(raf); if (visible && t0 && !reduce) { last = performance.now(); raf = requestAnimationFrame(frame); } }).observe(cv);
+
+  /* =================== ١ still waiting =================== */
+  const wk = $("wk"), tasks = [...document.querySelectorAll("#waiting .task")];
+  tasks.forEach(tk => { const c = tk.querySelector(".cells"); for (let i = 0; i < 24; i++) c.appendChild(document.createElement("i")); });
+  const months = w => { const m = Math.floor(w / 4.3); return m < 1 ? (w === 1 ? "a week" : w + " weeks") : m === 1 ? "a month" : m + " months"; };
+  const times = n => n === 0 ? "not yet" : n === 1 ? "once" : n === 2 ? "twice" : n + " times";
+  function playWaiting() {
+    let w = 0;
+    const tick = () => {
+      w++;
+      tasks.forEach(tk => {
+        const cells = tk.querySelectorAll(".cells i"), asks = (tk.dataset.asks || "").split(",").filter(Boolean).map(Number);
+        cells[w - 1].classList.add(asks.includes(w - 1) ? "ask" : "on");
+        tk.querySelector(".n").textContent = asks.length ? times(asks.filter(a => a < w).length) : months(w);
+      });
+      wk.textContent = w === 1 ? "1 week on" : w + " weeks on";
+      if (w < 24) setTimeout(tick, reduce ? 0 : 170);
+    };
+    tick();
+  }
+
+  /* =================== ٢ hand it in =================== */
+  const glass = $("glass"), why = $("why"), tripEl = $("trip"), folder = $("folder"), handBtn = $("handin");
+  const REASONS = ["A copy you didn’t know you needed.", "A stamp from a building on the other side of town.", "Something that wasn’t asked for a few months ago."];
+  const BROUGHT = ["The copy", "The stamp", "The new thing"];
+  const DAYS = ["today", "tomorrow", "the day after", "next week"];
+  let trips = 0;
+  function handIn() {
+    if (trips > 0 && trips <= BROUGHT.length) { const li = document.createElement("li"); li.className = "late"; li.textContent = BROUGHT[trips - 1]; folder.appendChild(li); }
+    glass.classList.remove("show"); void glass.offsetWidth; glass.classList.add("show");
+    why.textContent = REASONS[trips % REASONS.length];
+    trips++;
+    tripEl.innerHTML = `Trip <b>${trips}</b> · ${DAYS[Math.min(trips - 1, DAYS.length - 1)]}`;
+    handBtn.textContent = "Come back tomorrow";
+    handBtn.onclick = () => { glass.classList.remove("show"); $("qn").textContent = AR(47 + trips * 3); tripEl.innerHTML = `Trip <b>${trips + 1}</b> · ${DAYS[Math.min(trips, DAYS.length - 1)]}`; handBtn.textContent = "Hand it in again"; handBtn.onclick = handIn; };
+  }
+  handBtn.onclick = handIn;
+
+  /* =================== ٢ the official list and the window =================== */
+  const gf = $("gapfig");
+  const COLS = [[64, "official", null], [196, "office A", "+ an ID copy"], [324, "office B", "+ a stamp"], [452, "A, later", "+ something new"]];
+  el("path", { d: "M130 30 V 206", class: "ln", "stroke-dasharray": "2 5" }, gf);
+  COLS.forEach(([x, name, extra], c) => {
+    txt(gf, x, 40, name, "sc" + (c ? "" : " fg"), "middle");
+    for (let j = 0; j < 4; j++) {
+      const y = 62 + j * 24;
+      el("rect", { x: x - 46, y, width: 92, height: 10, rx: 5, fill: "var(--fg)", opacity: .2 }, gf);
+      if (c === 3 && j === 2) el("path", { d: `M${x - 52} ${y + 5} H${x + 52}`, class: "al pop", style: "transition-delay:2s" }, gf);
+    }
+    if (extra) {
+      const g = el("g", { class: "pop", style: `transition-delay:${.7 + c * .4}s` }, gf);
+      el("rect", { x: x - 46, y: 158, width: 92, height: 10, rx: 5, class: "fa", opacity: .9 }, g);
+      txt(g, x, 190, extra, "ac", "middle");
+    } else {
+      txt(gf, x, 172, "already on", "", "middle");
+      txt(gf, x, 194, "مصر الرقمية", "fg", "middle", "font-family:Amiri,serif;font-style:normal;font-size:18px");
+    }
+  });
+  el("path", { d: "M150 222 v8 H 498 v-8", class: "al draw", style: "transition-delay:2.2s" }, gf);
+  el("path", { d: "M324 230 v10", class: "al draw", style: "transition-delay:2.6s" }, gf);
+  txt(gf, 324, 262, "the gap", "ac pop", "middle", "font-size:18px;transition-delay:2.8s");
+  txt(gf, 324, 284, "known only to the ones who just went", "pop", "middle", "transition-delay:3s");
+
+  /* =================== ٣ your list =================== */
+  const NOTE = {
+    copy: "Take a copy of your ID even though it isn’t on the official list. Some offices ask for it.",
+    old: "Bring your old passport, even if it’s expired.",
+    marital: "Your marital status isn’t on your ID? Bring proof of it from the start, so the request doesn’t stall.",
+    fish: "Don’t get your <span class=\"ar\" lang=\"ar\">فيش</span> too early. It’s only valid for three months."
+  };
+  const SVC = {
+    id: { name: "Renewing your ID", papers: 3, steps: 3, notes: ["copy"], changed: ["marital"] },
+    passport: { name: "Renewing your passport", papers: 4, steps: 4, notes: ["old", "copy"], changed: ["marital"] },
+    licence: { name: "Renewing your driving licence", papers: 4, steps: 4, notes: ["copy"], changed: [] },
+    fish: { name: "Getting your <span class=\"ar\" lang=\"ar\">فيش</span>", papers: 2, steps: 3, notes: ["fish"], changed: [] }
+  };
+  const WID = [78, 62, 70, 54, 66, 48];
+  const paper = $("paper"), changed = $("changed");
+  let svc = "passport";
+  function renderList() {
+    const s = SVC[svc], ch = changed.checked;
+    let d = 0; const sk = (w, cls = "") => `<div class="sk ${cls}" style="width:${w}%;animation-delay:${(d++ * .05).toFixed(2)}s"></div>`;
+    let h = `<div class="ph"><span class="pt">${s.name}</span><span class="rev">Last reviewed</span></div>`;
+    h += `<div class="grp"><div class="gl">Papers</div>${Array.from({ length: s.papers }, (_, i) => sk(WID[i])).join("")}${ch ? sk(44, "new") : ""}</div>`;
+    h += `<div class="grp"><div class="gl">Fees</div>${sk(36)}</div>`;
+    h += `<div class="grp steps-sk"><div class="gl">Steps, in order</div>${Array.from({ length: s.steps }, (_, i) => sk(WID[(i + 2) % 6] - 6, "n")).join("")}${ch ? sk(40, "n new") : ""}</div>`;
+    const notes = s.notes.map(k => [k, false]).concat(ch ? s.changed.map(k => [k, true]) : []);
+    h += `<div class="grp notes"><div class="gl">From the window</div><ul>${notes.map(([k, f], i) => `<li class="${f ? "fresh" : ""}" style="animation-delay:${(d * .05 + .2 + i * .15).toFixed(2)}s">${NOTE[k]}</li>`).join("")}</ul></div>`;
+    paper.innerHTML = h;
+  }
+  $("svc").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    svc = b.dataset.s; $("svc").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); renderList();
+  });
+  changed.addEventListener("change", renderList);
+  renderList();
+
+  /* =================== ٣ from home, or at the office =================== */
+  const WHERE = {
+    passport: { home: ["The form", "Payment", "The appointment"], office: ["Fingerprints", "Photos", "Pickup"] },
+    fish: { home: ["Order it online", "Delivered to you"], office: [] }
+  };
+  function renderWhere(k) {
+    const w = WHERE[k];
+    $("z-home").innerHTML = w.home.map((s, i) => `<span style="animation-delay:${i * .15}s">${s}</span>`).join("");
+    $("z-office").innerHTML = w.office.length ? w.office.map((s, i) => `<span style="animation-delay:${.3 + i * .15}s">${s}</span>`).join("")
+      : `<div class="none">Nothing. If your fingerprints are already registered, <b>you don’t need to go at all.</b></div>`;
+    $("where-ok").hidden = k !== "fish";
+  }
+  $("where-svc").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    $("where-svc").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); renderWhere(b.dataset.s);
+  });
+
+  /* =================== ٤ what sits in the middle =================== */
+  const hub = $("hubg"), CX = 240, CY = 160;
+  const SPOTS = Array.from({ length: 60 }, (_, i) => { const a = i * 2.39996 + .4, r = 64 + (i % 7) * 13 + i * .45; return [CX + Math.cos(a) * r * 1.3, CY + Math.sin(a) * r * .8]; });
+  const errands = $("errands"), errV = $("errands-v");
+  let mode = "person";
+  function renderHub() {
+    const n = +errands.value, person = mode === "person";
+    hub.innerHTML = "";
+    const strain = clamp((n - 6) / 40, 0, 1);
+    SPOTS.slice(0, n).forEach(([x, y]) => el("path", { d: `M${x.toFixed(1)} ${y.toFixed(1)} L${CX} ${CY}`, stroke: person ? "var(--acc)" : "var(--fg)", "stroke-opacity": person ? .18 + strain * .2 : .14, "stroke-width": person ? 1 + strain : 1 }, hub));
+    SPOTS.slice(0, n).forEach(([x, y]) => el("circle", { cx: x.toFixed(1), cy: y.toFixed(1), r: 4, fill: "var(--fg)", opacity: .75 }, hub));
+    const g = el("g", { class: person && n > 24 ? "shake" : "" }, hub);
+    if (person) {
+      const r = 18 + strain * 14;
+      el("circle", { cx: CX, cy: CY, r: r + 8, fill: "var(--acc)", opacity: .08 + strain * .14 }, g);
+      el("circle", { cx: CX, cy: CY, r, fill: "#f6efdc", stroke: "var(--acc)", "stroke-width": 1.8 + strain * 2 }, g);
+      el("circle", { cx: CX, cy: CY - 6, r: 5, fill: "var(--acc)" }, g);
+      el("path", { d: `M${CX - 9} ${CY + 10} Q ${CX} ${CY - 2} ${CX + 9} ${CY + 10}`, fill: "var(--acc)" }, g);
+      txt(hub, CX, CY + r + 26, "someone like me", "fg", "middle", "font-size:16px");
+    } else {
+      el("circle", { cx: CX, cy: CY, r: 30, fill: "#f6efdc", stroke: "var(--fg)", "stroke-width": 1.2, opacity: .95 }, g);
+      el("rect", { x: CX - 11, y: CY - 15, width: 22, height: 30, rx: 2, fill: "#fffdf6", stroke: "var(--fg)", "stroke-width": 1.3 }, g);
+      [-7, -1, 5].forEach(dy => el("path", { d: `M${CX - 6} ${CY + dy} H${CX + 6}`, stroke: "var(--fg)", "stroke-opacity": .5 }, g));
+      el("circle", { cx: CX + 6, cy: CY + 10, r: 2.4, fill: "var(--acc)" }, g);
+      txt(hub, CX, CY + 56, "the lists", "fg", "middle", "font-size:16px");
+    }
+    errV.textContent = n + " errands";
+    $("hub-v").textContent = person ? (n <= 8 ? "It works" : n <= 22 ? "Stretched" : "A mess") : "It holds";
+    $("hub-t").textContent = person ? (n <= 8 ? "a handful of cases" : n <= 22 ? "more errands than hours" : "an operations mess") : "nothing new needs a person in the middle";
+    $("hub-p").textContent = person ? "1 person" : "No one";
+  }
+  errands.addEventListener("input", () => { cancelAnimationFrame(hraf); renderHub(); });
+  $("hubmode").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    mode = b.dataset.m; $("hubmode").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); renderHub();
+  });
+  let hraf;
+  function sweepHub() {
+    const s = performance.now();
+    const f = now => { const k = clamp((now - s) / 4200, 0, 1), e = 1 - Math.pow(1 - k, 2); errands.value = Math.round(3 + e * 57); renderHub(); if (k < 1) hraf = requestAnimationFrame(f); };
+    hraf = requestAnimationFrame(f);
+  }
+  renderHub();
+
+  /* =================== ٥ the agent =================== */
+  const STEPS = [
+    { who: "you", t: "You log in yourself", say: "Your password stays with you. I never see it." },
+    { who: "you", t: "You enter your own OTP", say: "The code comes to your phone, and you type it in." },
+    { who: "agent", t: "It opens the application", say: "Opening the <span class=\"ar\" lang=\"ar\">فيش وتشبيه</span> application." },
+    { who: "agent", t: "It fills in the forms while you watch", say: "Filling in each field, and telling you what it is and why." },
+    { who: "stop", t: "Stops before payment", code: "if (next === PAYMENT) stop();", say: "Here is everything I filled in. Fix anything you like, or cancel." },
+    { who: "you", t: "You pay", say: "Payment is yours to make." },
+    { who: "stop", t: "Stops before submitting", code: "if (next === SUBMIT) stop();", say: "Nothing is submitted until you say so." },
+    { who: "done", t: "Submitted", say: "Submitted. That’s it." }
+  ];
+  const stepsEl = $("steps"), logEl = $("log"), go = $("ag-go"), fix = $("ag-fix"), cancel = $("ag-cancel");
+  stepsEl.innerHTML = STEPS.map(s => `<li class="${s.who === "stop" ? "stop" : ""}"><span class="dot"></span><span>${s.t}${s.code ? `<code>${s.code} // hard-coded</code>` : ""}</span>${s.who === "done" ? "<span></span>" : `<span class="who">${s.who === "stop" ? "stop" : s.who === "you" ? "you" : "agent"}</span>`}</li>`).join("");
+  const lis = [...stepsEl.children];
+  let at = -1, timer = null;
+  const say = (w, s) => { logEl.innerHTML = `<span class="w">${w}</span>${s}<span class="caret"></span>`; };
+  function setStep(i) {
+    at = i;
+    lis.forEach((li, j) => { li.classList.toggle("done", j < i || (i === STEPS.length - 1 && j === i)); li.classList.toggle("now", j === i && i < STEPS.length - 1); });
+    const s = STEPS[i];
+    say(s.who === "you" ? "You" : "The agent", s.say);
+    clearTimeout(timer); fix.hidden = cancel.hidden = true;
+    if (s.who === "stop") { go.hidden = false; go.textContent = "Looks right, continue"; fix.hidden = cancel.hidden = false; }
+    else if (s.who === "done") { go.hidden = false; go.textContent = "Run it again"; }
+    else { go.hidden = true; timer = setTimeout(() => setStep(i + 1), reduce ? 600 : 1700); }
+  }
+  go.addEventListener("click", () => setStep(at >= STEPS.length - 1 || at < 0 ? 0 : at + 1));
+  fix.addEventListener("click", () => say("The agent", "Change whatever isn’t right. I’ll wait here, before anything is paid or sent."));
+  cancel.addEventListener("click", () => {
+    clearTimeout(timer); lis.forEach(li => li.classList.remove("now", "done")); at = -1;
+    say("The agent", "Cancelled. Nothing was paid, and nothing was submitted.");
+    fix.hidden = cancel.hidden = true; go.hidden = false; go.textContent = "Start again";
+  });
+
+  /* =================== pull quote words =================== */
+  const pull = $("pull"); let wi = 0;
+  const wrap = node => [...node.childNodes].forEach(n => {
+    if (n.nodeType === 3) {
+      const frag = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach(w => {
+        if (!w.trim()) { frag.appendChild(document.createTextNode(w)); return; }
+        const s = document.createElement("span"); s.className = "w"; s.textContent = w; s.style.transitionDelay = (wi++ * .08) + "s"; frag.appendChild(s);
+      });
+      n.replaceWith(frag);
+    } else wrap(n);
+  });
+  wrap(pull);
+
+  /* =================== ٦ notes from the people who just went =================== */
+  const cg = $("compound"), TRIPS = [3, 3, 2, 3, 2, 2, 2, 1, 2, 1, 1, 1], base = 266, X = i => 56 + i * 38;
+  el("path", { d: `M30 ${base} H500`, class: "fg-s" }, cg);
+  txt(cg, 500, base + 46, "people, one after another", "", "end");
+  txt(cg, 30, 104, "trips", "sc", "start");
+  txt(cg, 30, 26, "notes from people who just went", "ac", "start");
+  el("path", { d: "M30 36 H500", class: "ln" }, cg);
+  TRIPS.forEach((n, i) => {
+    const x = X(i), dl = .3 + i * .22;
+    for (let k = 0; k < n; k++) el("rect", { x: x - 8, y: base - (k + 1) * 24, width: 16, height: 20, rx: 2, fill: k ? "var(--muted)" : "var(--fg)", opacity: k ? .38 : .85, class: "pop", style: `transition-delay:${dl + k * .07}s` }, cg);
+    el("circle", { cx: x, cy: base + 16, r: 5, fill: "var(--fg)", class: "pop", style: `transition-delay:${dl}s` }, cg);
+    // the note each one leaves
+    el("path", { d: `M${x} ${base - n * 24 - 8} V 58`, stroke: "var(--acc)", "stroke-opacity": .3, "stroke-dasharray": "2 4", class: "pop", style: `transition-delay:${dl + .3}s` }, cg);
+    el("rect", { x: x - 6, y: 44, width: 12, height: 12, rx: 2, class: "fa pop", style: `transition-delay:${dl + .45}s` }, cg);
+  });
+  el("path", { d: `M${X(0)} ${base - 3 * 24 - 16} C ${X(4)} ${base - 2.6 * 24 - 16}, ${X(7)} ${base - 1.5 * 24 - 16}, ${X(11)} ${base - 24 - 14}`, class: "al draw", "stroke-dasharray": "5 6", style: "transition-delay:3.2s" }, cg);
+  txt(cg, X(11) + 10, base - 24 - 44, "the hope, not yet measured", "ac pop", "end", "transition-delay:3.8s");
+  const legend = el("g", { class: "pop", style: "transition-delay:1s" }, cg);
+  el("rect", { x: 330, y: 92, width: 12, height: 12, rx: 2, fill: "var(--muted)", opacity: .38 }, legend);
+  txt(legend, 348, 103, "a wasted trip", "", "start");
+
+  /* =================== the gap band =================== */
+  const bandEl = $("band"), gb = $("gapband");
+  let VW = 1200, gk = 0;
+  const VH = 420, SAYS = 196;
+  const real = (x, k) => { const b = clamp((k * VW - x) / 140, 0, 1); return SAYS + (72 - 60 * b) + (1 - .85 * b) * (26 * Math.sin(x / 53) + 15 * Math.sin(x / 23 + 1.3)); };
+  function drawBand() {
+    VW = Math.max(520, Math.round(VH * bandEl.clientWidth / Math.max(1, bandEl.clientHeight)));
+    gb.setAttribute("viewBox", `0 0 ${VW} ${VH}`);
+    let d = `M0 ${real(0, gk).toFixed(1)}`;
+    for (let x = 8; x <= VW; x += 8) d += ` L${x} ${real(x, gk).toFixed(1)}`;
+    let h = `<path d="${d} L${VW} ${SAYS} L0 ${SAYS} Z" fill="#5b2e91" fill-opacity=".1"/>`;
+    for (let x = 30; x < gk * VW - 20; x += 46) h += `<path d="M${x} ${SAYS} V${real(x, gk).toFixed(1)}" stroke="#5b2e91" stroke-width="2" stroke-linecap="round" opacity=".7"/>`;
+    h += `<path d="M0 ${SAYS} H${VW}" stroke="#2a1d3a" stroke-width="1.6"/>`;
+    h += `<path d="${d}" fill="none" stroke="#5b2e91" stroke-width="2.2" stroke-linecap="round"/>`;
+    const fx = gk * VW;
+    if (gk > .02) h += `<circle cx="${fx.toFixed(1)}" cy="${((SAYS + real(fx, gk)) / 2).toFixed(1)}" r="5" fill="#5b2e91"/><text x="${fx.toFixed(1)}" y="${(real(fx, gk) + 46).toFixed(1)}" text-anchor="middle" fill="#5b2e91">one <tspan style="font-family:Amiri,serif;font-style:normal">مصلحة</tspan> at a time</text>`;
+    h += `<text x="${VW - 24}" y="${SAYS - 14}" text-anchor="end" fill="#2a1d3a">what a service says</text>`;
+    h += `<text x="${VW - 24}" y="${(real(VW - 24, gk) + 40).toFixed(1)}" text-anchor="end" fill="#5b2e91">what actually happens to you</text>`;
+    gb.innerHTML = h;
+  }
+  function closeGap() {
+    const s = performance.now(), END = .58;
+    const f = now => { const k = clamp((now - s) / 6500, 0, 1); gk = END * (1 - Math.pow(1 - k, 2)); drawBand(); if (k < 1) requestAnimationFrame(f); };
+    if (reduce) { gk = END; drawBand(); } else requestAnimationFrame(f);
+  }
+  drawBand();
+  addEventListener("resize", drawBand);
+
+  /* =================== reveal =================== */
+  document.querySelectorAll(".draw").forEach(p => { if (p.getTotalLength) p.style.setProperty("--len", Math.ceil(p.getTotalLength()) + 2); });
+  const targets = document.querySelectorAll(".rv, [data-fig], .coda, .band, .pull");
+  const show = e => {
+    e.classList.add("in");
+    if (e.id === "waiting") setTimeout(playWaiting, reduce ? 0 : 500);
+    if (e.id === "counter") setTimeout(() => { if (!trips) handIn(); }, reduce ? 0 : 1400);
+    if (e.id === "where") renderWhere("passport");
+    if (e.id === "hub") { if (reduce) { errands.value = 60; renderHub(); } else setTimeout(sweepHub, 600); }
+    if (e.id === "agent") setTimeout(() => { if (at < 0) setStep(0); }, reduce ? 0 : 900);
+    if (e.id === "band") setTimeout(closeGap, reduce ? 0 : 600);
+  };
+  if ("IntersectionObserver" in window && !reduce) {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } }), { threshold: .25, rootMargin: "0px 0px -8% 0px" });
+    targets.forEach(t => io.observe(t));
+  } else targets.forEach(show);
+
+  /* =================== margin nav =================== */
+  const margin = $("margin"), links = [...margin.querySelectorAll("a")];
+  const secs = links.map(a => document.querySelector(a.getAttribute("href")));
+  const onScroll = () => {
+    const y = innerHeight * .45;
+    margin.classList.toggle("show", scrollY > innerHeight * .6);
+    let cur = -1; secs.forEach((s, i) => { if (s.getBoundingClientRect().top < y) cur = i; });
+    links.forEach((a, i) => a.classList.toggle("on", i === cur));
+    const day = cur >= 2;
+    margin.style.setProperty("--mcolor", day ? "#6c614c" : "#a3b0a3");
+    margin.style.setProperty("--macc", day ? "#5b2e91" : "#c5a8ff");
+  };
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+  $("yr").textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

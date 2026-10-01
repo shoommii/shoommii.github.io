@@ -130,6 +130,7 @@
   /* card looks: each essay keeps the colours of its own page */
   .look-kindi { --bg: linear-gradient(135deg, #060b16, #112446 55%, #2d2c5c); --fg: #f1e7d3; --muted: #b3a88f; --acc: #dcb96a; --line: rgba(241, 231, 211, .2); background: linear-gradient(135deg, #060b16, #112446 55%, #2d2c5c); }
   .look-ivoiceup { --fg: #f6ecea; --muted: #b8a09d; --acc: #f2555a; --line: rgba(246, 236, 234, .18); background: radial-gradient(ellipse at 30% 110%, #4a1820, #170a0d 70%); }
+  .look-masla7tak { --fg: #eef0e4; --muted: #a3b0a3; --acc: #c5a8ff; --line: rgba(238, 240, 228, .18); background: radial-gradient(ellipse at 30% 110%, #1d3428, #0c1611 70%); }
   .look-innovators { --fg: #18181b; --muted: #67666d; --acc: #d44a1a; --line: rgba(24, 24, 27, .16); background: #fbfaf7; box-shadow: 0 50px 90px -60px rgba(30, 20, 10, .45), inset 0 0 0 1px rgba(24, 24, 27, .08); }
   .look-startup { --fg: #1c2521; --muted: #5a6962; --acc: #1f7a72; --line: rgba(28, 37, 33, .18); background: linear-gradient(160deg, #f1f5f1, #dfe7e2 60%, #c9cdc7); }
   .look-brain { --fg: #e7ebf3; --muted: #8f98ad; --acc: #6fe3d4; --line: rgba(231, 235, 243, .16); background: radial-gradient(ellipse at 70% 80%, #16204a, #070a12 70%); }
@@ -155,6 +156,12 @@
   @keyframes swan { 0% { transform: translateX(460px); } 100% { transform: translateX(-160px); } }
   .fire { animation: fire 2.6s ease-in-out infinite; }
   @keyframes fire { 0%, 100% { opacity: .25; } 40% { opacity: 1; } }
+  .handin { animation: handin 4.4s ease-in-out infinite; }
+  @keyframes handin { 0% { transform: translate(64px, 0); opacity: 0; } 8% { opacity: 1; } 26%, 48% { transform: translate(0, 0); opacity: 1; } 50% { opacity: 0; } 66% { transform: translate(0, 0); opacity: 0; } 68% { opacity: 1; } 84% { transform: translate(64px, 0); opacity: 1; } 96%, 100% { transform: translate(64px, 0); opacity: 0; } }
+  .stampin { transform-box: fill-box; transform-origin: center; animation: stampin 4.4s ease-out infinite; }
+  @keyframes stampin { 0%, 48% { opacity: 0; transform: rotate(-8deg) scale(1.7); } 54% { opacity: 1; transform: rotate(-8deg) scale(1); } 88% { opacity: 1; transform: rotate(-8deg) scale(1); } 96%, 100% { opacity: 0; transform: rotate(-8deg) scale(1); } }
+  .flicker { animation: flicker 5s steps(1) infinite; }
+  @keyframes flicker { 0%, 60%, 63%, 66%, 100% { opacity: 1; } 61%, 64% { opacity: .3; } }
 
   /* ---------- finale ---------- */
   .finale {
@@ -267,12 +274,25 @@
    YOUR THOUGHTS — edit this list to add, remove or update posts.
    date: "YYYY-MM-DD" (leave "" if unknown; the page shows "Date to come")
    page: the essay's page on this site; url: where it was first published
-   look: the card's colours and emblem — kindi, ivoiceup, innovators,
-         startup, brain, or plain for anything new
+   look: the card's colours and emblem — kindi, ivoiceup, masla7tak,
+         innovators, startup, brain, or plain for anything new
    star: the colour of its star in the sky at the top of the page
    The list is sorted newest first automatically.
    ========================================================================== */
 const THOUGHTS = [
+  {
+    title: "The Gap at the Window",
+    date: "2026-10-01",
+    source: "Masla7tak",
+    url: "thoughts/the-gap-at-the-window/",
+    page: "thoughts/the-gap-at-the-window/",
+    mins: 5,
+    excerpt: "The official requirements aren’t secret. What’s missing is what the window actually asks for, and the only people who know it are the ones who just went.",
+    tags: ["startups", "building"],
+    short: "The window",
+    look: "masla7tak",
+    star: "#c5a8ff"
+  },
   {
     title: "Kindi Mission",
     date: "2026-09-27",
@@ -487,6 +507,31 @@ const THOUGHTS = [
         const t = el("text", { x, y, "text-anchor": "middle", class: "fly", style: `font:italic ${15 + (i % 3) * 3}px Fraunces,Amiri,serif;fill:${i % 4 ? "#f6ecea" : "#f2555a"};--dx:${200 - x}px;--dy:${212 - y}px;--dur:8s;animation-delay:${i * .8 - 8}s` }, g);
         t.textContent = w;
       });
+    },
+    masla7tak(g) {
+      g = el("g", { transform: "translate(-34 0)" }, g);
+      // the window: a tube light, the queue number, the glass and the slot
+      el("path", { d: "M150 66 H250", stroke: "#e9fbe9", "stroke-width": 4, "stroke-linecap": "round", class: "flicker", style: "filter:drop-shadow(0 0 6px rgba(225,255,235,.8))" }, g);
+      el("rect", { x: 160, y: 22, width: 80, height: 30, rx: 4, fill: "#060b08", stroke: "rgba(238,240,228,.22)" }, g);
+      const n = el("text", { x: 200, y: 43, "text-anchor": "middle", style: "font:700 19px Amiri,serif;fill:#ff6a4d" }, g); n.textContent = "رقم ٤٧";
+      el("rect", { x: 110, y: 80, width: 180, height: 112, fill: "rgba(190,230,205,.1)", stroke: "rgba(238,240,228,.55)", "stroke-width": 2 }, g);
+      el("circle", { cx: 166, cy: 124, r: 12, fill: "rgba(4,9,6,.6)" }, g);
+      el("path", { d: "M140 192 V 156 Q 140 142 154 142 H 178 Q 192 142 192 156 V 192 Z", fill: "rgba(4,9,6,.6)" }, g);
+      el("path", { d: "M178 192 A 22 13 0 0 1 222 192 Z", fill: "#050a07", stroke: "rgba(238,240,228,.55)", "stroke-width": 2 }, g);
+      el("path", { d: "M96 195 H304", stroke: "rgba(238,240,228,.42)", "stroke-width": 5 }, g);
+      // the stamp it comes back with
+      const s = el("g", { class: "stampin" }, g);
+      el("rect", { x: 152, y: 112, width: 116, height: 38, rx: 6, fill: "none", stroke: "#c5a8ff", "stroke-width": 2 }, s);
+      const t = el("text", { x: 210, y: 138, "text-anchor": "middle", style: "font:700 21px Amiri,serif;fill:#c5a8ff" }, s); t.textContent = "ناقصك ورقة";
+      // the person, and the folder handed through
+      el("rect", { x: 191, y: 180, width: 18, height: 13, fill: "#e3cf9c", class: "handin" }, g);
+      el("path", { d: "M312 296 V 214 Q 312 202 324 202 H 338 Q 350 202 350 214 V 296 Z", fill: "#33503f", stroke: "rgba(238,240,228,.28)" }, g);
+      el("circle", { cx: 331, cy: 188, r: 10, fill: "#33503f", stroke: "rgba(238,240,228,.28)" }, g);
+      [[376, .7]].forEach(([x, o]) => {
+        el("path", { d: `M${x - 18} 296 V 218 Q ${x - 18} 206 ${x - 6} 206 H ${x + 6} Q ${x + 18} 206 ${x + 18} 218 V 296 Z`, fill: "#22362a", stroke: "rgba(238,240,228,.2)", opacity: o }, g);
+        el("circle", { cx: x, cy: 192, r: 10, fill: "#22362a", stroke: "rgba(238,240,228,.2)", opacity: o }, g);
+      });
+      el("path", { d: "M54 296 H420", stroke: "rgba(238,240,228,.18)" }, g);
     },
     innovators(g) {
       for (let r = 0; r < 12; r++) for (let c = 0; c < 17; c++) {

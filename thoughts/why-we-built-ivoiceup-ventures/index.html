@@ -199,6 +199,7 @@
   .next a:hover { border-color: var(--acc); transform: translateY(-2px); }
   .next .k { font-family: "Inter", sans-serif; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
   .next .t { font-family: "Fraunces", Georgia, serif; font-size: 21px; line-height: 1.25; margin-top: 6px; }
+  .next .r { text-align: right; }
   footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; max-width: 1080px; margin: 60px auto 0; padding: 22px 0 10px; border-top: 1px solid var(--line); font-family: "Inter", sans-serif; font-size: 13px; color: var(--muted); }
   footer nav { display: flex; gap: 18px; }
   footer a { text-decoration: none; }
@@ -226,6 +227,7 @@
     .plan { padding: 24px 20px; }
     .plan .price { font-size: 52px; }
     .next { grid-template-columns: 1fr; }
+    .next .r { text-align: left; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
@@ -417,6 +419,7 @@
     <div class="sig">Hashem Aly · September 27, 2026 · Originally published on <a href="https://www.linkedin.com/pulse/why-we-built-ivoiceup-ventures-hashem-aly-pas4e/" target="_blank" rel="noopener">LinkedIn</a></div>
     <nav class="next" aria-label="More essays">
       <a href="../how-my-startup-failed/"><div class="k">Earlier</div><div class="t">How My Startup Failed</div></a>
+      <a class="r" href="../the-gap-at-the-window/"><div class="k">Later</div><div class="t">The Gap at the Window</div></a>
     </nav>
     <footer>
       <span>© <span id="yr"></span> Hashem Aly</span>
